@@ -16,7 +16,7 @@ namespace welcome.Controllers
 
         public BranchesController(WelcomeContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         // GET: Branches
@@ -55,15 +55,26 @@ namespace welcome.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,HotelID,Name")] Branch branch)
+        public async Task<IActionResult> Create([Bind("HotelID,Name")] Branch branch)
         {
-            if (ModelState.IsValid)
+            try
             {
-                branch.id = Guid.NewGuid();
-                _context.Add(branch);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    branch.id = Guid.NewGuid();
+                    _context.Add(branch);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
             }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("", "Unable to save changes. " +
+               "Try again, and if the problem persists " +
+               "see your system administrator.");
+            }
+
+
             ViewData["HotelID"] = new SelectList(_context.Hotels, "id", "Name", branch.HotelID);
             return View(branch);
         }
@@ -88,37 +99,33 @@ namespace welcome.Controllers
         // POST: Branches/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("id,HotelID,Name")] Branch branch)
+        public async Task<IActionResult> EditBranch(Guid id)
         {
-            if (id != branch.id)
+            if (id == null || id == Guid.Empty)
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            Branch branchtoupdate = await _context.Branches.SingleOrDefaultAsync(r => r.id == id);
+            if (await TryUpdateModelAsync(branchtoupdate, "",
+                s => s.HotelID, s => s.Name))
             {
                 try
                 {
-                    _context.Update(branch);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException)
                 {
-                    if (!BranchExists(branch.id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    ModelState.AddModelError("", "Unable to save changes. " +
+                        "Try again, and if the problem persists, " +
+                        "see your system administrator.");
                 }
-                return RedirectToAction("Index");
             }
-            ViewData["HotelID"] = new SelectList(_context.Hotels, "id", "Name", branch.HotelID);
-            return View(branch);
+
+            ViewData["HotelID"] = new SelectList(_context.Hotels, "id", "Name", branchtoupdate.HotelID);
+            return View(branchtoupdate);
         }
 
         // GET: Branches/Delete/5

@@ -57,14 +57,23 @@ namespace welcome.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,Name")] HotelGroup hotelGroup)
+        public async Task<IActionResult> Create([Bind("Name")] HotelGroup hotelGroup)
         {
-            if (ModelState.IsValid)
+            try
             {
-                hotelGroup.id = Guid.NewGuid();
-                _context.Add(hotelGroup);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    hotelGroup.id = Guid.NewGuid();
+                    _context.Add(hotelGroup);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("", "Unable to save changes. " +
+            "Try again, and if the problem persists " +
+            "see your system administrator.");
             }
             return View(hotelGroup);
         }
@@ -88,36 +97,29 @@ namespace welcome.Controllers
         // POST: HotelGroups/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("id,Name")] HotelGroup hotelGroup)
+        public async Task<IActionResult> EditHotelGroup(Guid id)
         {
-            if (id != hotelGroup.id)
+            if (id==null || id ==Guid.Empty)
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
-            {
+            HotelGroup hotelgrouptoupdate = await _context.HotelGroups.SingleOrDefaultAsync(r => r.id == id);
+            if(await TryUpdateModelAsync(hotelgrouptoupdate, "",s=>s.Name)){
                 try
                 {
-                    _context.Update(hotelGroup);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException)
                 {
-                    if (!HotelGroupExists(hotelGroup.id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    ModelState.AddModelError("", "Unable to save changes. " +
+                                            "Try again, and if the problem persists, " +
+                                            "see your system administrator.");
                 }
-                return RedirectToAction("Index");
             }
-            return View(hotelGroup);
+            return View(hotelgrouptoupdate);
         }
 
         // GET: HotelGroups/Delete/5

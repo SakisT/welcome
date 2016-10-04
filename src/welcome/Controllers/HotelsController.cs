@@ -59,14 +59,23 @@ namespace welcome.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,Dealer,ExpirationDate,HotelDate,HotelGroupID,IsPayingSupport,Name")] Hotel hotel)
+        public async Task<IActionResult> Create([Bind("Dealer,ExpirationDate,HotelDate,HotelGroupID,IsPayingSupport,Name")] Hotel hotel)
         {
-            if (ModelState.IsValid)
+            try
             {
-                hotel.id = Guid.NewGuid();
-                _context.Add(hotel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    hotel.id = Guid.NewGuid();
+                    _context.Add(hotel);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("", "Unable to save changes. " +
+            "Try again, and if the problem persists " +
+            "see your system administrator.");
             }
             ViewData["HotelGroupID"] = new SelectList(_context.HotelGroups, "id", "Name", hotel.HotelGroupID);
             return View(hotel);
@@ -92,37 +101,32 @@ namespace welcome.Controllers
         // POST: Hotels/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost,ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("id,Dealer,ExpirationDate,HotelDate,HotelGroupID,IsPayingSupport,Name")] Hotel hotel)
+        public async Task<IActionResult> EditHotel(Guid id)
         {
-            if (id != hotel.id)
+            if (id ==null|id==Guid.Empty)
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            Hotel hoteltoupdate = await _context.Hotels.SingleOrDefaultAsync(r => r.id == id);
+            if(await TryUpdateModelAsync(hoteltoupdate,"",
+                s=>s.Dealer, s=>s.ExpirationDate, s=>s.HotelDate, s=>s.HotelGroupID, s=>s.IsPayingSupport, s=>s.Name))
             {
                 try
                 {
-                    _context.Update(hotel);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException)
                 {
-                    if (!HotelExists(hotel.id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    ModelState.AddModelError("", "Unable to save changes. " +
+                        "Try again, and if the problem persists, " +
+                        "see your system administrator.");
                 }
-                return RedirectToAction("Index");
             }
-            ViewData["HotelGroupID"] = new SelectList(_context.HotelGroups, "id", "Name", hotel.HotelGroupID);
-            return View(hotel);
+            ViewData["HotelGroupID"] = new SelectList(_context.HotelGroups, "id", "Name", hoteltoupdate.HotelGroupID);
+            return View(hoteltoupdate);
         }
 
         // GET: Hotels/Delete/5
