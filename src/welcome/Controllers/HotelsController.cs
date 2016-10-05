@@ -8,9 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using welcome.Data;
 using welcome.Models;
 using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace welcome.Controllers
 {
+    [Authorize(Policy = "HotelUser")]
     public class HotelsController : Controller
     {
         private readonly WelcomeContext _context;
@@ -26,6 +29,13 @@ namespace welcome.Controllers
         // GET: Hotels
         public async Task<IActionResult> Index()
         {
+
+       
+          //var claim=User.Claims.SingleOrDefault(s => s.Type == "BranchID") ;
+
+            HttpContext.Session.SetString("Message", "My test Message");
+
+            ViewBag.Message = HttpContext.Session.GetString("Message");
             var welcomeContext = _context.Hotels.Include(h => h.HotelGroup);
             return View(await welcomeContext.ToListAsync());
         }
@@ -157,9 +167,9 @@ namespace welcome.Controllers
             return RedirectToAction("Index");
         }
 
-        private bool HotelExists(Guid id)
-        {
-            return _context.Hotels.Any(e => e.id == id);
-        }
+        //private bool HotelExists(Guid id)
+        //{
+        //    return _context.Hotels.Any(e => e.id == id);
+        //}
     }
 }

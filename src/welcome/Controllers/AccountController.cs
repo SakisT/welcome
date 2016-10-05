@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using welcome.Models;
 using welcome.Models.AccountViewModels;
 using welcome.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace welcome.Controllers
 {

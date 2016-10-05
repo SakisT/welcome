@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Mvc;
 
 namespace welcome
 {
@@ -55,6 +56,18 @@ namespace welcome
                // IStringLocalizer abstractions.
                .AddDataAnnotationsLocalization();
 
+            services.AddAuthorization(options =>
+            {
+           
+
+                options.AddPolicy("BranchUser", policy => policy.RequireClaim("BranchID"));
+                options.AddPolicy("HotelUser", policy => policy.RequireClaim("HotelID"));
+                options.AddPolicy("HotelGroupUser", policy => policy.RequireClaim("HotelGroupID"));
+                options.AddPolicy("Admin", policy => policy.RequireClaim("Administrator"));
+            });
+
+            //services.AddDistributedMemoryCache();
+            services.AddSession();
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
@@ -72,6 +85,34 @@ namespace welcome
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            //services.Configure<MvcOptions>(options =>
+            //{
+            //    options.Filters.Add(new RequireHttpsAttribute());
+            //});
+
+           
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = false;
+
+                // Lockout settings
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 10;
+
+                // Cookie settings
+                options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
+                options.Cookies.ApplicationCookie.LoginPath = "/Account/LogIn";
+                options.Cookies.ApplicationCookie.LogoutPath = "/Account/LogOff";
+
+                
+            });
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
@@ -116,6 +157,8 @@ namespace welcome
 
             var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(locOptions.Value);
+
+            app.UseSession();
 
             app.UseApplicationInsightsRequestTelemetry();
 

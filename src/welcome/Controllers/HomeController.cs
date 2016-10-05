@@ -1,15 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using welcome.Data;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Http;
+using System.Linq;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace welcome.Controllers
 {
+    //[RequireHttps]
+
     public class HomeController : Controller
     {
         private readonly IStringLocalizer<HomeController> _localizer;
@@ -23,7 +25,9 @@ namespace welcome.Controllers
         }
         public IActionResult Index()
         {
-
+            //User.Claims.Append(new System.Security.Claims.Claim("BranchID", "3db65ecf-b2f4-4329-9f8d-79286eb93b02"));
+            //ClaimsIdentity identity = (ClaimsIdentity)User.Identity;
+            //Console.WriteLine();
             //HotelGroup hotelgroup = new HotelGroup { id = Guid.NewGuid(), Name = "Test Hotel Group" };
             //db.HotelGroups.Add(hotelgroup);
 
