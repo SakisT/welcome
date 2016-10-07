@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using welcome.Services;
 
 namespace welcome.Controllers
 {
@@ -16,11 +17,13 @@ namespace welcome.Controllers
     {
         private readonly IStringLocalizer<HomeController> _localizer;
 
-        private WelcomeContext db;
+        private WelcomeContext _context;
 
-        public HomeController(IStringLocalizer<HomeController> localizer, WelcomeContext context)
+        private UserAccessInfo _userinfo;
+        public HomeController(IStringLocalizer<HomeController> localizer, WelcomeContext context, UserAccessInfo UserInfo)
         {
-            db = context;
+            _context = context;
+            _userinfo = UserInfo;
             _localizer = localizer;
         }
         public IActionResult Index()

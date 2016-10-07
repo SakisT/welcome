@@ -91,6 +91,7 @@ namespace welcome
 
             //services.AddTransient<IHttpContextAccessor, UserInformation>();
             //services.AddTransient<IUserInfo, UserInformation>();
+            services.AddTransient<UserAccessInfo>();
 
             services.Configure<IdentityOptions>(options =>
             {

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using welcome.Services;
+
 @{
     foreach (var namespaceName in Model.RequiredNamespaces)
     {
@@ -56,206 +59,219 @@ namespace @Model.ControllerNamespace
     {
         private readonly @Model.ContextTypeName _context;
 
-        public @(Model.ControllerName)(@Model.ContextTypeName context)
-        {
-            _context = context;    
-        }
+        private readonly IStringLocalizer<@Model.ControllerName> _localizer;
 
-        // GET: @routePrefix
-@{
-        @:public async Task<IActionResult> Index()
-        @:{
-    var includeExpressions = "";
-    includeExpressions = String.Join("", relatedProperties
-        .Values
-        .Select(property => String.Format(".Include({0} => {0}.{1})", lambdaVar, property.AssociationPropertyName)));
-    if (!String.IsNullOrEmpty(includeExpressions))
+        private UserAccessInfo _userinfo;
+
+    public @(Model.ControllerName)(IStringLocalizer<@Model.ControllerName> localizer, @Model.ContextTypeName context, UserAccessInfo UserInfo)
     {
+        _localizer=localizer;
+        _context = context;
+        _userinfo = UserInfo;
+    }
+
+    // GET: @routePrefix
+    @{
+        @:public async Task<IActionResult> Index()
+            @:{
+    var includeExpressions = "";
+        includeExpressions = String.Join("", relatedProperties
+            .Values
+            .Select(property => String.Format(".Include({0} => {0}.{1})", lambdaVar, property.AssociationPropertyName)));
+        if (!String.IsNullOrEmpty(includeExpressions))
+        {
             @:var @entitySetVar = _context.@entitySetName@includeExpressions;
             @:return View(await @(entitySetVar).ToListAsync());
     }
-    else
-    {
+        else
+        {
             @:return View(await _context.@(entitySetName).ToListAsync());
     }
-}        }
+    }        }
 
-        // GET: @routePrefix/Details/5
-        public async Task<IActionResult> Details(@primaryKeyNullableTypeName id)
+    // GET: @routePrefix/Details/5
+    public async Task<IActionResult>
+        Details(@primaryKeyNullableTypeName id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        if (id == null)
+        {
+        return NotFound();
+        }
 
-            var @Model.ModelVariable = await _context.@(entitySetName).SingleOrDefaultAsync(m => m.@primaryKeyName == id);
-            if (@Model.ModelVariable == null)
-            {
-                return NotFound();
-            }
+        var @Model.ModelVariable = await _context.@(entitySetName).SingleOrDefaultAsync(m => m.@primaryKeyName == id);
+        if (@Model.ModelVariable == null)
+        {
+        return NotFound();
+        }
 
-            return View(@Model.ModelVariable);
+        return View(@Model.ModelVariable);
         }
 
         // GET: @routePrefix/Create
         public IActionResult Create()
         {
-@{
-    foreach (var property in relatedProperties.Values)
-    {
-            @:ViewData["@(property.ForeignKeyPropertyNames[0])"] = new SelectList(_context.@property.EntitySetName, "@property.PrimaryKeyNames[0]", "@property.DisplayPropertyName");
+        @{
+            foreach (var property in relatedProperties.Values)
+            {
+                @:ViewData["@(property.ForeignKeyPropertyNames[0])"] = new SelectList(_context.@property.EntitySetName, "@property.PrimaryKeyNames[0]", "@property.DisplayPropertyName");
     }
-}            return View();
+        }            return View();
         }
 
         // POST: @routePrefix/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("@bindString")] @Model.ModelTypeName @Model.ModelVariable)
-        {
+        public async Task<IActionResult>
+            Create([Bind("@bindString")] @Model.ModelTypeName @Model.ModelVariable)
+            {
             if (ModelState.IsValid)
             {
-@{
-    if (!string.IsNullOrEmpty(primaryKeyType) && IsGuid(primaryKeyType))
-    {
-                @:@(Model.ModelVariable).@primaryKeyName = Guid.NewGuid();
+            @{
+                if (!string.IsNullOrEmpty(primaryKeyType) && IsGuid(primaryKeyType))
+                {
+                    @:@(Model.ModelVariable).@primaryKeyName = Guid.NewGuid();
     }
                 @:_context.Add(@Model.ModelVariable);
                 @:await _context.SaveChangesAsync();
-}                return RedirectToAction("Index");
+            }                return RedirectToAction("Index");
             }
-@{
-    foreach (var property in relatedProperties.Values)
-    {
-            @:ViewData["@(property.ForeignKeyPropertyNames[0])"] = new SelectList(_context.@property.EntitySetName, "@property.PrimaryKeyNames[0]", "@property.DisplayPropertyName", @(Model.ModelVariable).@property.ForeignKeyPropertyNames[0]);
-    }
-}
-            return View(@Model.ModelVariable);
-        }
-
-        // GET: @routePrefix/Edit/5
-        public async Task<IActionResult> Edit(@primaryKeyNullableTypeName id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var @Model.ModelVariable = await _context.@(entitySetName).SingleOrDefaultAsync(m => m.@primaryKeyName == id);
-            if (@Model.ModelVariable == null)
-            {
-                return NotFound();
-            }
-@{
-    foreach (var property in relatedProperties.Values)
-    {
-            @:ViewData["@(property.ForeignKeyPropertyNames[0])"] = new SelectList(_context.@property.EntitySetName, "@property.PrimaryKeyNames[0]", "@property.DisplayPropertyName", @(Model.ModelVariable).@property.ForeignKeyPropertyNames[0]);
-    }
-}
-            return View(@Model.ModelVariable);
-        }
-
-        // POST: @routePrefix/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(@primaryKeyShortTypeName id, [Bind("@bindString")] @Model.ModelTypeName @Model.ModelVariable)
-        {
-            if (id != @Model.ModelVariable.@primaryKeyName)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+            @{
+                foreach (var property in relatedProperties.Values)
                 {
+                    @:ViewData["@(property.ForeignKeyPropertyNames[0])"] = new SelectList(_context.@property.EntitySetName, "@property.PrimaryKeyNames[0]", "@property.DisplayPropertyName", @(Model.ModelVariable).@property.ForeignKeyPropertyNames[0]);
+    }
+            }
+            return View(@Model.ModelVariable);
+            }
+
+            // GET: @routePrefix/Edit/5
+            public async Task<IActionResult>
+                Edit(@primaryKeyNullableTypeName id)
+                {
+                if (id == null)
+                {
+                return NotFound();
+                }
+
+                var @Model.ModelVariable = await _context.@(entitySetName).SingleOrDefaultAsync(m => m.@primaryKeyName == id);
+                if (@Model.ModelVariable == null)
+                {
+                return NotFound();
+                }
+                @{
+                    foreach (var property in relatedProperties.Values)
+                    {
+                        @:ViewData["@(property.ForeignKeyPropertyNames[0])"] = new SelectList(_context.@property.EntitySetName, "@property.PrimaryKeyNames[0]", "@property.DisplayPropertyName", @(Model.ModelVariable).@property.ForeignKeyPropertyNames[0]);
+    }
+                }
+                return View(@Model.ModelVariable);
+                }
+
+                // POST: @routePrefix/Edit/5
+                // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+                // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+                [HttpPost]
+                [ValidateAntiForgeryToken]
+                public async Task<IActionResult>
+                    Edit(@primaryKeyShortTypeName id, [Bind("@bindString")] @Model.ModelTypeName @Model.ModelVariable)
+                    {
+                    if (id != @Model.ModelVariable.@primaryKeyName)
+                    {
+                    return NotFound();
+                    }
+
+                    if (ModelState.IsValid)
+                    {
+                    try
+                    {
                     _context.Update(@Model.ModelVariable);
                     await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
                     if (!@(Model.ModelTypeName)Exists(@Model.ModelVariable.@primaryKeyName))
                     {
-                        return NotFound();
+                    return NotFound();
                     }
                     else
                     {
-                        throw;
+                    throw;
                     }
-                }
-                return RedirectToAction("Index");
-            }
-@{
-    foreach (var property in relatedProperties.Values)
-    {
-            @:ViewData["@(property.ForeignKeyPropertyNames[0])"] = new SelectList(_context.@property.EntitySetName, "@property.PrimaryKeyNames[0]", "@property.DisplayPropertyName", @(Model.ModelVariable).@property.ForeignKeyPropertyNames[0]);
+                    }
+                    return RedirectToAction("Index");
+                    }
+                    @{
+                        foreach (var property in relatedProperties.Values)
+                        {
+                            @:ViewData["@(property.ForeignKeyPropertyNames[0])"] = new SelectList(_context.@property.EntitySetName, "@property.PrimaryKeyNames[0]", "@property.DisplayPropertyName", @(Model.ModelVariable).@property.ForeignKeyPropertyNames[0]);
     }
-}
-            return View(@Model.ModelVariable);
-        }
+                    }
+                    return View(@Model.ModelVariable);
+                    }
 
-        // GET: @routePrefix/Delete/5
-        public async Task<IActionResult> Delete(@primaryKeyNullableTypeName id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+                    // GET: @routePrefix/Delete/5
+                    public async Task<IActionResult>
+                        Delete(@primaryKeyNullableTypeName id)
+                        {
+                        if (id == null)
+                        {
+                        return NotFound();
+                        }
 
-            var @Model.ModelVariable = await _context.@(entitySetName).SingleOrDefaultAsync(m => m.@primaryKeyName == id);
-            if (@Model.ModelVariable == null)
-            {
-                return NotFound();
-            }
+                        var @Model.ModelVariable = await _context.@(entitySetName).SingleOrDefaultAsync(m => m.@primaryKeyName == id);
+                        if (@Model.ModelVariable == null)
+                        {
+                        return NotFound();
+                        }
 
-            return View(@Model.ModelVariable);
-        }
+                        return View(@Model.ModelVariable);
+                        }
 
-        // POST: @routePrefix/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(@primaryKeyShortTypeName id)
-        {
-            var @Model.ModelVariable = await _context.@(entitySetName).SingleOrDefaultAsync(m => m.@primaryKeyName == id);
-            _context.@(entitySetName).Remove(@Model.ModelVariable);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
+                        // POST: @routePrefix/Delete/5
+                        [HttpPost, ActionName("Delete")]
+                        [ValidateAntiForgeryToken]
+                        public async Task<IActionResult>
+                            DeleteConfirmed(@primaryKeyShortTypeName id)
+                            {
+                            var @Model.ModelVariable = await _context.@(entitySetName).SingleOrDefaultAsync(m => m.@primaryKeyName == id);
+                            _context.@(entitySetName).Remove(@Model.ModelVariable);
+                            await _context.SaveChangesAsync();
+                            return RedirectToAction("Index");
+                            }
 
-        private bool @(Model.ModelTypeName)Exists(@primaryKeyShortTypeName id)
-        {
-            return _context.@(entitySetName).Any(e => e.@primaryKeyName == id);
-        }
-    }
-}
-@functions
+                            private bool @(Model.ModelTypeName)Exists(@primaryKeyShortTypeName id)
+                            {
+                            return _context.@(entitySetName).Any(e => e.@primaryKeyName == id);
+                            }
+                            }
+                            }
+                            @functions
 {
-    // This function converts the primary key short type name to its nullable equivalent when possible. This is required to make
-    // sure that an HTTP 400 error is thrown when the user tries to access the edit, delete, or details action with null values.
-    string GetNullableTypeName(string typeName, string shortTypeName)
-    {
-        // The exceptions are caught because if for any reason the type is user defined, then the short type name will be used.
-        // In that case the user will receive a server error if null is passed to the edit, delete, or details actions.
-        Type primaryKeyType = null;
-        try
-        {
-            primaryKeyType = Type.GetType(typeName);
-        }
-        catch
-        {
-        }
-        if (primaryKeyType != null && (Microsoft.VisualStudio.Web.CodeGeneration.Templating.TypeUtilities.IsTypePrimitive(primaryKeyType) || IsGuid(typeName)))
-        {
-            return shortTypeName + "?";
-        }
-        return shortTypeName;
-    }
+                                // This function converts the primary key short type name to its nullable equivalent when possible. This is required to make
+                                // sure that an HTTP 400 error is thrown when the user tries to access the edit, delete, or details action with null values.
+                                string GetNullableTypeName(string typeName, string shortTypeName)
+                                {
+                                    // The exceptions are caught because if for any reason the type is user defined, then the short type name will be used.
+                                    // In that case the user will receive a server error if null is passed to the edit, delete, or details actions.
+                                    Type primaryKeyType = null;
+                                    try
+                                    {
+                                        primaryKeyType = Type.GetType(typeName);
+                                    }
+                                    catch
+                                    {
+                                    }
+                                    if (primaryKeyType != null && (Microsoft.VisualStudio.Web.CodeGeneration.Templating.TypeUtilities.IsTypePrimitive(primaryKeyType) || IsGuid(typeName)))
+                                    {
+                                        return shortTypeName + "?";
+                                    }
+                                    return shortTypeName;
+                                }
 
-    bool IsGuid(string typeName) {
-        return String.Equals("System.Guid", typeName, StringComparison.OrdinalIgnoreCase);
-    }
-}
+                                bool IsGuid(string typeName)
+                                {
+                                    return String.Equals("System.Guid", typeName, StringComparison.OrdinalIgnoreCase);
+                                }
+                            }

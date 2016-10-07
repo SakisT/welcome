@@ -290,6 +290,5 @@
 "C:\welcome\welcome\src\welcome\Models\ManageViewModels\VerifyPhoneNumberViewModel.cs"
 "C:\welcome\welcome\src\welcome\Services\IEmailSender.cs"
 "C:\welcome\welcome\src\welcome\Services\ISmsSender.cs"
-"C:\welcome\welcome\src\welcome\Services\IUserInfo.cs"
 "C:\welcome\welcome\src\welcome\Services\MessageServices.cs"
-"C:\welcome\welcome\src\welcome\Services\UserInformation.cs"
+"C:\welcome\welcome\src\welcome\Services\UserAccessInfo.cs"
