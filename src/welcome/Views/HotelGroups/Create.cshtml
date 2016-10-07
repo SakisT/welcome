@@ -1,3 +1,5 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model welcome.Models.HotelGroup
 
 @{
@@ -5,7 +7,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create</h2>
+<h4>Create</h4>
 
 <form asp-action="Create">
     <div class="form-horizontal">

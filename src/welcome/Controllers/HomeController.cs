@@ -20,6 +20,10 @@ namespace welcome.Controllers
         private WelcomeContext _context;
 
         private UserAccessInfo _userinfo;
+
+        private string[] ActiveHotels;
+
+        private string[] ActiveBranches;
         public HomeController(IStringLocalizer<HomeController> localizer, WelcomeContext context, UserAccessInfo UserInfo)
         {
             _context = context;
@@ -28,6 +32,7 @@ namespace welcome.Controllers
         }
         public IActionResult Index()
         {
+            var t = _userinfo.GetActiveBranches();
             //User.Claims.Append(new System.Security.Claims.Claim("BranchID", "3db65ecf-b2f4-4329-9f8d-79286eb93b02"));
             //ClaimsIdentity identity = (ClaimsIdentity)User.Identity;
             //Console.WriteLine();

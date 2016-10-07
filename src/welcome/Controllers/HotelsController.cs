@@ -5,43 +5,50 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using welcome.Services;
+
 using welcome.Data;
 using welcome.Models;
-using Microsoft.Extensions.Localization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Authorization;
 
 namespace welcome.Controllers
 {
-    [Authorize(Policy = "HotelUser")]
     public class HotelsController : Controller
     {
         private readonly WelcomeContext _context;
-        private readonly IStringLocalizer<HomeController> _localizer;
 
-        private WelcomeContext db;
-        public HotelsController(IStringLocalizer<HomeController> localizer, WelcomeContext context)
+        private readonly IStringLocalizer<HotelsController> _localizer;
+
+        private UserAccessInfo _userinfo;
+
+        public HotelsController(IStringLocalizer<HotelsController> localizer, WelcomeContext context, UserAccessInfo UserInfo)
         {
-            _context = context;
             _localizer = localizer;
+            _context = context;
+            _userinfo = UserInfo;
         }
 
         // GET: Hotels
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(Guid? id)
         {
-
-       
-          //var claim=User.Claims.SingleOrDefault(s => s.Type == "BranchID") ;
-
-            HttpContext.Session.SetString("Message", "My test Message");
-
-            ViewBag.Message = HttpContext.Session.GetString("Message");
+            if (id == null)
+            {
+                Hotel activehotel = _context.Hotels.SingleOrDefault(s => s.id == _userinfo.GetActiveHotels().FirstOrDefault());
+                IQueryable<Hotel> userhotels = _context.Hotels.Include(h => h.HotelGroup).Where(s=>s.HotelGroupID==activehotel.HotelGroupID);
+                if (!User.IsInRole("Administrator"))
+                {
+                    userhotels = userhotels.Where(r => _userinfo.HotelIDs.Any(s=>s==r.id));
+                }
+                
+                return View(await userhotels.ToListAsync());
+            }
             var welcomeContext = _context.Hotels.Include(h => h.HotelGroup);
             return View(await welcomeContext.ToListAsync());
         }
 
         // GET: Hotels/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult>
+            Details(Guid? id)
         {
             if (id == null)
             {
@@ -58,41 +65,41 @@ namespace welcome.Controllers
         }
 
         // GET: Hotels/Create
-        public IActionResult Create()
+        public async Task< IActionResult> Create()
         {
-            ViewData["HotelGroupID"] = new SelectList(_context.HotelGroups, "id", "Name");
-            return View();
+            var hotelid = _userinfo.HotelIDs.FirstOrDefault();
+            Hotel firsthotel =await _context.Hotels.SingleOrDefaultAsync(m => m.id == hotelid);
+            HotelGroup hotelgroup = await _context.HotelGroups.SingleOrDefaultAsync(s=>s.id== firsthotel.HotelGroupID);
+            if (hotelgroup == null)
+            {
+                return NotFound();
+            }
+            Hotel newhotel = new Hotel { HotelGroupID= hotelgroup.id, HotelDate=DateTime.Today, ExpirationDate=DateTime.Today.AddMonths(6), Dealer="Netera Software", Name=hotelgroup.Name };
+            return View(newhotel);
         }
 
         // POST: Hotels/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Dealer,ExpirationDate,HotelDate,HotelGroupID,IsPayingSupport,Name")] Hotel hotel)
+        public async Task<IActionResult>
+            Create([Bind("id,Dealer,ExpirationDate,HotelDate,HotelGroupID,IsPayingSupport,Name")] Hotel hotel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    hotel.id = Guid.NewGuid();
-                    _context.Add(hotel);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("Index");
-                }
-            }
-            catch (DbUpdateException)
-            {
-                ModelState.AddModelError("", "Unable to save changes. " +
-            "Try again, and if the problem persists " +
-            "see your system administrator.");
+                hotel.id = Guid.NewGuid();
+                _context.Add(hotel);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
             ViewData["HotelGroupID"] = new SelectList(_context.HotelGroups, "id", "Name", hotel.HotelGroupID);
             return View(hotel);
         }
 
         // GET: Hotels/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult>
+            Edit(Guid? id)
         {
             if (id == null)
             {
@@ -109,38 +116,45 @@ namespace welcome.Controllers
         }
 
         // POST: Hotels/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost,ActionName("Edit")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditHotel(Guid id)
+        public async Task<IActionResult>
+            Edit(Guid id, [Bind("id,Dealer,ExpirationDate,HotelDate,HotelGroupID,IsPayingSupport,Name")] Hotel hotel)
         {
-            if (id ==null|id==Guid.Empty)
+            if (id != hotel.id)
             {
                 return NotFound();
             }
-            Hotel hoteltoupdate = await _context.Hotels.SingleOrDefaultAsync(r => r.id == id);
-            if(await TryUpdateModelAsync(hoteltoupdate,"",
-                s=>s.Dealer, s=>s.ExpirationDate, s=>s.HotelDate, s=>s.HotelGroupID, s=>s.IsPayingSupport, s=>s.Name))
+
+            if (ModelState.IsValid)
             {
                 try
                 {
+                    _context.Update(hotel);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("Index");
                 }
-                catch (DbUpdateException)
+                catch (DbUpdateConcurrencyException)
                 {
-                    ModelState.AddModelError("", "Unable to save changes. " +
-                        "Try again, and if the problem persists, " +
-                        "see your system administrator.");
+                    if (!HotelExists(hotel.id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
+                return RedirectToAction("Index");
             }
-            ViewData["HotelGroupID"] = new SelectList(_context.HotelGroups, "id", "Name", hoteltoupdate.HotelGroupID);
-            return View(hoteltoupdate);
+            ViewData["HotelGroupID"] = new SelectList(_context.HotelGroups, "id", "Name", hotel.HotelGroupID);
+            return View(hotel);
         }
 
         // GET: Hotels/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult>
+            Delete(Guid? id)
         {
             if (id == null)
             {
@@ -159,7 +173,8 @@ namespace welcome.Controllers
         // POST: Hotels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult>
+            DeleteConfirmed(Guid id)
         {
             var hotel = await _context.Hotels.SingleOrDefaultAsync(m => m.id == id);
             _context.Hotels.Remove(hotel);
@@ -167,9 +182,9 @@ namespace welcome.Controllers
             return RedirectToAction("Index");
         }
 
-        //private bool HotelExists(Guid id)
-        //{
-        //    return _context.Hotels.Any(e => e.id == id);
-        //}
+        private bool HotelExists(Guid id)
+        {
+            return _context.Hotels.Any(e => e.id == id);
+        }
     }
 }

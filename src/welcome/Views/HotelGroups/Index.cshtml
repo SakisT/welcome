@@ -1,3 +1,5 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model IEnumerable<welcome.Models.HotelGroup>
 
 @{
@@ -23,7 +25,8 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                <a asp-action="Index" asp-controller="Hotels" asp-route-id="@item.id">@item.Name</a>
+                @*@Html.DisplayFor(modelItem => item.Name)*@
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |

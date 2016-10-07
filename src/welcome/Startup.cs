@@ -59,7 +59,7 @@ namespace welcome
 
             services.AddAuthorization(options =>
             {
-           
+
 
                 options.AddPolicy("BranchUser", policy => policy.RequireClaim("BranchID"));
                 options.AddPolicy("HotelUser", policy => policy.RequireClaim("HotelID"));
@@ -67,10 +67,10 @@ namespace welcome
                 options.AddPolicy("Admin", policy => policy.RequireClaim("Administrator"));
             });
 
-        
-
-            //services.AddDistributedMemoryCache();
-            services.AddSession();
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+                options.IdleTimeout = TimeSpan.FromMinutes(50)
+            );
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
@@ -111,7 +111,7 @@ namespace welcome
                 options.Cookies.ApplicationCookie.LoginPath = "/Account/LogIn";
                 options.Cookies.ApplicationCookie.LogoutPath = "/Account/LogOff";
 
-                
+
             });
 
             services.Configure<RequestLocalizationOptions>(options =>
