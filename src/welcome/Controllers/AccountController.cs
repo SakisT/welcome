@@ -55,6 +55,9 @@ namespace welcome.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+           
+
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {

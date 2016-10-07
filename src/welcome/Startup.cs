@@ -17,6 +17,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace welcome
 {
@@ -66,6 +67,8 @@ namespace welcome
                 options.AddPolicy("Admin", policy => policy.RequireClaim("Administrator"));
             });
 
+        
+
             //services.AddDistributedMemoryCache();
             services.AddSession();
             // Add framework services.
@@ -86,12 +89,8 @@ namespace welcome
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
-            //services.Configure<MvcOptions>(options =>
-            //{
-            //    options.Filters.Add(new RequireHttpsAttribute());
-            //});
-
-           
+            //services.AddTransient<IHttpContextAccessor, UserInformation>();
+            //services.AddTransient<IUserInfo, UserInformation>();
 
             services.Configure<IdentityOptions>(options =>
             {
