@@ -10,11 +10,17 @@
 <h2>Index</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @if ((ViewBag.ActiveHotelGroupID ?? Guid.Empty) != Guid.Empty)
+    {
+        <a asp-action="Create" asp-route-id="@((Guid)ViewBag.ActiveHotelGroupID)">Create New</a>
+    }
 </p>
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Dealer)
             </th>
@@ -27,15 +33,16 @@
             <th>
                 @Html.DisplayNameFor(model => model.IsPayingSupport)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
+
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                <a asp-controller="Branches" asp-action="Index" asp-route-id="@item.id">@item.Name</a>
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Dealer)
             </td>
@@ -47,9 +54,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsPayingSupport)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |

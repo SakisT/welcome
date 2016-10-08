@@ -36,15 +36,17 @@
                     <ul class="nav navbar-nav">
                         <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                         <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hotels <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a asp-area="" asp-controller="HotelGroups" asp-action="Index">Hotel Groups</a></li>
-                                <li><a asp-area="" asp-controller="Hotels" asp-action="Index">Hotels</a></li>
-                                <li><a asp-area="" asp-controller="Branches" asp-action="Index">Branches</a></li>
-                            </ul>
-                            
-                        </li>
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admins <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a asp-area="" asp-controller="HotelGroups" asp-action="Index">Hotel Groups</a></li>
+                                    <li><a asp-area="" asp-controller="Hotels" asp-action="Index">Hotels</a></li>
+                                    <li><a asp-area="" asp-controller="Branches" asp-action="Index">Branches</a></li>
+                                </ul>
+                            </li>
+                        }
                     </ul>
                     @await Html.PartialAsync("_LoginPartial")
                 </div>
