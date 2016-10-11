@@ -94,20 +94,20 @@ namespace welcome.Controllers
                     hotel.id = Guid.NewGuid();
                     _context.Add(hotel);
 
-                    HotelVardataPlan hotelvardataplan = new HotelVardataPlan { Hotel=hotel };
+                    HotelVardataPlan hotelvardataplan = new HotelVardataPlan { Hotel = hotel };
                     _context.Add(hotelvardataplan);
 
-                    HotelVardataInvoice hotelvardatainvoice = new HotelVardataInvoice { Hotel=hotel };
+                    HotelVardataInvoice hotelvardatainvoice = new HotelVardataInvoice { Hotel = hotel };
                     _context.Add(hotelvardatainvoice);
-                    
-                    Branch branch = new Branch { Hotel=hotel, Name=hotel.Name };
+
+                    Branch branch = new Branch { Hotel = hotel, Name = hotel.Name };
                     _context.Add(branch);
 
-                    BranchVardata branchvardata = new BranchVardata { Branch=branch };
+                    BranchVardata branchvardata = new BranchVardata { Branch = branch };
                     _context.Add(branchvardata);
 
-                    Nationality usualnationality =await _context.Nationalities.FirstOrDefaultAsync();
-                    BranchVardataReservation branchvardatareservation = new BranchVardataReservation { Branch=branch, UsualNationality= usualnationality };
+                    Nationality usualnationality = await _context.Nationalities.FirstOrDefaultAsync();
+                    BranchVardataReservation branchvardatareservation = new BranchVardataReservation { Branch = branch, UsualNationality = usualnationality };
                     _context.Add(branchvardatareservation);
 
                     await _context.SaveChangesAsync();
@@ -133,7 +133,7 @@ namespace welcome.Controllers
                 return NotFound();
             }
 
-            var hotel = await _context.Hotels.SingleOrDefaultAsync(m => m.id == id);
+            var hotel = await _context.Hotels.Include(r => r.VardataInvoice).AsNoTracking().Include(r => r.VardataPlan).AsNoTracking().SingleOrDefaultAsync(m => m.id == id);
             if (hotel == null)
             {
                 return NotFound();
@@ -153,25 +153,53 @@ namespace welcome.Controllers
             {
                 return NotFound();
             }
-
-            var hoteltoupdate =await _context.Hotels.SingleOrDefaultAsync(m => m.id == id);
-            if(await TryUpdateModelAsync(hoteltoupdate,"",
-                s=>s.Name,
-                s=>s.HotelDate,
-                s=>s.Dealer,
-                s => s.ExpirationDate))
+            var modelstate = ModelState;
+            var hoteltoupdate = await _context.Hotels.Include(r => r.VardataInvoice).Include(r => r.VardataPlan).SingleOrDefaultAsync(m => m.id == id);
+            if (await TryUpdateModelAsync(hoteltoupdate, "",
+                s => s.Name,
+                s => s.HotelDate,
+                s => s.Dealer,
+                s => s.ExpirationDate,
+                s => s.VardataInvoice,
+                s => s.VardataPlan))
             {
-                try
+                var hotelvardata = await _context.HotelVardataInvoices.SingleOrDefaultAsync(r => r.HotelVardataInvoiceId == id);
+                if (await TryUpdateModelAsync(hotelvardata, "",
+                    s => s.ArrangementDescription,
+                    s => s.DefaultPaymentMethod,
+                    s => s.DefaultView,
+                    s => s.IncludePaxInInvoice,
+                    s => s.InvoiceCopies,
+                    s => s.InvoiceEmailBody,
+                    s => s.ObligatoryAddressAtInvoices,
+                    s => s.ResetInvoiceNumbers,
+                    s => s.SendInvoiceToHotelMailAsCC))
                 {
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("Index", new { id=hoteltoupdate.HotelGroupID});
+                    var hotelvardataplan = await _context.HotelVardataPlans.SingleOrDefaultAsync(r => r.HotelVardataPlanID == id);
+                    if (await TryUpdateModelAsync(hotelvardataplan, "",
+                        s => s.DisplayAgentCode,
+                        s => s.HistoryColor,
+                        s => s.InHouseColor,
+                        s => s.LabelAddins,
+                        s => s.OptionReservationColor,
+                        s => s.PendingDepositColor,
+                        s => s.ReservationColor))
+                    {
+                        try
+                        {
+                            await _context.SaveChangesAsync();
+                            return RedirectToAction("Index", new { id = hoteltoupdate.HotelGroupID });
+                        }
+                        catch (DbUpdateException)
+                        {
+                            ModelState.AddModelError("", "Unable to save changes. " +
+                                "Try again, and if the problem persists, " +
+                                "see your system administrator.");
+                        }
+                    }
+
                 }
-                catch (DbUpdateException)
-                {
-                    ModelState.AddModelError("", "Unable to save changes. " +
-                        "Try again, and if the problem persists, " +
-                        "see your system administrator.");
-                }
+
             }
             ViewData["HotelGroupID"] = new SelectList(_context.HotelGroups, "id", "Name", hoteltoupdate.HotelGroupID);
             return View(hoteltoupdate);
@@ -204,7 +232,7 @@ namespace welcome.Controllers
             var hotel = await _context.Hotels.SingleOrDefaultAsync(m => m.id == id);
             _context.Hotels.Remove(hotel);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index",new { id=hotel.HotelGroupID});
+            return RedirectToAction("Index", new { id = hotel.HotelGroupID });
         }
 
         private bool HotelExists(Guid id)
