@@ -29,6 +29,23 @@
                 <span asp-validation-for="Name" class="text-danger" />
             </div>
         </div>
+
+        <div class="form-group">
+            <label asp-for="Vardata" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                @Html.Partial("BranchVardata", Model.Vardata)
+                <span asp-validation-for="Vardata" class="text-danger" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="VardataReservations" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                @Html.Partial("BranchVardataReservation", Model.VardataReservations)
+                <span asp-validation-for="VardataReservations" class="text-danger" />
+            </div>
+        </div>
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />

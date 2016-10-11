@@ -1,0 +1,91 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model welcome.Models.RoomType
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<form asp-action="Edit">
+    <input type="hidden" asp-for="HotelID" />
+    <div class="form-horizontal">
+        <h4>RoomType</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="id" />
+        <div class="form-group">
+            <label asp-for="Abbreviation" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Abbreviation" class="form-control" />
+                <span asp-validation-for="Abbreviation" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Color" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Color" type="color" class="form-control" />
+                <span asp-validation-for="Color" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="DisplayOrder" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DisplayOrder" class="form-control" />
+                <span asp-validation-for="DisplayOrder" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Grade" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Grade" class="form-control" />
+                <span asp-validation-for="Grade" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <div class="checkbox">
+                    <input asp-for="IncludeInOnlineAvailabilities" />
+                    <label asp-for="IncludeInOnlineAvailabilities"></label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <div class="checkbox">
+                    <input asp-for="IsActive" />
+                    <label asp-for="IsActive"></label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="SuggestedPax" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="SuggestedPax" class="form-control" />
+                <span asp-validation-for="SuggestedPax" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index" asp-route-id="@Model.HotelID">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

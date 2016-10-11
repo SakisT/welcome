@@ -111,23 +111,23 @@ namespace welcome.Controllers
         }
 
         // GET: Branches/Edit/5
-        public async Task<IActionResult>
-            Edit(Guid? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var branch = await _context.Branches.SingleOrDefaultAsync(m => m.id == id);
+            var branch = await _context.Branches.Include(r => r.Vardata).AsNoTracking().Include(r => r.VardataReservations).AsNoTracking().SingleOrDefaultAsync(m => m.id == id);
             if (branch == null)
             {
                 return NotFound();
             }
             Hotel hotel = _context.Hotels.Include(r => r.HotelGroup).SingleOrDefault(r => r.id == branch.HotelID);
-            HotelGroup hotelgroup =await _context.HotelGroups.Include(r=>r.Hotels).SingleOrDefaultAsync(s=>s.id== hotel.HotelGroupID);
+            HotelGroup hotelgroup = await _context.HotelGroups.Include(r => r.Hotels).SingleOrDefaultAsync(s => s.id == hotel.HotelGroupID);
 
             ViewData["HotelID"] = new SelectList(hotelgroup.Hotels, "id", "Name", branch.HotelID);
+            ViewData["UsualNationalityID"] = new SelectList(_context.Nationalities.OrderBy(m=>m.GreekName).AsEnumerable(), "id", "GreekName", branch.HotelID);
             return View(branch);
         }
 
@@ -142,20 +142,28 @@ namespace welcome.Controllers
             {
                 return NotFound();
             }
-            var branchtoupdate = await _context.Branches.SingleOrDefaultAsync(s => s.id == id);
+            var branchtoupdate = await _context.Branches.Include(r => r.Vardata).Include(r => r.VardataReservations).SingleOrDefaultAsync(s => s.id == id);
             if (await TryUpdateModelAsync(branchtoupdate, "",
-                s => s.Name, s=>s.HotelID))
+                s => s.Name, s => s.HotelID, s => s.Vardata, s => s.VardataReservations))
             {
-                try
+                var branchvardata = await _context.BranchVardatas.SingleOrDefaultAsync(m => m.BranchVardataId == id);
+                if (await TryUpdateModelAsync(branchvardata))
                 {
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("Index", new { id = branchtoupdate.HotelID });
-                }
-                catch (DbUpdateException)
-                {
-                    ModelState.AddModelError("", "Unable to save changes. " +
-                        "Try again, and if the problem persists, " +
-                        "see your system administrator.");
+                    var branchvardatareservation = await _context.BranchVardataReservations.SingleOrDefaultAsync(m => m.BranchVardataReservationId == id);
+                    if (await TryUpdateModelAsync(branchvardatareservation))
+                    {
+                        try
+                        {
+                            await _context.SaveChangesAsync();
+                            return RedirectToAction("Index", new { id = branchtoupdate.HotelID });
+                        }
+                        catch (DbUpdateException)
+                        {
+                            ModelState.AddModelError("", "Unable to save changes. " +
+                                "Try again, and if the problem persists, " +
+                                "see your system administrator.");
+                        }
+                    }
                 }
             }
             return View(branchtoupdate);

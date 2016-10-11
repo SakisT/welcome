@@ -235,6 +235,7 @@
 "C:\welcome\welcome\src\welcome\Controllers\HotelGroupsController.cs"
 "C:\welcome\welcome\src\welcome\Controllers\HotelsController.cs"
 "C:\welcome\welcome\src\welcome\Controllers\ManageController.cs"
+"C:\welcome\welcome\src\welcome\Controllers\RoomTypesController.cs"
 "C:\welcome\welcome\src\welcome\Data\ApplicationDbContext.cs"
 "C:\welcome\welcome\src\welcome\Data\DbInitializer.cs"
 "C:\welcome\welcome\src\welcome\Data\WelcomeContext.cs"

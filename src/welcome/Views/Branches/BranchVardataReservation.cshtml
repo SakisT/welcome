@@ -1,0 +1,63 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model welcome.Models.BranchVardataReservation
+
+<div class="form-horizontal">
+    <hr />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="BranchVardataReservationId" />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <div class="checkbox">
+                <input asp-for="AcceptPastDatesForDeposit" />
+                <label asp-for="AcceptPastDatesForDeposit"></label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <div class="checkbox">
+                <input asp-for="ResetResAAEveryYear" />
+                <label asp-for="ResetResAAEveryYear"></label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="UseOfCreditCardPreAuthorization" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="UseOfCreditCardPreAuthorization" class="form-control" />
+            <span asp-validation-for="UseOfCreditCardPreAuthorization" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="UsualNationalityID" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <select asp-for="UsualNationalityID" class="form-control" asp-items="ViewBag.UsualNationalityID"></select>
+            <span asp-validation-for="UsualNationalityID" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="UsualPricelistCode" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="UsualPricelistCode" class="form-control" />
+            <span asp-validation-for="UsualPricelistCode" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="UsualStay" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="UsualStay" class="form-control" />
+            <span asp-validation-for="UsualStay" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="emailOnNonShowOrCancellation" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="emailOnNonShowOrCancellation" class="form-control" />
+            <span asp-validation-for="emailOnNonShowOrCancellation" class="text-danger" />
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

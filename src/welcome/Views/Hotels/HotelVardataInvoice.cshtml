@@ -2,80 +2,78 @@
 @inject IViewLocalizer Localizer
 @model welcome.Models.HotelVardataInvoice
 
-@*<form asp-action="HotelVardataInvoice">*@
-    <div class="form-horizontal">
-        <hr />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="form-horizontal">
+    <hr />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="HotelVardataInvoiceId" />
-        <div class="form-group">
-            <label asp-for="ArrangementDescription" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="ArrangementDescription" class="form-control" />
-                <span asp-validation-for="ArrangementDescription" class="text-danger" />
-            </div>
+    <div class="form-group">
+        <label asp-for="ArrangementDescription" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="ArrangementDescription" class="form-control" />
+            <span asp-validation-for="ArrangementDescription" class="text-danger" />
         </div>
-        <div class="form-group">
-            <label asp-for="DefaultPaymentMethod" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                @*<select asp-for="DefaultPaymentMethod" class="form-control"></select>*@
-                <select asp-for="DefaultPaymentMethod" asp-items="@Html.GetEnumSelectList<Invoice.PaymentMethod>()" class="form-control"></select>
-                <span asp-validation-for="DefaultPaymentMethod" class="text-danger" />
-            </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="DefaultPaymentMethod" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            @*<select asp-for="DefaultPaymentMethod" class="form-control"></select>*@
+            <select asp-for="DefaultPaymentMethod" asp-items="@Html.GetEnumSelectList<Invoice.PaymentMethod>()" class="form-control"></select>
+            <span asp-validation-for="DefaultPaymentMethod" class="text-danger" />
         </div>
-        <div class="form-group">
-            <label asp-for="DefaultView" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select asp-for="DefaultView" asp-items="@Html.GetEnumSelectList<Invoice.InvoiceView>()" class="form-control"></select>
-                <span asp-validation-for="DefaultView" class="text-danger" />
-            </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="DefaultView" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <select asp-for="DefaultView" asp-items="@Html.GetEnumSelectList<Invoice.InvoiceView>()" class="form-control"></select>
+            <span asp-validation-for="DefaultView" class="text-danger" />
         </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <div class="checkbox">
-                    <input asp-for="IncludePaxInInvoice" />
-                    <label asp-for="IncludePaxInInvoice"></label>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="InvoiceCopies" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="InvoiceCopies" class="form-control" />
-                <span asp-validation-for="InvoiceCopies" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="InvoiceEmailBody" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="InvoiceEmailBody" class="form-control" />
-                <span asp-validation-for="InvoiceEmailBody" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <div class="checkbox">
-                    <input asp-for="ObligatoryAddressAtInvoices" />
-                    <label asp-for="ObligatoryAddressAtInvoices"></label>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <div class="checkbox">
-                    <input asp-for="ResetInvoiceNumbers" />
-                    <label asp-for="ResetInvoiceNumbers"></label>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="SendInvoiceToHotelMailAsCC" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="SendInvoiceToHotelMailAsCC" class="form-control" />
-                <span asp-validation-for="SendInvoiceToHotelMailAsCC" class="text-danger" />
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <div class="checkbox">
+                <input asp-for="IncludePaxInInvoice" />
+                <label asp-for="IncludePaxInInvoice"></label>
             </div>
         </div>
     </div>
-@*</form>*@
+    <div class="form-group">
+        <label asp-for="InvoiceCopies" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="InvoiceCopies" class="form-control" />
+            <span asp-validation-for="InvoiceCopies" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="InvoiceEmailBody" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="InvoiceEmailBody" class="form-control" />
+            <span asp-validation-for="InvoiceEmailBody" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <div class="checkbox">
+                <input asp-for="ObligatoryAddressAtInvoices" />
+                <label asp-for="ObligatoryAddressAtInvoices"></label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <div class="checkbox">
+                <input asp-for="ResetInvoiceNumbers" />
+                <label asp-for="ResetInvoiceNumbers"></label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="SendInvoiceToHotelMailAsCC" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="SendInvoiceToHotelMailAsCC" class="form-control" />
+            <span asp-validation-for="SendInvoiceToHotelMailAsCC" class="text-danger" />
+        </div>
+    </div>
+</div>
 
 
 @section Scripts {
