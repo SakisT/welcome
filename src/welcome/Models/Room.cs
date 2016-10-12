@@ -26,5 +26,6 @@ namespace welcome.Models
         [ForeignKey("RoomTypeID")]
         public virtual RoomType RoomType { get; set; }
 
+        public int DisplayOrder { get; set; }
     }
 }

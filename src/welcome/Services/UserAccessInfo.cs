@@ -12,8 +12,8 @@ namespace welcome.Services
     {
         private readonly IHttpContextAccessor _accessor;
 
-        public readonly List<Guid> HotelIDs;
-        public readonly List<Guid> BranchIDs;
+        public  List<Guid> HotelIDs;
+        public  List<Guid> BranchIDs;
 
         public UserAccessInfo(IHttpContextAccessor httpContextAccessor)
         {
@@ -66,6 +66,16 @@ namespace welcome.Services
                 _accessor.HttpContext.Session.SetString("ActiveBranches", string.Join(",", returnvalue));
             }
             return returnvalue;
+        }
+
+        public void SetActiveHotels(Guid[] guids)
+        {
+            _accessor.HttpContext.Session.SetString("ActiveHotels", string.Join(",", guids));
+        }
+
+        public void SetActiveBranches(Guid[] guids)
+        {
+            _accessor.HttpContext.Session.SetString("ActiveBranches", string.Join(",", guids));
         }
     }
 }

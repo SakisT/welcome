@@ -1,0 +1,111 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model welcome.Models.AgentVardata
+
+<div class="form-horizontal">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="AgentVardataID" />
+    <input type="hidden" asp-for="CreateOn" />
+    <div class="form-group">
+        <label asp-for="AccountCode" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="AccountCode" class="form-control" />
+            <span asp-validation-for="AccountCode" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Color" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Color" type="color" class="form-control" />
+            <span asp-validation-for="Color" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Commission" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Commission" class="form-control" />
+            <span asp-validation-for="Commission" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contact_Fax" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Contact_Fax" class="form-control" />
+            <span asp-validation-for="Contact_Fax" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contact_Mobile" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Contact_Mobile" class="form-control" />
+            <span asp-validation-for="Contact_Mobile" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contact_Phone1" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Contact_Phone1" class="form-control" />
+            <span asp-validation-for="Contact_Phone1" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contact_Phone2" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Contact_Phone2" class="form-control" />
+            <span asp-validation-for="Contact_Phone2" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contact_WebSite" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Contact_WebSite" class="form-control" />
+            <span asp-validation-for="Contact_WebSite" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contact_email" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Contact_email" class="form-control" />
+            <span asp-validation-for="Contact_email" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="InvoiceDetail" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            @Html.Partial("InvoiceDetail", Model.InvoiceDetail)
+            <span asp-validation-for="InvoiceDetail" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Person" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Person" class="form-control" />
+            <span asp-validation-for="Person" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="PreDefinedInvoiceRemarks" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="PreDefinedInvoiceRemarks" class="form-control" />
+            <span asp-validation-for="PreDefinedInvoiceRemarks" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Remarks" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Remarks" class="form-control" />
+            <span asp-validation-for="Remarks" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="emailForInvoices" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="emailForInvoices" class="form-control" />
+            <span asp-validation-for="emailForInvoices" class="text-danger" />
+        </div>
+    </div>
+</div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

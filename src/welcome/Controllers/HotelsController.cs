@@ -38,12 +38,21 @@ namespace welcome.Controllers
                 {
                     userhotels = userhotels.Where(r => _userinfo.HotelIDs.Any(s => s == r.id));
                 }
-
+                else
+                {
+                        _userinfo.HotelIDs=new Guid[] { id.Value }.ToList();
+                        _userinfo.SetActiveHotels(new Guid[] { id.Value});
+                }
                 return View(await userhotels.ToListAsync());
             }
             else
             {
                 ViewBag.ActiveHotelGroupID = id;
+                if (User.IsInRole("Administrator"))
+                {
+                    _userinfo.HotelIDs = new Guid[] { id.Value }.ToList();
+                    _userinfo.SetActiveHotels(new Guid[] { id.Value });
+                }
             }
             var welcomeContext = _context.Hotels.Include(h => h.HotelGroup);
             return View(await welcomeContext.ToListAsync());
@@ -111,7 +120,7 @@ namespace welcome.Controllers
                     _context.Add(branchvardatareservation);
 
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("Index", new { id = hotel.HotelGroupID });
+                    return RedirectToAction("Edit", new { id = hotel.id });
                 }
             }
             catch (DbUpdateException ex)

@@ -16,7 +16,6 @@
     <div class="form-group">
         <label asp-for="DefaultPaymentMethod" class="col-md-2 control-label"></label>
         <div class="col-md-10">
-            @*<select asp-for="DefaultPaymentMethod" class="form-control"></select>*@
             <select asp-for="DefaultPaymentMethod" asp-items="@Html.GetEnumSelectList<Invoice.PaymentMethod>()" class="form-control"></select>
             <span asp-validation-for="DefaultPaymentMethod" class="text-danger" />
         </div>

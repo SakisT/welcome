@@ -1,0 +1,79 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model welcome.Models.InvoiceDetail
+
+<div class="form-horizontal">
+    <h4>InvoiceDetail</h4>
+    <hr />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="id" />
+    <input type="hidden" asp-for="HotelID" />
+    <div class="form-group">
+        <label asp-for="InvoiceStructure_Address_AddressLine1" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="InvoiceStructure_Address_AddressLine1" class="form-control" />
+            <span asp-validation-for="InvoiceStructure_Address_AddressLine1" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="InvoiceStructure_Address_AddressLine2" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="InvoiceStructure_Address_AddressLine2" class="form-control" />
+            <span asp-validation-for="InvoiceStructure_Address_AddressLine2" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="InvoiceStructure_Address_City" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="InvoiceStructure_Address_City" class="form-control" />
+            <span asp-validation-for="InvoiceStructure_Address_City" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="InvoiceStructure_Address_Country" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="InvoiceStructure_Address_Country" class="form-control" />
+            <span asp-validation-for="InvoiceStructure_Address_Country" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="InvoiceStructure_Address_PostCode" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="InvoiceStructure_Address_PostCode" class="form-control" />
+            <span asp-validation-for="InvoiceStructure_Address_PostCode" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="InvoiceStructure_InvoiceName" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="InvoiceStructure_InvoiceName" class="form-control" />
+            <span asp-validation-for="InvoiceStructure_InvoiceName" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="InvoiceStructure_Job" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="InvoiceStructure_Job" class="form-control" />
+            <span asp-validation-for="InvoiceStructure_Job" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="InvoiceStructure_TaxDepartment" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="InvoiceStructure_TaxDepartment" class="form-control" />
+            <span asp-validation-for="InvoiceStructure_TaxDepartment" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="InvoiceStructure_VATNumber" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="InvoiceStructure_VATNumber" class="form-control" />
+            <span asp-validation-for="InvoiceStructure_VATNumber" class="text-danger" />
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

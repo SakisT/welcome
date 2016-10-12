@@ -31,7 +31,15 @@ namespace welcome.Controllers
         // GET: RoomTypes
         public async Task<IActionResult> Index(Guid id)
         {
-            var welcomeContext = _context.RoomTypes.Include(r => r.Hotel).Where(s => s.HotelID == id);
+            if (id == Guid.Empty)
+            {
+                id = _userinfo.GetActiveHotels().FirstOrDefault();
+            }
+            if (id == Guid.Empty)
+            {
+                return NotFound();
+            }
+            var welcomeContext = _context.RoomTypes.OrderBy(r=>r.DisplayOrder).ThenBy(r=>r.Abbreviation).Include(r => r.Hotel).Where(s => s.HotelID == id);
             ViewBag.HotelID = id;
             return View(await welcomeContext.ToListAsync());
         }
