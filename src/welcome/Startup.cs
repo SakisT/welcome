@@ -59,8 +59,6 @@ namespace welcome
 
             services.AddAuthorization(options =>
             {
-
-
                 options.AddPolicy("BranchUser", policy => policy.RequireClaim("BranchID"));
                 options.AddPolicy("HotelUser", policy => policy.RequireClaim("HotelID"));
                 options.AddPolicy("HotelGroupUser", policy => policy.RequireClaim("HotelGroupID"));
