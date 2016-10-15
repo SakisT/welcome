@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.0",
-    "signature": "d39d20c9ccb79766ccdcbc77b3adcdf66ee1cd01"
+    "signature": "184208a9c20915277e033f2a5bab64c3f9c41586"
   },
   "compilationOptions": {
     "defines": [
@@ -37,13 +37,33 @@
           "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
           "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
           "Microsoft.AspNetCore.Session": "1.0.0",
-          "Newtonsoft.Json": "9.0.1"
+          "Newtonsoft.Json": "9.0.1",
+          "jquery-globalize": "1.1.1",
+          "jQuery.Validation.Globalize": "1.1.0"
         },
         "runtime": {
           "welcome.dll": {}
         },
         "compile": {
           "welcome.dll": {}
+        }
+      },
+      "cldrjs/0.4.4": {},
+      "jQuery/1.4.4": {},
+      "jquery-globalize/1.1.1": {
+        "dependencies": {
+          "cldrjs": "0.4.4"
+        }
+      },
+      "jQuery.Validation/1.14.0": {
+        "dependencies": {
+          "jQuery": "1.4.4"
+        }
+      },
+      "jQuery.Validation.Globalize/1.1.0": {
+        "dependencies": {
+          "jQuery.Validation": "1.14.0",
+          "jquery-globalize": "1.1.1"
         }
       },
       "Microsoft.ApplicationInsights/2.1.0": {
@@ -3820,6 +3840,31 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "cldrjs/0.4.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-QTJ2r9FpA1XOFPRguhHAFjJZZJVil5TFOUCTLpN02BjQtgXgVDpt5VFyxQp/uNwEh0InNWLdIugl2Ls1IBqfXg=="
+    },
+    "jQuery/1.4.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kexCeYIZehR5fRjo8CK1sngN5SZEQRFNfCYZHMS1RxwEEiSKetBw/gliYJcLJdJEBB+e9aHqleLCjuaSI7u23g=="
+    },
+    "jquery-globalize/1.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-tkRqYLIONjwamztg1rG+xyh2asA0ARLOPorfF3N9JW8fWr+srtPAeUNLFHF6NZAQ7Avnkzgi2OC505lK5avFag=="
+    },
+    "jQuery.Validation/1.14.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-gNwKPzHsNk/TbLQVCUl4vagUMoCfdnKQwKf2uy+grKFlSK3J872/4xrABIfKWdhSgK2sAYijDswQq6Z82d5S1w=="
+    },
+    "jQuery.Validation.Globalize/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-qzka221RX45z642DOhlxGg/wvW4w8Md2Q02deZ0j6EfgyQEnXdLAeHw5xMK9EuFCjWoRbmISt/oFsJAvKqnmCA=="
     },
     "Microsoft.ApplicationInsights/2.1.0": {
       "type": "package",

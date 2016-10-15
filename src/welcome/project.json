@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-welcome-5bfbee32-e123-4a43-a78f-4522f8fe83bf",
 
   "dependencies": {
@@ -46,7 +46,9 @@
       "type": "build"
     },
     "Microsoft.AspNetCore.Session": "1.0.0",
-    "Newtonsoft.Json": "9.0.1"
+    "Newtonsoft.Json": "9.0.1",
+    "jquery-globalize": "1.1.1",
+    "jQuery.Validation.Globalize": "1.1.0"
   },
 
   "tools": {

@@ -8,6 +8,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using welcome.Services;
+using System.Globalization;
 
 namespace welcome.Controllers
 {
@@ -68,6 +69,8 @@ namespace welcome.Controllers
         [HttpPost]
         public IActionResult SetLanguage(string culture, string returnUrl)
         {
+            CultureInfo.CurrentCulture = new CultureInfo(culture);
+            CultureInfo.CurrentUICulture = new CultureInfo(culture);
             Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
@@ -79,6 +82,11 @@ namespace welcome.Controllers
         public IActionResult Error()
         {
             return View();
+        }
+
+        public string GetCulture()
+        {
+            return CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
         }
     }
 }

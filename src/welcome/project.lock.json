@@ -3,6 +3,31 @@
   "version": 2,
   "targets": {
     ".NETCoreApp,Version=v1.0": {
+      "cldrjs/0.4.4": {
+        "type": "package"
+      },
+      "jQuery/1.4.4": {
+        "type": "package"
+      },
+      "jquery-globalize/1.1.1": {
+        "type": "package",
+        "dependencies": {
+          "cldrjs": "0.4.4"
+        }
+      },
+      "jQuery.Validation/1.14.0": {
+        "type": "package",
+        "dependencies": {
+          "jQuery": "1.4.4"
+        }
+      },
+      "jQuery.Validation.Globalize/1.1.0": {
+        "type": "package",
+        "dependencies": {
+          "jQuery.Validation": "1.14.0",
+          "jquery-globalize": "1.0.0"
+        }
+      },
       "Libuv/1.9.0": {
         "type": "package",
         "dependencies": {
@@ -4447,6 +4472,72 @@
     }
   },
   "libraries": {
+    "cldrjs/0.4.4": {
+      "sha512": "QTJ2r9FpA1XOFPRguhHAFjJZZJVil5TFOUCTLpN02BjQtgXgVDpt5VFyxQp/uNwEh0InNWLdIugl2Ls1IBqfXg==",
+      "type": "package",
+      "path": "cldrjs/0.4.4",
+      "files": [
+        "cldrjs.0.4.4.nupkg.sha512",
+        "cldrjs.nuspec",
+        "content/Scripts/cldr.js",
+        "content/Scripts/cldr/event.js",
+        "content/Scripts/cldr/supplemental.js",
+        "content/Scripts/cldr/unresolved.js"
+      ]
+    },
+    "jQuery/1.4.4": {
+      "sha512": "kexCeYIZehR5fRjo8CK1sngN5SZEQRFNfCYZHMS1RxwEEiSKetBw/gliYJcLJdJEBB+e9aHqleLCjuaSI7u23g==",
+      "type": "package",
+      "path": "jQuery/1.4.4",
+      "files": [
+        "Content/Scripts/jquery-1.4.4-vsdoc.js",
+        "Content/Scripts/jquery-1.4.4.js",
+        "Content/Scripts/jquery-1.4.4.min.js",
+        "jQuery.1.4.4.nupkg.sha512",
+        "jQuery.nuspec"
+      ]
+    },
+    "jquery-globalize/1.1.1": {
+      "sha512": "tkRqYLIONjwamztg1rG+xyh2asA0ARLOPorfF3N9JW8fWr+srtPAeUNLFHF6NZAQ7Avnkzgi2OC505lK5avFag==",
+      "type": "package",
+      "path": "jquery-globalize/1.1.1",
+      "files": [
+        "content/Scripts/globalize.js",
+        "content/Scripts/globalize/currency.js",
+        "content/Scripts/globalize/date.js",
+        "content/Scripts/globalize/message.js",
+        "content/Scripts/globalize/number.js",
+        "content/Scripts/globalize/plural.js",
+        "content/Scripts/globalize/relative-time.js",
+        "content/Scripts/globalize/unit.js",
+        "jquery-globalize.1.1.1.nupkg.sha512",
+        "jquery-globalize.nuspec"
+      ]
+    },
+    "jQuery.Validation/1.14.0": {
+      "sha512": "gNwKPzHsNk/TbLQVCUl4vagUMoCfdnKQwKf2uy+grKFlSK3J872/4xrABIfKWdhSgK2sAYijDswQq6Z82d5S1w==",
+      "type": "package",
+      "path": "jQuery.Validation/1.14.0",
+      "files": [
+        "Content/Scripts/jquery.validate-vsdoc.js",
+        "Content/Scripts/jquery.validate.js",
+        "Content/Scripts/jquery.validate.min.js",
+        "jQuery.Validation.1.14.0.nupkg.sha512",
+        "jQuery.Validation.nuspec"
+      ]
+    },
+    "jQuery.Validation.Globalize/1.1.0": {
+      "sha512": "qzka221RX45z642DOhlxGg/wvW4w8Md2Q02deZ0j6EfgyQEnXdLAeHw5xMK9EuFCjWoRbmISt/oFsJAvKqnmCA==",
+      "type": "package",
+      "path": "jQuery.Validation.Globalize/1.1.0",
+      "files": [
+        "README.md",
+        "content/Scripts/jquery.validate.globalize.js",
+        "content/Scripts/jquery.validate.globalize.min.js",
+        "jQuery.Validation.Globalize.1.1.0.nupkg.sha512",
+        "jQuery.Validation.Globalize.nuspec"
+      ]
+    },
     "Libuv/1.9.0": {
       "sha512": "9Q7AaqtQhS8JDSIvRBt6ODSLWDBI4c8YxNxyCQemWebBFUtBbc6M5Vi5Gz1ZyIUlTW3rZK9bIr5gnVyv0z7a2Q==",
       "type": "package",
@@ -11186,7 +11277,9 @@
       "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.0.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Tools >= 1.0.0-preview2-final",
       "Microsoft.VisualStudio.Web.CodeGenerators.Mvc >= 1.0.0-preview2-final",
-      "Newtonsoft.Json >= 9.0.1"
+      "Newtonsoft.Json >= 9.0.1",
+      "jQuery.Validation.Globalize >= 1.1.0",
+      "jquery-globalize >= 1.1.1"
     ],
     ".NETCoreApp,Version=v1.0": []
   },
