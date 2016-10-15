@@ -122,7 +122,7 @@ namespace welcome
 
                 // State what the default culture for your application is. This will be used if no specific culture
                 // can be determined for a given request.
-                options.DefaultRequestCulture = new RequestCulture(culture: "el-GR", uiCulture: "el-GR");
+                options.DefaultRequestCulture = new RequestCulture(culture: "en-US", uiCulture: "en-US");
 
                 // You must explicitly state which cultures your application supports.
                 // These are the cultures the app supports for formatting numbers, dates, etc.

@@ -84,9 +84,5 @@ namespace welcome.Controllers
             return View();
         }
 
-        public string GetCulture()
-        {
-            return CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-        }
     }
 }

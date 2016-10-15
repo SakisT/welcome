@@ -1,4 +1,5 @@
-﻿(function () {
+﻿//var lang = 'en-US';
+(function () {
     $("#selectLanguage select").change(function () {
         $(this).parent().submit();
     });
@@ -9,7 +10,14 @@
 
     $(document).on('keyup', '.numbertextbox', function () {
         var text = $(this).val();
-        text = text.toString().replace(/,/g, '.');
+        var lang = $("#selectLanguage option:selected").val();
+        if (lang == 'el-GR') {
+            text = text.toString().replace('.', ',');
+        }
+        else {
+            text = text.toString().replace(',', '.');
+        }
+        //text = text.toString().replace(/,/g, '.');
         $(this).val(text);
     });
 
@@ -24,7 +32,7 @@
             return;
         }
         // Ensure that it is a number and stop the keypress
-        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || (e.keyCode > 105 && e.keyCode != 188))) {
             e.preventDefault();
         }
     });
@@ -32,7 +40,6 @@
     $(document).on('mouseup', '.numbertextbox', function () {
         $(this).select();
     });
-
 
 }());
 

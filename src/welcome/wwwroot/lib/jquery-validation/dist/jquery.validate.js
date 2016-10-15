@@ -662,7 +662,7 @@ $.extend( $.validator, {
 					if ( e instanceof TypeError ) {
 						e.message += ".  Exception occurred when checking element " + element.id + ", check the '" + rule.method + "' method.";
 					}
-
+                    //Ivan
 					throw e;
 				}
 			}
