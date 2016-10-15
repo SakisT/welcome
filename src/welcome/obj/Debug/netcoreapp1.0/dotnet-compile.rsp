@@ -256,6 +256,8 @@ C:\welcome\welcome\src\welcome\Migrations\20161012141519_RoomDiaplsyOrder.cs
 C:\welcome\welcome\src\welcome\Migrations\20161012141519_RoomDiaplsyOrder.Designer.cs
 C:\welcome\welcome\src\welcome\Migrations\20161012143042_RoomDisplayOrder.cs
 C:\welcome\welcome\src\welcome\Migrations\20161012143042_RoomDisplayOrder.Designer.cs
+C:\welcome\welcome\src\welcome\Migrations\20161015085756_doubletodecimal.cs
+C:\welcome\welcome\src\welcome\Migrations\20161015085756_doubletodecimal.Designer.cs
 C:\welcome\welcome\src\welcome\Migrations\WelcomeContextModelSnapshot.cs
 C:\welcome\welcome\src\welcome\Models\Agent.cs
 C:\welcome\welcome\src\welcome\Models\AgentVardata.cs

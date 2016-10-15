@@ -17,10 +17,10 @@ namespace welcome.Models
         [Required, StringLength(35)]
         public string Name { get; set; }
 
-        [Range(minimum: 0d, maximum: 1)]
-        public double VatPercentage { get; set; }
-
-        public double TaxPrcentage { get; set; }
+        [Range(minimum: 0d, maximum: 1),DisplayFormat(DataFormatString ="{0:N2}",ApplyFormatInEditMode =true)]
+        public decimal VatPercentage { get; set; }
+        [Range(minimum: 0d, maximum: 1), DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
+        public decimal TaxPrcentage { get; set; }
 
         private bool _IsActive = true;
 
