@@ -1,0 +1,81 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model welcome.Models.Reservation
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>Reservation</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="id" />
+        <div class="form-group">
+            <label asp-for="AA" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="AA" class="form-control" />
+                <span asp-validation-for="AA" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="AskPrePay" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="AskPrePay" class="form-control" />
+                <span asp-validation-for="AskPrePay" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="AskPrePayDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="AskPrePayDate" class="form-control" />
+                <span asp-validation-for="AskPrePayDate" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="AskPrePayRemarks" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="AskPrePayRemarks" class="form-control" />
+                <span asp-validation-for="AskPrePayRemarks" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="GuestOrGroup" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="GuestOrGroup" class="form-control" />
+                <span asp-validation-for="GuestOrGroup" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="HotelID" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select asp-for="HotelID" class="form-control" asp-items="ViewBag.HotelID"></select>
+                <span asp-validation-for="HotelID" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Remarks" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Remarks" class="form-control" />
+                <span asp-validation-for="Remarks" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

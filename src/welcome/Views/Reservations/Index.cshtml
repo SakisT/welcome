@@ -1,0 +1,68 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model IEnumerable<welcome.Models.Reservation>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AA)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AskPrePay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AskPrePayDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AskPrePayRemarks)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GuestOrGroup)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Remarks)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AA)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AskPrePay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AskPrePayDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AskPrePayRemarks)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GuestOrGroup)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
