@@ -6,8 +6,41 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div id="fullpage">
+    <div class="row">
+        <div id="reservations-list" class="col-md-4">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>AA</th>
+                        <th>Reservation</th>
+                        <th>Date</th>
+                        <th>Rooms</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.AA</td>
+                            <td>@item.GuestOrGroup</td>
+                            <td>@item.StayRooms.FirstOrDefault().Arrival</td>
+                            <td>@item.StayRooms.Count()</td>
+                        </tr>
+                    }
+                </tbody>
 
-<h2>Index</h2>
+            </table>
+        </div>
+        <div id="reservation-data" class="col-md-8">
+            test
+        </div>
+    </div>
+</div>
+
+
+
+@*<h2>Index</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -65,4 +98,4 @@
         </tr>
 }
     </tbody>
-</table>
+</table>*@

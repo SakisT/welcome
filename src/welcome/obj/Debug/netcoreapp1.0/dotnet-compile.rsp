@@ -242,6 +242,7 @@ C:\welcome\welcome\src\welcome\Controllers\HotelGroupsController.cs
 C:\welcome\welcome\src\welcome\Controllers\HotelsController.cs
 C:\welcome\welcome\src\welcome\Controllers\ManageController.cs
 C:\welcome\welcome\src\welcome\Controllers\PricelistsController.cs
+C:\welcome\welcome\src\welcome\Controllers\ReservationsController.cs
 C:\welcome\welcome\src\welcome\Controllers\RoomsController.cs
 C:\welcome\welcome\src\welcome\Controllers\RoomTypesController.cs
 C:\welcome\welcome\src\welcome\Data\ApplicationDbContext.cs
