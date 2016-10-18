@@ -48,4 +48,8 @@ $(document).ready(function () {
     //$.get(url, function (data) {
     //    alert(data);
     //});
+    $(document).on('click', '.reservationrow', function () {
+        var id = $(this).data('reservationid');
+        alert(id);
+    });
 });

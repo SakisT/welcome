@@ -47,9 +47,28 @@
 }
 
 #reservations-list {
-    background-color: #ffd800;
+    float:left;
+    position:absolute;
+    top:70px;
+    bottom:10px;
+    overflow-y:scroll;
 }
-
+#reservations-list table{
+    font-size:0.9em;
+    cursor:default;
+}
+#reservations-list table tbody tr:hover{
+    background-color:aquamarine;
+}
+#reservations-list table tbody tr td {
+    padding:2px 5px 2px 5px;
+}
+#reservations-list table tfoot{
+    background-color:antiquewhite;
+    font-size:1em;
+    font-weight:700;
+}
 #reservation-data {
+    float:right;
     background-color:#b6ff00;
 }
