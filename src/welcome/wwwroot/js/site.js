@@ -50,6 +50,9 @@ $(document).ready(function () {
     //});
     $(document).on('click', '.reservationrow', function () {
         var id = $(this).data('reservationid');
-        alert(id);
+        var reservationlink = $('#reservation-data').data('link');
+        $('#reservation-data').load(reservationlink + '/' + id, function (data, status) {
+            //debugger;
+        });
     });
 });

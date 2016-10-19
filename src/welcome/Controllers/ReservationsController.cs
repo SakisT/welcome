@@ -37,44 +37,16 @@ namespace welcome.Controllers
             switch (shortby)
             {
                 case "AA":
-                    if (asc)
-                    {
-                        reservations = reservations.OrderBy(r => r.AA);
-                    }
-                    else
-                    {
-                        reservations = reservations.OrderByDescending(r => r.AA);
-                    }
+                    if (asc){reservations = reservations.OrderBy(r => r.AA);}else{reservations = reservations.OrderByDescending(r => r.AA);}
                     break;
                 case "Reservation":
-                    if (asc)
-                    {
-                        reservations = reservations.OrderBy(r => r.GuestOrGroup);
-                    }
-                    else
-                    {
-                        reservations = reservations.OrderByDescending(r => r.GuestOrGroup);
-                    }
+                    if (asc){reservations = reservations.OrderBy(r => r.GuestOrGroup);}else{reservations = reservations.OrderByDescending(r => r.GuestOrGroup);}
                     break;
                 case "Rooms":
-                    if (asc)
-                    {
-                        reservations = reservations.OrderBy(r => r.StayRooms.Count());
-                    }
-                    else
-                    {
-                        reservations = reservations.OrderByDescending(r => r.StayRooms.Count());
-                    }
+                    if (asc){reservations = reservations.OrderBy(r => r.StayRooms.Count());}else{reservations = reservations.OrderByDescending(r => r.StayRooms.Count());}
                     break;
                 default:
-                    if (asc)
-                    {
-                        reservations = reservations.OrderBy(r => r.StayRooms.OrderBy(r1 => r1.Arrival).FirstOrDefault().Arrival);
-                    }
-                    else
-                    {
-                        reservations = reservations.OrderByDescending(r => r.StayRooms.OrderByDescending(r1 => r1.Arrival).FirstOrDefault().Arrival);
-                    }
+                    if (asc){reservations = reservations.OrderBy(r => r.StayRooms.OrderBy(r1 => r1.Arrival).FirstOrDefault().Arrival);}else{reservations = reservations.OrderByDescending(r => r.StayRooms.OrderByDescending(r1 => r1.Arrival).FirstOrDefault().Arrival);}
                     break;
             }
             return View(await reservations.ToListAsync());
@@ -123,14 +95,14 @@ namespace welcome.Controllers
         }
 
         // GET: Reservations/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public IActionResult Edit(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var reservation = await _context.Reservations.SingleOrDefaultAsync(m => m.id == id);
+            var reservation = _context.Reservations.SingleOrDefault(m => m.id == Guid.Parse(id));
             if (reservation == null)
             {
                 return NotFound();

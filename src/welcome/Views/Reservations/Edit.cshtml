@@ -2,26 +2,28 @@
 @inject IViewLocalizer Localizer
 @model welcome.Models.Reservation
 
-@{
-    ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<h2>Edit</h2>
 
 <form asp-action="Edit">
-    <div class="form-horizontal">
-        <h4>Reservation</h4>
-        <hr />
+    <div class="form-horizontal" style="padding-top:10px;">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="id" />
-        <div class="form-group">
-            <label asp-for="AA" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="AA" class="form-control" />
+        <input type="hidden" asp-for="id" />
+        <input type="hidden" asp-for="HotelID" />
+
+        <div class="input-group">
+                <span class="input-group-addon" id="reservationnumberlabel">AA</span>
+                <input asp-for="AA" class="form-control" aria-describedby="reservationnumberlabel" style="width:80px">
                 <span asp-validation-for="AA" class="text-danger" />
-            </div>
+
+                <span class="input-group-addon" id="GuestOrGroupLabel">Guest</span>
+                <input asp-for="GuestOrGroup" class="form-control" aria-describedby="GuestOrGroupLabel" style="width:400px">
+                <span asp-validation-for="GuestOrGroup" class="text-danger" />
+
         </div>
+
+        <div class="input-group">
+
+        </div>
+
         <div class="form-group">
             <label asp-for="AskPrePay" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -43,20 +45,7 @@
                 <span asp-validation-for="AskPrePayRemarks" class="text-danger" />
             </div>
         </div>
-        <div class="form-group">
-            <label asp-for="GuestOrGroup" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="GuestOrGroup" class="form-control" />
-                <span asp-validation-for="GuestOrGroup" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="HotelID" class="control-label col-md-2"></label>
-            <div class="col-md-10">
-                <select asp-for="HotelID" class="form-control" asp-items="ViewBag.HotelID"></select>
-                <span asp-validation-for="HotelID" class="text-danger" />
-            </div>
-        </div>
+
         <div class="form-group">
             <label asp-for="Remarks" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -71,10 +60,6 @@
         </div>
     </div>
 </form>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
