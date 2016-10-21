@@ -12,10 +12,11 @@ namespace welcome.Models
         [Key, Required]
         public Guid id { get; set; }
         public int AA { get; set; }
-        [Required, StringLength(50)]
+        [Required, StringLength(50), Display(Name ="Guest")]
         public string GuestOrGroup { get; set; }
 
         public decimal? AskPrePay { get; set; }
+        [DataType(DataType.Date),DisplayFormat(DataFormatString ="{0:d/M/yyyy}", ApplyFormatInEditMode =true)]
         public DateTime? AskPrePayDate { get; set; }
         [StringLength(100)]
         public string AskPrePayRemarks { get; set; }

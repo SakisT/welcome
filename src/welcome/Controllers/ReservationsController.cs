@@ -129,10 +129,16 @@ namespace welcome.Controllers
         }
 
         [HttpPost, ActionName("EditReservation")]
-        public async Task< IActionResult> EditReservationPost(Guid id)
+        public async Task<IActionResult> EditReservationPost(Guid id)
         {
-            var reservationtoupdate =await _context.Reservations.SingleOrDefaultAsync(r => r.id == id);
-            if(await TryUpdateModelAsync(reservationtoupdate,"",r=>r.AA, r=>r.AskPrePay, r => r.AskPrePayDate))
+            var reservationtoupdate = await _context.Reservations.SingleOrDefaultAsync(r => r.id == id);
+            if (await TryUpdateModelAsync(reservationtoupdate, "",
+                r => r.AA,
+                r => r.AskPrePay,
+                r => r.AskPrePayDate, 
+                r => r.AskPrePayRemarks,
+                r => r.GuestOrGroup,
+                r => r.Remarks))
             {
                 try
                 {
@@ -141,7 +147,7 @@ namespace welcome.Controllers
                 }
                 catch (DbUpdateException ex)
                 {
-                    ModelState.AddModelError("",ex.Message);
+                    ModelState.AddModelError("", ex.Message);
                 }
             }
             return null;

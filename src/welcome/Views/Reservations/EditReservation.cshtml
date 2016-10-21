@@ -18,7 +18,7 @@
             </div>
             <div class="col-md-9">
                 <div class="input-group">
-                    <span class="input-group-addon" id="GestNameLabel">Guest</span>
+                    <span class="input-group-addon" id="GestNameLabel">@Localizer["Guest"]</span>
                     <input type="text" asp-for="GuestOrGroup" class="form-control" aria-describedby="GestNameLabel">
                     <span asp-validation-for="GuestOrGroup" class="text-danger" />
                 </div>
@@ -26,21 +26,21 @@
         </div>
 
         <hr />
-        <div class="col-md-offset-6 col-md-6">
+        <div class="col-md-offset-6 col-md-6" style="zoom:0.8">
             <div class="panel panel-default">
                 <div class="panel-heading">@Localizer["Deposits"]</div>
                 <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="col-md-6">
                             <div class="input-group">
-                                <span class="input-group-addon" id="askprepaylabel">Ζητήθηκαν</span>
+                                <span class="input-group-addon" id="askprepaylabel">@Localizer["Asked"]</span>
                                 <input type="text" asp-for="AskPrePay" class="form-control numbertextbox" aria-describedby="askprepaylabel">
                                 <span asp-validation-for="AskPrePay" class="text-danger" />
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-5 pull-right">
                             <div class="input-group">
-                                <span class="input-group-addon" id="askprepayuntillabel">Έως</span>
+                                <span class="input-group-addon" id="askprepayuntillabel">@Localizer["until"]</span>
                                 <input type="text" asp-for="AskPrePayDate" class="form-control datepicker" aria-describedby="askprepayuntillabel">
                                 <span asp-validation-for="AskPrePayDate" class="text-danger" />
                             </div>
@@ -50,29 +50,21 @@
                 <div class="panel-footer"></div>
             </div>
         </div>
-        
 
+        <hr />
 
-
+        <div class="form-group">
+            <label class="col-md-2 control-label">@Localizer["Remarks"]</label>
+            <div class="col-md-10">
+                <textarea asp-for="Remarks" class="form-control" rows="3" cols="7" />
+                <span asp-validation-for="Remarks" class="text-danger" />
+            </div>
+        </div>
         @*<div class="form-group">
-            <label asp-for="AskPrePay" class="col-md-2 control-label"></label>
+            <label asp-for="GuestOrGroup" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="AskPrePay" class="form-control" />
-                <span asp-validation-for="AskPrePay" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="AskPrePayDate" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="AskPrePayDate" class="form-control" />
-                <span asp-validation-for="AskPrePayDate" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="AskPrePayRemarks" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="AskPrePayRemarks" class="form-control" />
-                <span asp-validation-for="AskPrePayRemarks" class="text-danger" />
+                <input asp-for="GuestOrGroup" class="form-control" />
+                <span asp-validation-for="GuestOrGroup" class="text-danger" />
             </div>
         </div>
 
@@ -90,7 +82,24 @@
         </div>
     </div>
 </form>
-
+<environment names="Development">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+    <script src="~/js/localize/datepicker-el.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</environment>
+<environment names="Staging,Production">
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery">
+    </script>
+    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
+            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+    </script>
+    <script src="~/js/site.min.js" asp-append-version="true"></script>
+</environment>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

@@ -6,11 +6,12 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div id="fullpage">
     <div class="row">
         <div class="col-md-4">
             <div id="reservations-list">
-                <table class="table table-bordered table-hover">
+                <table class="table table-bordered table-hover" id="reservationlisttable">
                     <thead>
                         <tr>
                             <th><a asp-action="Index" asp-route-shortby="AA" asp-route-asc="@(!ViewBag.Asceding)">AA</a></th>
@@ -41,6 +42,10 @@
         </div>
         <div class="col-md-8">
             <div id="reservation-data" data-link="@Url.Action("EditReservation","Reservations")">
+                @*@if(Model!=null && Model.Count() > 0)
+                {
+                    await Html.RenderPartialAsync("EditReservation", Model.FirstOrDefault());
+                }*@
             </div>
         </div>
     </div>

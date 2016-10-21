@@ -44,6 +44,11 @@
         "runtime": {
           "welcome.dll": {}
         },
+        "resources": {
+          "el/welcome.resources.dll": {
+            "locale": "el"
+          }
+        },
         "compile": {
           "welcome.dll": {}
         }

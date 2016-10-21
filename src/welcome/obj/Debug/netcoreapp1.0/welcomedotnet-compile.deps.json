@@ -2938,6 +2938,11 @@
         },
         "runtime": {
           "welcome.dll": {}
+        },
+        "resources": {
+          "el/welcome.resources.dll": {
+            "locale": "el"
+          }
         }
       },
       "cldrjs/0.4.4": {},
