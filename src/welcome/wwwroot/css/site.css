@@ -41,36 +41,49 @@
         display: none;
     }
 }
-
+/*###############################################################*/
+.numbertextbox{
+    text-align:right;
+}
 #fullpage {
     min-height: 700px;
 }
 
 #reservations-list {
-    float:left;
-    position:absolute;
-    top:70px;
-    bottom:10px;
-    overflow-y:scroll;
+    overflow-y: scroll;
 }
-#reservations-list table{
-    font-size:0.9em;
-    cursor:default;
+
+@media screen and (min-height:620px) {
+    #reservations-list {
+        height: 550px;
+    }
 }
-#reservations-list table tbody tr:hover{
-    background-color:aquamarine;
+
+@media screen and (min-height:700px) {
+    #reservations-list {
+        height: 650px;
+    }
 }
-#reservations-list table tbody tr td {
-    padding:2px 5px 2px 5px;
+
+#reservations-list table {
+    font-size: 0.9em;
+    cursor: default;
 }
-#reservations-list table tfoot{
-    background-color:antiquewhite;
-    font-size:1em;
-    font-weight:700;
-}
+
+    #reservations-list table tbody tr:hover {
+        background-color: aquamarine;
+    }
+
+    #reservations-list table tbody tr td {
+        padding: 2px 5px 2px 5px;
+    }
+
+    #reservations-list table tfoot {
+        background-color: antiquewhite;
+        font-size: 1em;
+        font-weight: 700;
+    }
+
 #reservation-data {
-    position:initial;
-    float:right;
-    width:60%;
-    background-color:#b6ff00;
+    padding-top:10px;
 }

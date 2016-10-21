@@ -52,7 +52,7 @@ $(document).ready(function () {
         var id = $(this).data('reservationid');
         var reservationlink = $('#reservation-data').data('link');
         $('#reservation-data').load(reservationlink + '/' + id, function (data, status) {
-            //debugger;
+
         });
     });
 });

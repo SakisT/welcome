@@ -8,97 +8,40 @@
 }
 <div id="fullpage">
     <div class="row">
-        <div id="reservations-list">
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th><a asp-action="Index" asp-route-shortby="AA" asp-route-asc="@(!ViewBag.Asceding)">AA</a></th>
-                        <th><a asp-action="Index" asp-route-shortby="Reservation" asp-route-asc="@(!ViewBag.Asceding)">Reservation</a></th>
-                        <th><a asp-action="Index" asp-route-shortby="Date" asp-route-asc="@(!ViewBag.Asceding)">Date</a></th>
-                        <th><a asp-action="Index" asp-route-shortby="Rooms" asp-route-asc="@(!ViewBag.Asceding)">Rooms</a></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
+        <div class="col-md-4">
+            <div id="reservations-list">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th><a asp-action="Index" asp-route-shortby="AA" asp-route-asc="@(!ViewBag.Asceding)">AA</a></th>
+                            <th><a asp-action="Index" asp-route-shortby="Reservation" asp-route-asc="@(!ViewBag.Asceding)">Reservation</a></th>
+                            <th><a asp-action="Index" asp-route-shortby="Date" asp-route-asc="@(!ViewBag.Asceding)">Date</a></th>
+                            <th><a asp-action="Index" asp-route-shortby="Rooms" asp-route-asc="@(!ViewBag.Asceding)">Rooms</a></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+            {
                         <tr class="reservationrow" data-reservationid="@item.id">
                             <td>@item.AA</td>
                             <td>@item.GuestOrGroup</td>
                             <td class="text-right">@string.Format($"{item.StayRooms.FirstOrDefault().Arrival:d/M/yy}")</td>
                             <td class="text-center">@item.StayRooms.Count()</td>
                         </tr>
-                    }
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td></td>
-                        <td colspan="3">@string.Format($"{Model.Sum(r => r.StayRooms.Count())} Rooms on {Model.Count()} reservations")</td>
-                    </tr>
-                </tfoot>
-            </table>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td colspan="3">@string.Format($"{Model.Sum(r => r.StayRooms.Count())} Rooms on {Model.Count()} reservations")</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
-        <div id="reservation-data" data-link="@Url.Action( "Edit","Reservations")"></div><!-- Ο Container της κράτησης -->
+        <div class="col-md-8">
+            <div id="reservation-data" data-link="@Url.Action("EditReservation","Reservations")">
+            </div>
+        </div>
     </div>
 </div>
-
-
-
-@*<h2>Index</h2>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.AA)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AskPrePay)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AskPrePayDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AskPrePayRemarks)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GuestOrGroup)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Remarks)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.AA)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AskPrePay)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AskPrePayDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AskPrePayRemarks)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GuestOrGroup)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Remarks)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>*@

@@ -2,26 +2,36 @@
 @inject IViewLocalizer Localizer
 @model welcome.Models.Reservation
 
-
-<form asp-action="Edit">
-    <div class="form-horizontal" style="padding-top:10px;">
+<form asp-action="Edit" id="reservationform">
+    <div class="form-horizontal">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="id" />
         <input type="hidden" asp-for="HotelID" />
 
         <div class="input-group">
-                <span class="input-group-addon" id="reservationnumberlabel">AA</span>
-                <input asp-for="AA" class="form-control" aria-describedby="reservationnumberlabel" style="width:80px">
-                <span asp-validation-for="AA" class="text-danger" />
-
-                <span class="input-group-addon" id="GuestOrGroupLabel">Guest</span>
-                <input asp-for="GuestOrGroup" class="form-control" aria-describedby="GuestOrGroupLabel" style="width:400px">
-                <span asp-validation-for="GuestOrGroup" class="text-danger" />
-
+            <span class="input-group-addon" id="reservationnumberlabel">AA</span>
+            <input asp-for="AA" class="form-control" aria-describedby="reservationnumberlabel">
+            <span asp-validation-for="AA" class="text-danger" />
         </div>
+    </div>
 
-        <div class="input-group">
+    @*<div style="width:100%;display:inline-block">
+            <div style="float:left;width:30%">
+                <div class="input-group">
+                    <span class="input-group-addon" id="reservationnumberlabel">AA</span>
+                    <input asp-for="AA" class="form-control" aria-describedby="reservationnumberlabel">
+                    <span asp-validation-for="AA" class="text-danger" />
+                </div>
 
+            </div>
+            <div style="float:left;width:60%">
+                <div class="input-group">
+                    <span class="input-group-addon" id="GuestOrGroupLabel">Guest</span>
+                    <input asp-for="GuestOrGroup" class="form-control" aria-describedby="GuestOrGroupLabel">
+                    <span asp-validation-for="GuestOrGroup" class="text-danger" />
+                </div>
+
+            </div>
         </div>
 
         <div class="form-group">
@@ -45,20 +55,19 @@
                 <span asp-validation-for="AskPrePayRemarks" class="text-danger" />
             </div>
         </div>
-
         <div class="form-group">
             <label asp-for="Remarks" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="Remarks" class="form-control" />
                 <span asp-validation-for="Remarks" class="text-danger" />
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+        </div>*@
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
         </div>
     </div>
+
 </form>
 
 @section Scripts {

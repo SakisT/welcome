@@ -37,16 +37,16 @@ namespace welcome.Controllers
             switch (shortby)
             {
                 case "AA":
-                    if (asc){reservations = reservations.OrderBy(r => r.AA);}else{reservations = reservations.OrderByDescending(r => r.AA);}
+                    if (asc) { reservations = reservations.OrderBy(r => r.AA); } else { reservations = reservations.OrderByDescending(r => r.AA); }
                     break;
                 case "Reservation":
-                    if (asc){reservations = reservations.OrderBy(r => r.GuestOrGroup);}else{reservations = reservations.OrderByDescending(r => r.GuestOrGroup);}
+                    if (asc) { reservations = reservations.OrderBy(r => r.GuestOrGroup); } else { reservations = reservations.OrderByDescending(r => r.GuestOrGroup); }
                     break;
                 case "Rooms":
-                    if (asc){reservations = reservations.OrderBy(r => r.StayRooms.Count());}else{reservations = reservations.OrderByDescending(r => r.StayRooms.Count());}
+                    if (asc) { reservations = reservations.OrderBy(r => r.StayRooms.Count()); } else { reservations = reservations.OrderByDescending(r => r.StayRooms.Count()); }
                     break;
                 default:
-                    if (asc){reservations = reservations.OrderBy(r => r.StayRooms.OrderBy(r1 => r1.Arrival).FirstOrDefault().Arrival);}else{reservations = reservations.OrderByDescending(r => r.StayRooms.OrderByDescending(r1 => r1.Arrival).FirstOrDefault().Arrival);}
+                    if (asc) { reservations = reservations.OrderBy(r => r.StayRooms.OrderBy(r1 => r1.Arrival).FirstOrDefault().Arrival); } else { reservations = reservations.OrderByDescending(r => r.StayRooms.OrderByDescending(r1 => r1.Arrival).FirstOrDefault().Arrival); }
                     break;
             }
             return View(await reservations.ToListAsync());
@@ -94,62 +94,7 @@ namespace welcome.Controllers
             return View(reservation);
         }
 
-        // GET: Reservations/Edit/5
-        public IActionResult Edit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var reservation = _context.Reservations.SingleOrDefault(m => m.id == Guid.Parse(id));
-            if (reservation == null)
-            {
-                return NotFound();
-            }
-            ViewData["HotelID"] = new SelectList(_context.Hotels, "id", "Name", reservation.HotelID);
-            return View(reservation);
-        }
-
-        // POST: Reservations/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("id,AA,AskPrePay,AskPrePayDate,AskPrePayRemarks,GuestOrGroup,HotelID,Remarks")] Reservation reservation)
-        {
-            if (id != reservation.id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(reservation);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ReservationExists(reservation.id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
-            }
-            ViewData["HotelID"] = new SelectList(_context.Hotels, "id", "Name", reservation.HotelID);
-            return View(reservation);
-        }
-
-        // GET: Reservations/Delete/5
-        public async Task<IActionResult>
-            Delete(Guid? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -168,8 +113,7 @@ namespace welcome.Controllers
         // POST: Reservations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult>
-            DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var reservation = await _context.Reservations.SingleOrDefaultAsync(m => m.id == id);
             _context.Reservations.Remove(reservation);
@@ -177,6 +121,31 @@ namespace welcome.Controllers
             return RedirectToAction("Index");
         }
 
+        public PartialViewResult EditReservation(string id)
+        {
+            var reservation = _context.Reservations.SingleOrDefault(m => m.id == Guid.Parse(id));
+            ViewData["HotelID"] = new SelectList(_context.Hotels, "id", "Name", reservation.HotelID);
+            return PartialView("EditReservation", reservation);
+        }
+
+        [HttpPost, ActionName("EditReservation")]
+        public async Task< IActionResult> EditReservationPost(Guid id)
+        {
+            var reservationtoupdate =await _context.Reservations.SingleOrDefaultAsync(r => r.id == id);
+            if(await TryUpdateModelAsync(reservationtoupdate,"",r=>r.AA, r=>r.AskPrePay, r => r.AskPrePayDate))
+            {
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                catch (DbUpdateException ex)
+                {
+                    ModelState.AddModelError("",ex.Message);
+                }
+            }
+            return null;
+        }
         private bool ReservationExists(Guid id)
         {
             return _context.Reservations.Any(e => e.id == id);
