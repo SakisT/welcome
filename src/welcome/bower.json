@@ -8,6 +8,7 @@
     "jquery-validation": "1.14.0",
     "jquery-validation-globalize": "1.0.0",
     "jquery-validation-unobtrusive": "3.2.6",
-    "jquery-ui": "1.11.4"
+    "jquery-ui": "1.11.4",
+    "angular": "1.5.5"
   }
 }

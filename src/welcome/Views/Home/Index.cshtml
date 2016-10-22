@@ -1,6 +1,10 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<div ng-app="">
+    <p>Name: <input type="text" ng-model="name"></p>
+    <p ng-bind="name"></p>
+</div>
 
 <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
     <ol class="carousel-indicators">
