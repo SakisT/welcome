@@ -28,7 +28,6 @@ namespace welcome.Controllers
             _userinfo = UserInfo;
         }
 
-        // GET: Reservations
         public async Task<IActionResult> Index(string shortby = "Date", bool asc = true)
         {
             ViewBag.Asceding = asc;
@@ -52,7 +51,6 @@ namespace welcome.Controllers
             return View(await reservations.ToListAsync());
         }
 
-        // GET: Reservations/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -69,7 +67,6 @@ namespace welcome.Controllers
             return View(reservation);
         }
 
-        // GET: Reservations/Create
         public IActionResult Create()
         {
             ViewData["HotelID"] = new SelectList(_context.Hotels, "id", "Name");
@@ -110,7 +107,6 @@ namespace welcome.Controllers
             return View(reservation);
         }
 
-        // POST: Reservations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
@@ -123,22 +119,16 @@ namespace welcome.Controllers
 
         public PartialViewResult EditReservation(string id)
         {
-            var reservation = _context.Reservations.SingleOrDefault(m => m.id == Guid.Parse(id));
+            var reservation = _context.Reservations.Include(r => r.StayRooms).SingleOrDefault(m => m.id == Guid.Parse(id));
             ViewData["HotelID"] = new SelectList(_context.Hotels, "id", "Name", reservation.HotelID);
             return PartialView("EditReservation", reservation);
         }
 
         [HttpPost, ActionName("EditReservation")]
-        public async Task<IActionResult> EditReservationPost(Guid id)
+        public async Task<IActionResult> EditReservationPost(string id)
         {
-            var reservationtoupdate = await _context.Reservations.SingleOrDefaultAsync(r => r.id == id);
-            if (await TryUpdateModelAsync(reservationtoupdate, "",
-                r => r.AA,
-                r => r.AskPrePay,
-                r => r.AskPrePayDate, 
-                r => r.AskPrePayRemarks,
-                r => r.GuestOrGroup,
-                r => r.Remarks))
+            var reservationtoupdate = await _context.Reservations.SingleOrDefaultAsync(r => r.id == Guid.Parse(id));
+            if (await TryUpdateModelAsync(reservationtoupdate))
             {
                 try
                 {
@@ -150,8 +140,30 @@ namespace welcome.Controllers
                     ModelState.AddModelError("", ex.Message);
                 }
             }
-            return null;
+            return PartialView(reservationtoupdate);
         }
+
+        public async Task<PartialViewResult> EditStayRooms(Guid id)
+        {
+            IQueryable<StayRoom> stayrooms = _context.StayRooms.Include(r => r.Agent).Include(r => r.ChargeRoomType).Where(r => r.ReservationID == id);
+            return PartialView(await stayrooms.ToListAsync());
+        }
+
+        [HttpPost, ActionName("EditStayRooms")]
+        public IActionResult EditStayRoomsPost(IEnumerable<StayRoom> stayrooms)
+        {
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<PartialViewResult> EditReservationContactInfo(Guid id)
+        {
+            StayRoom stayroom = await _context.StayRooms.SingleOrDefaultAsync(r => r.ReservationID == id);
+            Customer tempcustomer = stayroom.StayPersons.SingleOrDefault(r => r.Customer.HasAddress).Customer;
+            Customer customer = await _context.Customers.SingleOrDefaultAsync(r => r.id == tempcustomer.id);
+            return PartialView(customer);
+        }
+
         private bool ReservationExists(Guid id)
         {
             return _context.Reservations.Any(e => e.id == id);

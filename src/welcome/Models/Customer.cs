@@ -71,6 +71,14 @@ namespace welcome.Models
         [StringLength(100)]
         public string Address_AddressLine2 { get; set; }
 
+        public bool HasAddress
+        {
+            get
+            {
+                return (Address_AddressLine1 + Address_AddressLine2 + Address_City + Address_Country + Address_PostCode).Trim() != string.Empty;
+            }
+        }
+
         [StringLength(50)]
         public string Job { get; set; }
 

@@ -1,5 +1,4 @@
-﻿//var lang = 'en-US';
-(function () {
+﻿(function () {
     $("#selectLanguage select").change(function () {
         $(this).parent().submit();
     });
@@ -7,7 +6,6 @@
     $(".datepicker").datepicker("option", "changeYear", true);
     $(".datepicker").datepicker("option", "changeMonth", true);
     $(".datepicker").datepicker("option", "dateFormat", "d/m/yy");
-
     $(document).on('keyup', '.numbertextbox', function () {
         var text = $(this).val();
         var lang = $("#selectLanguage option:selected").val();
@@ -20,7 +18,6 @@
         //text = text.toString().replace(/,/g, '.');
         $(this).val(text);
     });
-
     $(document).on('keydown', '.numbertextbox', function (e) {
         // Allow: backspace, delete, tab, escape, enter and .
         if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
@@ -36,23 +33,15 @@
             e.preventDefault();
         }
     });
-
     $(document).on('mouseup', '.numbertextbox', function () {
         $(this).select();
     });
-
 }());
 
 $(document).ready(function () {
-    //var url = "/Home/GetCulture/";
-    //$.get(url, function (data) {
-    //    alert(data);
-    //});
     $(document).on('click', '.reservationrow', function () {
-        var id = $(this).data('reservationid');
-        var reservationlink = $('#reservation-data').data('link');
-        $('#reservation-data').load(reservationlink + '/' + id, function (data, status) {
-
+        $('#reservation-data').load($(this).data('link'), null, function (data, status) {
+            $('#reservationstayrooms').load($('#reservationstayrooms').data('link'));
         });
     });
 });

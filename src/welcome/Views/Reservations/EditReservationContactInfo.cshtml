@@ -1,0 +1,192 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model welcome.Models.Customer
+
+<form asp-action="EditReservationContactInfo">
+    <div class="form-horizontal">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="id" />
+        <div class="form-group">
+            <label asp-for="Address_AddressLine1" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Address_AddressLine1" class="form-control" />
+                <span asp-validation-for="Address_AddressLine1" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Address_AddressLine2" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Address_AddressLine2" class="form-control" />
+                <span asp-validation-for="Address_AddressLine2" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Address_City" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Address_City" class="form-control" />
+                <span asp-validation-for="Address_City" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Address_Country" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Address_Country" class="form-control" />
+                <span asp-validation-for="Address_Country" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Address_PostCode" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Address_PostCode" class="form-control" />
+                <span asp-validation-for="Address_PostCode" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Contact_Fax" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Contact_Fax" class="form-control" />
+                <span asp-validation-for="Contact_Fax" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Contact_Mobile" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Contact_Mobile" class="form-control" />
+                <span asp-validation-for="Contact_Mobile" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Contact_Phone1" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Contact_Phone1" class="form-control" />
+                <span asp-validation-for="Contact_Phone1" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Contact_Phone2" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Contact_Phone2" class="form-control" />
+                <span asp-validation-for="Contact_Phone2" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Contact_WebSite" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Contact_WebSite" class="form-control" />
+                <span asp-validation-for="Contact_WebSite" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Contact_email" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Contact_email" class="form-control" />
+                <span asp-validation-for="Contact_email" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="FathersName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="FathersName" class="form-control" />
+                <span asp-validation-for="FathersName" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Folio" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Folio" class="form-control" />
+                <span asp-validation-for="Folio" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="HotelID" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select asp-for="HotelID" class="form-control" asp-items="ViewBag.HotelID"></select>
+                <span asp-validation-for="HotelID" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="InvoiceDetailId" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select asp-for="InvoiceDetailId" class="form-control" asp-items="ViewBag.InvoiceDetailId"></select>
+                <span asp-validation-for="InvoiceDetailId" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <div class="checkbox">
+                    <input asp-for="IsBlackListed" />
+                    <label asp-for="IsBlackListed"></label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Job" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Job" class="form-control" />
+                <span asp-validation-for="Job" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="NationalityID" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select asp-for="NationalityID" class="form-control" asp-items="ViewBag.NationalityID"></select>
+                <span asp-validation-for="NationalityID" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Passport" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Passport" class="form-control" />
+                <span asp-validation-for="Passport" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Person_BirthDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Person_BirthDate" class="form-control" />
+                <span asp-validation-for="Person_BirthDate" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Person_FirstName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Person_FirstName" class="form-control" />
+                <span asp-validation-for="Person_FirstName" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Person_LastName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Person_LastName" class="form-control" />
+                <span asp-validation-for="Person_LastName" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Remarks" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Remarks" class="form-control" />
+                <span asp-validation-for="Remarks" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Sex" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="Sex" class="form-control"></select>
+                <span asp-validation-for="Sex" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

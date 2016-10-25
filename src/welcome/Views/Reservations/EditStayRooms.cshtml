@@ -1,0 +1,53 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model IEnumerable<welcome.Models.StayRoom>
+
+<form asp-action="EditStayRooms">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <table style="width:100%">
+        <thead>
+            <tr>
+                <th class="smalltextheader">@Localizer["ad"]</th>
+                <th class="smalltextheader">@Localizer["Ch"]</th>
+                <th class="smalltextheader">@Localizer["ch"]</th>
+                <th class="smalltextheader">@Localizer["in"]</th>
+                <th class="smalltextheader">@Localizer["Agent"]</th>
+                <th class="smalltextheader">@Localizer["Ref."]</th>
+                <th class="smalltextheader">@Localizer["Type"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count(); ++i)
+            {
+                var item = Model.ToArray()[i];
+                <tr>
+                    <td hidden="hidden">
+                        <input type="hidden" name="" value="@item.ActualDeparture" />
+                        <input type="hidden" name="" value="@item.AdultsCharge" />
+                        <input type="hidden" name="" value="@item.Agent" />
+                        <input type="hidden" name="" value="@item.Children2" />
+                        <input type="hidden" name="" value="@item.ActualDeparture" />
+                        <input type="hidden" name="" value="@item.ActualDeparture" />
+                        <input type="hidden" name="" value="@item.ActualDeparture" />
+                    </td>
+                    <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.Adults" class="smalltext" /></td>
+                    <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.Children" class="smalltext" /></td>
+                    <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.Children2" class="smalltext" /></td>
+                    <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.Infants" class="smalltext" /></td>
+                    <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.Agent?.Name" class="smalltext" /></td>
+                    <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.ChannelReference" class="smalltext" /></td>
+                    <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.ChargeRoomType.Name" class="smalltext" /></td>
+
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

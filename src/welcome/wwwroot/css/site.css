@@ -87,3 +87,20 @@
 #reservation-data {
     padding-top:10px;
 }
+
+.smalltextheader{
+/*-webkit-transform: rotate(-45deg);
+
+-moz-transform: rotate(-45deg);
+
+-ms-transform: rotate(-45deg);
+
+-o-transform: rotate(-45deg);
+
+filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);*/
+
+}
+
+.smalltext{
+    width:20px;
+}
