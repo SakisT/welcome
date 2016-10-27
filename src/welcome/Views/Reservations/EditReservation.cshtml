@@ -2,17 +2,23 @@
 @inject IViewLocalizer Localizer
 @model welcome.Models.Reservation
 
+@{
+    StayRoom[] stayrooms = Model.StayRooms.ToArray();
+}
+
+
 <form asp-action="EditReservation">
     <div class="form-horizontal">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="id" />
         <input type="hidden" asp-for="HotelID" />
 
+        <!-- AA & Guest-->
         <div class="row">
             <div class="col-md-3">
                 <div class="input-group">
                     <span class="input-group-addon" id="AALabel">AA</span>
-                    <input type="text" asp-for="AA" class="form-control" aria-describedby="AALabel">
+                    <input type="text" asp-for="AA" class="form-control input-sm" aria-describedby="AALabel">
                     <span asp-validation-for="AA" class="text-danger" />
                 </div>
             </div>
@@ -26,28 +32,96 @@
         </div>
 
         <hr />
-        <div class="col-md-offset-6 col-md-6" style="zoom:0.8">
-            <div class="panel panel-default">
-                <div class="panel-heading">@Localizer["Deposits"]</div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-addon" id="askprepaylabel">@Localizer["Asked"]</span>
-                                <input type="text" asp-for="AskPrePay" class="form-control numbertextbox" aria-describedby="askprepaylabel">
-                                <span asp-validation-for="AskPrePay" class="text-danger" />
-                            </div>
+
+        <!--Arrival, Departure, Pricelist, Agent, ReservationDate, Agent, Contact-->
+        <div class="row">
+            <!--Agent, Pricelist, Arrival, Departure-->
+            <div class="col-md-6" style="border-right:1px solid #ffd800;">
+                <!--Agent-->
+                <div class="form-group">
+                    <label asp-for="StayRooms.FirstOrDefault().Agent.Code" class="col-md-3 control-label"></label>
+                    <div class="col-md-3">
+                        <input asp-for="@stayrooms[0].Agent.Code" class="form-control input-sm" />
+                        <span asp-validation-for="@stayrooms[0].Agent.Code" class="text-danger" />
+                    </div>
+                    <div class="col-md-6">
+                        <input asp-for="@stayrooms[0].Agent.Name" class="form-control  input-sm" />
+                        <span asp-validation-for="@stayrooms[0].Agent.Name" class="text-danger" />
+                    </div>
+                </div>
+                <!--Pricelist-->
+                <div class="form-group">
+                    <label asp-for="StayRooms.FirstOrDefault().Pricelist" class="col-md-3 control-label"></label>
+                    <div class="col-md-5">
+                        <input asp-for="@stayrooms[0].Pricelist" class="form-control input-sm" />
+                        <span asp-validation-for="@stayrooms[0].Pricelist" class="text-danger" />
+                    </div>
+                </div>
+                <!--Arrival-->
+                <div class="form-group">
+                    <label asp-for="StayRooms.FirstOrDefault().Arrival" class="col-md-3 control-label"></label>
+                    <div class="col-md-5">
+                        <input asp-for="@stayrooms[0].Arrival" class="form-control input-sm datepicker" type="text" />
+                        <span asp-validation-for="@stayrooms[0].Arrival" class="text-danger" />
+                    </div>
+                </div>
+                <!--Departure-->
+                <div class="form-group">
+                    <label asp-for="StayRooms.FirstOrDefault().Departure" class="col-md-3 control-label"></label>
+                    <div class="col-md-5">
+                        <input asp-for="@stayrooms[0].Departure" class="form-control input-sm datepicker" type="text" />
+                        <span asp-validation-for="@stayrooms[0].Departure" class="text-danger" />
+                    </div>
+                </div>
+
+            </div>
+
+            <!--Contact Info-->
+            <div class="Col-md-6">
+                <!--Contact-->
+                @*<div class="form-group">
+                        <label asp-for="@stayrooms.FirstOrDefault().StayPersons.FirstOrDefault().Customer.Address_AddressLine1" class="col-md-3 control-label"></label>
+                        <div class="col-md-3">
+                            <input asp-for="@stayrooms[0].StayPersons.ToArray()[0].Customer.Address_AddressLine1" class="form-control" />
+                            <span asp-validation-for="@stayrooms[0].StayPersons.ToArray()[0].Customer.Address_AddressLine1" class="text-danger" />
                         </div>
-                        <div class="col-md-5 pull-right">
-                            <div class="input-group">
-                                <span class="input-group-addon" id="askprepayuntillabel">@Localizer["until"]</span>
-                                <input type="text" asp-for="AskPrePayDate" class="form-control datepicker" aria-describedby="askprepayuntillabel">
-                                <span asp-validation-for="AskPrePayDate" class="text-danger" />
+                    </div>*@
+            </div>
+
+        </div>
+
+        <!--ReservationRooms (StayRooms) & Deposits-->
+        <div class="row">
+
+            <!--StayRooms-->
+            <div class="col-md-6">
+                <div id="reservationstayrooms" data-link="@Url.Action("EditStayRooms",new { id = Model.id })"></div>
+            </div>
+
+            <!--Deposits-->
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">@Localizer["Deposits"]</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="askprepaylabel">@Localizer["Asked"]</span>
+                                    <input type="text" asp-for="AskPrePay" class="form-control input-sm numbertextbox" aria-describedby="askprepaylabel">
+                                    <span asp-validation-for="AskPrePay" class="text-danger" />
+                                </div>
+                            </div>
+                            <div class="col-md-6 pull-right">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="askprepayuntillabel">@Localizer["until"]</span>
+                                    <input type="text" asp-for="AskPrePayDate" class="form-control input-sm datepicker" aria-describedby="askprepayuntillabel">
+                                    <span asp-validation-for="AskPrePayDate" class="text-danger" />
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="panel-footer"></div>
                 </div>
-                <div class="panel-footer"></div>
             </div>
         </div>
 
@@ -60,21 +134,7 @@
                 <span asp-validation-for="Remarks" class="text-danger" />
             </div>
         </div>
-        @*<div class="form-group">
-            <label asp-for="GuestOrGroup" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="GuestOrGroup" class="form-control" />
-                <span asp-validation-for="GuestOrGroup" class="text-danger" />
-            </div>
-        </div>
 
-        <div class="form-group">
-            <label asp-for="Remarks" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Remarks" class="form-control" />
-                <span asp-validation-for="Remarks" class="text-danger" />
-            </div>
-        </div>*@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
@@ -82,6 +142,7 @@
         </div>
     </div>
 </form>
+
 <environment names="Development">
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/jquery-ui/jquery-ui.js"></script>

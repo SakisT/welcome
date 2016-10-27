@@ -42,14 +42,18 @@
     }
 }
 /*###############################################################*/
-.numbertextbox{
-    text-align:right;
+.numbertextbox {
+    text-align: right;
 }
+
 #fullpage {
     min-height: 700px;
 }
 
 #reservations-list {
+    position:absolute;
+    top:70px;
+    bottom:20px;
     overflow-y: scroll;
 }
 
@@ -66,41 +70,69 @@
 }
 
 #reservations-list table {
+    width:100%;
     font-size: 0.9em;
     cursor: default;
+    border:thick;
+}
+#reservations-list table tbody tr:nth-child(even){
+    background-color:antiquewhite;
 }
 
-    #reservations-list table tbody tr:hover {
-        background-color: aquamarine;
+#reservations-list table tbody tr:hover {
+        background-color: lightsteelblue;
     }
 
-    #reservations-list table tbody tr td {
-        padding: 2px 5px 2px 5px;
+#reservations-list table tbody tr td {
+        border:none;
+        padding: 2px 2px 2px 2px;
+        
     }
 
-    #reservations-list table tfoot {
+#reservations-list table tbody tr td.guest-cell {
+            display:block;
+            width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    
+#reservations-list table tbody tr td.agent-cell {
+            display: block;
+            width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+#reservations-list table tfoot {
         background-color: antiquewhite;
         font-size: 1em;
         font-weight: 700;
     }
 
 #reservation-data {
-    padding-top:10px;
+    padding-top: 10px;
 }
 
-.smalltextheader{
-/*-webkit-transform: rotate(-45deg);
-
--moz-transform: rotate(-45deg);
-
--ms-transform: rotate(-45deg);
-
--o-transform: rotate(-45deg);
-
-filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);*/
-
+#reservationrooms {
+    border-spacing: 5px;
 }
 
-.smalltext{
-    width:20px;
+.smalltextheader {
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }
+
+.smalltext {
+    border: 0.2px solid antiquewhite;
+    width: 60px;
+}
+
+    .smalltext.pax {
+        text-align: right;
+        width: 25px;
+    }

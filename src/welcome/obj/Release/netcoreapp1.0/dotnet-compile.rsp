@@ -1,12 +1,12 @@
---temp-output:C:\Users\sakis\Source\Repos\welcome\src\welcome\obj\Debug\netcoreapp1.0\
---out:C:\Users\sakis\Source\Repos\welcome\src\welcome\bin\Debug\netcoreapp1.0\welcome.dll
---define:DEBUG
+--temp-output:C:\Users\sakis\Source\Repos\welcome\src\welcome\obj\Release\netcoreapp1.0\
+--out:C:\Users\sakis\Source\Repos\welcome\src\welcome\bin\Release\netcoreapp1.0\welcome.dll
+--define:RELEASE
 --define:TRACE
 --define:NETCOREAPP1_0
 --suppress-warning:CS1701
 --suppress-warning:CS1702
 --suppress-warning:CS1705
---optimize:False
+--optimize:True
 --emit-entry-point:True
 --output-name:welcome
 --file-version:1.0.0.0
@@ -230,7 +230,7 @@
 --reference:C:\Users\sakis\.nuget\packages\System.Threading.Timer\4.0.1\ref\netstandard1.2\System.Threading.Timer.dll
 --reference:C:\Users\sakis\.nuget\packages\System.Xml.ReaderWriter\4.0.11\ref\netstandard1.3\System.Xml.ReaderWriter.dll
 --reference:C:\Users\sakis\.nuget\packages\System.Xml.XDocument\4.0.11\ref\netstandard1.3\System.Xml.XDocument.dll
---resource:"C:\Users\sakis\Source\Repos\welcome\src\welcome\obj\Debug\netcoreapp1.0\welcomedotnet-compile.deps.json",welcome.deps.json
+--resource:"C:\Users\sakis\Source\Repos\welcome\src\welcome\obj\Release\netcoreapp1.0\welcomedotnet-compile.deps.json",welcome.deps.json
 C:\Users\sakis\Source\Repos\welcome\src\welcome\Program.cs
 C:\Users\sakis\Source\Repos\welcome\src\welcome\Startup.cs
 C:\Users\sakis\Source\Repos\welcome\src\welcome\Controllers\AccountController.cs

@@ -1,14 +1,15 @@
-﻿-d:DEBUG
+﻿-d:RELEASE
 -d:TRACE
 -d:NETCOREAPP1_0
 -nowarn:CS1701
 -nowarn:CS1702
 -nowarn:CS1705
+-optimize
 -debug:full
 -nostdlib
 -nologo
-"C:\Users\sakis\Source\Repos\welcome\src\welcome\obj\Debug\netcoreapp1.0\dotnet-compile.assemblyinfo.cs"
--out:"C:\Users\sakis\Source\Repos\welcome\src\welcome\bin\Debug\netcoreapp1.0\welcome.dll"
+"C:\Users\sakis\Source\Repos\welcome\src\welcome\obj\Release\netcoreapp1.0\dotnet-compile.assemblyinfo.cs"
+-out:"C:\Users\sakis\Source\Repos\welcome\src\welcome\bin\Release\netcoreapp1.0\welcome.dll"
 -r:"C:\Users\sakis\.nuget\packages\Microsoft.ApplicationInsights\2.1.0\lib\dotnet5.4\Microsoft.ApplicationInsights.dll"
 -r:"C:\Users\sakis\.nuget\packages\Microsoft.ApplicationInsights.AspNetCore\1.0.0\lib\netstandard1.6\Microsoft.ApplicationInsights.AspNetCore.dll"
 -r:"C:\Users\sakis\.nuget\packages\Microsoft.AspNetCore.Antiforgery\1.0.1\lib\netstandard1.3\Microsoft.AspNetCore.Antiforgery.dll"
@@ -226,7 +227,7 @@
 -r:"C:\Users\sakis\.nuget\packages\System.Threading.Timer\4.0.1\ref\netstandard1.2\System.Threading.Timer.dll"
 -r:"C:\Users\sakis\.nuget\packages\System.Xml.ReaderWriter\4.0.11\ref\netstandard1.3\System.Xml.ReaderWriter.dll"
 -r:"C:\Users\sakis\.nuget\packages\System.Xml.XDocument\4.0.11\ref\netstandard1.3\System.Xml.XDocument.dll"
--resource:"C:\Users\sakis\Source\Repos\welcome\src\welcome\obj\Debug\netcoreapp1.0\welcomedotnet-compile.deps.json",welcome.deps.json
+-resource:"C:\Users\sakis\Source\Repos\welcome\src\welcome\obj\Release\netcoreapp1.0\welcomedotnet-compile.deps.json",welcome.deps.json
 "C:\Users\sakis\Source\Repos\welcome\src\welcome\Program.cs"
 "C:\Users\sakis\Source\Repos\welcome\src\welcome\Startup.cs"
 "C:\Users\sakis\Source\Repos\welcome\src\welcome\Controllers\AccountController.cs"

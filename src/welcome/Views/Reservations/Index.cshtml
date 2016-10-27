@@ -5,7 +5,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
+  }
 
 <div id="fullpage">
     <div class="row">
@@ -15,20 +15,22 @@
                     <thead>
                         <tr>
                             <th><a asp-action="Index" asp-route-shortby="AA" asp-route-asc="@(!ViewBag.Asceding)">AA</a></th>
-                            <th><a asp-action="Index" asp-route-shortby="Reservation" asp-route-asc="@(!ViewBag.Asceding)">Reservation</a></th>
+                            <th><a asp-action="Index" asp-route-shortby="Reservation" asp-route-asc="@(!ViewBag.Asceding)">Guest</a></th>
                             <th><a asp-action="Index" asp-route-shortby="Date" asp-route-asc="@(!ViewBag.Asceding)">Date</a></th>
-                            <th><a asp-action="Index" asp-route-shortby="Rooms" asp-route-asc="@(!ViewBag.Asceding)">Rooms</a></th>
+                            <th><a asp-action="Index" asp-route-shortby="Agent" asp-route-asc="@(!ViewBag.Asceding)">Agent</a></th>
+                            <th><a asp-action="Index" asp-route-shortby="Rooms" asp-route-asc="@(!ViewBag.Asceding)">@Localizer["Rooms"]</a></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
-            {
-                        <tr class="reservationrow" data-reservationid="@item.id">
-                            <td>@item.AA</td>
-                            <td>@item.GuestOrGroup</td>
-                            <td class="text-right">@string.Format($"{item.StayRooms.FirstOrDefault().Arrival:d/M/yy}")</td>
-                            <td class="text-center">@item.StayRooms.Count()</td>
-                        </tr>
+                        {
+                            <tr class="reservationrow" data-link="@Url.Action("EditReservation", new { id = item.id })">
+                                <td>@item.AA</td>
+                                <td class="guest-cell">@item.GuestOrGroup</td>
+                                <td class="text-right">@string.Format($"{item.StayRooms.FirstOrDefault().Arrival:d/M/yy}")</td>
+                                <td class="agent-cell">@item.StayRooms.FirstOrDefault().Agent?.Name</td>
+                                <td class="text-center">@item.StayRooms.Count()</td>
+                            </tr>
                         }
                     </tbody>
                     <tfoot>
@@ -41,12 +43,7 @@
             </div>
         </div>
         <div class="col-md-8">
-            <div id="reservation-data" data-link="@Url.Action("EditReservation","Reservations")">
-                @*@if(Model!=null && Model.Count() > 0)
-                {
-                    await Html.RenderPartialAsync("EditReservation", Model.FirstOrDefault());
-                }*@
-            </div>
+            <div id="reservation-data"></div>
         </div>
     </div>
 </div>

@@ -2,49 +2,79 @@
 @inject IViewLocalizer Localizer
 @model IEnumerable<welcome.Models.StayRoom>
 
+@{ 
+    var reservationrooms = Model.GroupBy(r => new { r.ChargeRoomType});
+}
+<div id="addreservationroom" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">@Localizer["Add new reservation room"]</h4>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 <form asp-action="EditStayRooms">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <table style="width:100%">
-        <thead>
-            <tr>
-                <th class="smalltextheader">@Localizer["ad"]</th>
-                <th class="smalltextheader">@Localizer["Ch"]</th>
-                <th class="smalltextheader">@Localizer["ch"]</th>
-                <th class="smalltextheader">@Localizer["in"]</th>
-                <th class="smalltextheader">@Localizer["Agent"]</th>
-                <th class="smalltextheader">@Localizer["Ref."]</th>
+    <table style="width:100%" id="reservationrooms">
+        <thead >
+            <tr style="height:55px;border:1px solid none;">
+                <td><a href="#addreservationroom" data-toggle="modal"><span class="glyphicon glyphicon-play-circle"></span> </a></td>
                 <th class="smalltextheader">@Localizer["Type"]</th>
+                <th class="smalltextheader">@Localizer["adults"]</th>
+                <th class="smalltextheader">@Localizer["Child"]</th>
+                <th class="smalltextheader">@Localizer["child"]</th>
+                <th class="smalltextheader">@Localizer["infants"]</th>
+                <th class="smalltextheader">@Localizer["Ref."]</th>
+               
             </tr>
         </thead>
-        <tbody>
-            @for (int i = 0; i < Model.Count(); ++i)
+        <tbody style="padding-top:45px;margin-top:55px;">
+            @for (int x = 0; x < reservationrooms.Count(); ++x)
             {
-                var item = Model.ToArray()[i];
-                <tr>
-                    <td hidden="hidden">
-                        <input type="hidden" name="" value="@item.ActualDeparture" />
-                        <input type="hidden" name="" value="@item.AdultsCharge" />
-                        <input type="hidden" name="" value="@item.Agent" />
-                        <input type="hidden" name="" value="@item.Children2" />
-                        <input type="hidden" name="" value="@item.ActualDeparture" />
-                        <input type="hidden" name="" value="@item.ActualDeparture" />
-                        <input type="hidden" name="" value="@item.ActualDeparture" />
-                    </td>
-                    <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.Adults" class="smalltext" /></td>
-                    <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.Children" class="smalltext" /></td>
-                    <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.Children2" class="smalltext" /></td>
-                    <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.Infants" class="smalltext" /></td>
-                    <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.Agent?.Name" class="smalltext" /></td>
-                    <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.ChannelReference" class="smalltext" /></td>
-                    <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.ChargeRoomType.Name" class="smalltext" /></td>
+                var currenttypereservationrooms = reservationrooms.ToArray()[x];
+                for (int i=0;i<currenttypereservationrooms.Count();++i)
+                {
+                    var item = currenttypereservationrooms.ToArray()[i];
+                    <tr>
+                        <td hidden="hidden">
+                            <input type="hidden" name="" value="@item.ActualDeparture" />
+                            <input type="hidden" name="" value="@item.AdultsCharge" />
+                            <input type="hidden" name="" value="@item.Agent" />
+                            <input type="hidden" name="" value="@item.Children2" />
+                            <input type="hidden" name="" value="@item.ActualDeparture" />
+                            <input type="hidden" name="" value="@item.ActualDeparture" />
+                            <input type="hidden" name="" value="@item.ActualDeparture" />
+                        </td>
+                        <td>
+                            @if (i == 0)
+                            {
+                               <a href="javascript:void[0]">@currenttypereservationrooms.Count()</a> 
+                            }
+                        </td>
+                        <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.ChargeRoomType.Name" class="smalltext" readonly="readonly" /></td>
+                        <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.Adults" class="smalltext pax" /></td>
+                        <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.Children" class="smalltext pax" /></td>
+                        <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.Children2" class="smalltext pax" /></td>
+                        <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.Infants" class="smalltext pax" /></td>
+                        <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.ChannelReference" class="smalltext" /></td>
+                    </tr>
+                }
 
-                </tr>
             }
         </tbody>
 
     </table>
-
 
 </form>
 

@@ -28,27 +28,30 @@ namespace welcome.Controllers
             _userinfo = UserInfo;
         }
 
-        public async Task<IActionResult> Index(string shortby = "Date", bool asc = true)
+        public IActionResult Index(string shortby = "Date", bool asc = true)
         {
             ViewBag.Asceding = asc;
-            IQueryable<Reservation> reservations = _context.Reservations.Include(r => r.Hotel).Include(r => r.StayRooms);
-
-            switch (shortby)
-            {
-                case "AA":
-                    if (asc) { reservations = reservations.OrderBy(r => r.AA); } else { reservations = reservations.OrderByDescending(r => r.AA); }
-                    break;
-                case "Reservation":
-                    if (asc) { reservations = reservations.OrderBy(r => r.GuestOrGroup); } else { reservations = reservations.OrderByDescending(r => r.GuestOrGroup); }
-                    break;
-                case "Rooms":
-                    if (asc) { reservations = reservations.OrderBy(r => r.StayRooms.Count()); } else { reservations = reservations.OrderByDescending(r => r.StayRooms.Count()); }
-                    break;
-                default:
-                    if (asc) { reservations = reservations.OrderBy(r => r.StayRooms.OrderBy(r1 => r1.Arrival).FirstOrDefault().Arrival); } else { reservations = reservations.OrderByDescending(r => r.StayRooms.OrderByDescending(r1 => r1.Arrival).FirstOrDefault().Arrival); }
-                    break;
-            }
-            return View(await reservations.ToListAsync());
+            IQueryable<Reservation> reservations = _context.Reservations.Include(r => r.Hotel).Include(r => r.StayRooms).ThenInclude(stayroom=>stayroom.Agent);
+            
+            //switch (shortby)
+            //{
+            //    case "AA":
+            //        if (asc) { reservations = reservations.OrderBy(r => r.AA); } else { reservations = reservations.OrderByDescending(r => r.AA); }
+            //        break;
+            //    case "Reservation":
+            //        if (asc) { reservations = reservations.OrderBy(r => r.GuestOrGroup); } else { reservations = reservations.OrderByDescending(r => r.GuestOrGroup); }
+            //        break;
+            //    case "Rooms":
+            //        if (asc) { reservations = reservations.OrderBy(r => r.StayRooms.Count()); } else { reservations = reservations.OrderByDescending(r => r.StayRooms.Count()); }
+            //        break;
+            //    case "Agent":
+            //        if (asc) { reservations = reservations.OrderBy(r => r.StayRooms.OrderBy(r1 => r1.Agent.Name??"").FirstOrDefault().Agent.Name ?? ""); } else { reservations = reservations.OrderByDescending(r => r.StayRooms.OrderByDescending(r1 => r1.Agent.Name??"").FirstOrDefault().Agent.Name??""); }
+            //        break;
+            //    default:
+            //        if (asc) { reservations = reservations.OrderBy(r => r.StayRooms.OrderBy(r1 => r1.Arrival).FirstOrDefault().Arrival); } else { reservations = reservations.OrderByDescending(r => r.StayRooms.OrderByDescending(r1 => r1.Arrival).FirstOrDefault().Arrival); }
+            //        break;
+            //}
+            return View(reservations.ToList());
         }
 
         public async Task<IActionResult> Details(Guid? id)
@@ -119,7 +122,7 @@ namespace welcome.Controllers
 
         public PartialViewResult EditReservation(string id)
         {
-            var reservation = _context.Reservations.Include(r => r.StayRooms).SingleOrDefault(m => m.id == Guid.Parse(id));
+            var reservation = _context.Reservations.Include(r => r.StayRooms).ThenInclude(stayroom=>stayroom.Agent).SingleOrDefault(m => m.id == Guid.Parse(id));
             ViewData["HotelID"] = new SelectList(_context.Hotels, "id", "Name", reservation.HotelID);
             return PartialView("EditReservation", reservation);
         }
@@ -145,7 +148,7 @@ namespace welcome.Controllers
 
         public async Task<PartialViewResult> EditStayRooms(Guid id)
         {
-            IQueryable<StayRoom> stayrooms = _context.StayRooms.Include(r => r.Agent).Include(r => r.ChargeRoomType).Where(r => r.ReservationID == id);
+            IQueryable<StayRoom> stayrooms = _context.StayRooms.Include(r => r.Agent).Include(r => r.ChargeRoomType).OrderBy(r => r.ChargeRoomType.DisplayOrder).Where(r => r.ReservationID == id);
             return PartialView(await stayrooms.ToListAsync());
         }
 

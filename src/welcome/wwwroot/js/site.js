@@ -2,6 +2,12 @@
     $("#selectLanguage select").change(function () {
         $(this).parent().submit();
     });
+
+    if (!$.datepicker.initialized) {
+        $(document).mousedown($.datepicker._checkExternalClick)
+            .find(document.body).append($.datepicker.dpDiv);
+        $.datepicker.initialized = true;
+    }
     $(".datepicker").datepicker($.datepicker.regional["el"]);
     $(".datepicker").datepicker("option", "changeYear", true);
     $(".datepicker").datepicker("option", "changeMonth", true);
@@ -44,4 +50,9 @@ $(document).ready(function () {
             $('#reservationstayrooms').load($('#reservationstayrooms').data('link'));
         });
     });
+
+    //$(document).on('click', '#show-addreservationroom', function () {
+
+    //});
+
 });
