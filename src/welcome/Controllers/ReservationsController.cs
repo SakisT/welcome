@@ -31,8 +31,8 @@ namespace welcome.Controllers
         public IActionResult Index(string shortby = "Date", bool asc = true)
         {
             ViewBag.Asceding = asc;
-            IQueryable<Reservation> reservations = _context.Reservations.Include(r => r.Hotel).Include(r => r.StayRooms).ThenInclude(stayroom=>stayroom.Agent);
-            
+            IQueryable<Reservation> reservations = _context.Reservations.Include(r => r.Hotel).Include(r => r.StayRooms).ThenInclude(stayroom => stayroom.Agent);
+
             //switch (shortby)
             //{
             //    case "AA":
@@ -45,12 +45,13 @@ namespace welcome.Controllers
             //        if (asc) { reservations = reservations.OrderBy(r => r.StayRooms.Count()); } else { reservations = reservations.OrderByDescending(r => r.StayRooms.Count()); }
             //        break;
             //    case "Agent":
-            //        if (asc) { reservations = reservations.OrderBy(r => r.StayRooms.OrderBy(r1 => r1.Agent.Name??"").FirstOrDefault().Agent.Name ?? ""); } else { reservations = reservations.OrderByDescending(r => r.StayRooms.OrderByDescending(r1 => r1.Agent.Name??"").FirstOrDefault().Agent.Name??""); }
+            //        if (asc) { reservations = reservations.OrderBy(r => r.StayRooms.OrderBy(r1 => r1.Agent.Name ?? "").FirstOrDefault().Agent.Name ?? ""); } else { reservations = reservations.OrderByDescending(r => r.StayRooms.OrderByDescending(r1 => r1.Agent.Name ?? "").FirstOrDefault().Agent.Name ?? ""); }
             //        break;
             //    default:
             //        if (asc) { reservations = reservations.OrderBy(r => r.StayRooms.OrderBy(r1 => r1.Arrival).FirstOrDefault().Arrival); } else { reservations = reservations.OrderByDescending(r => r.StayRooms.OrderByDescending(r1 => r1.Arrival).FirstOrDefault().Arrival); }
             //        break;
             //}
+
             return View(reservations.ToList());
         }
 
@@ -122,7 +123,7 @@ namespace welcome.Controllers
 
         public PartialViewResult EditReservation(string id)
         {
-            var reservation = _context.Reservations.Include(r => r.StayRooms).ThenInclude(stayroom=>stayroom.Agent).SingleOrDefault(m => m.id == Guid.Parse(id));
+            var reservation = _context.Reservations.Include(r => r.StayRooms).ThenInclude(stayroom => stayroom.Agent).SingleOrDefault(m => m.id == Guid.Parse(id));
             ViewData["HotelID"] = new SelectList(_context.Hotels, "id", "Name", reservation.HotelID);
             return PartialView("EditReservation", reservation);
         }
@@ -130,9 +131,18 @@ namespace welcome.Controllers
         [HttpPost, ActionName("EditReservation")]
         public async Task<IActionResult> EditReservationPost(string id)
         {
-            var reservationtoupdate = await _context.Reservations.SingleOrDefaultAsync(r => r.id == Guid.Parse(id));
-            if (await TryUpdateModelAsync(reservationtoupdate))
+            //var reservation = _context.Reservations.Include(r => r.StayRooms).ThenInclude(stayroom=>stayroom.Agent).SingleOrDefault(m => m.id == Guid.Parse(id));
+            var reservationtoupdate = await _context.Reservations.Include(r => r.StayRooms).ThenInclude(stayroom => stayroom.Agent).SingleOrDefaultAsync(r => r.id == Guid.Parse(id));
+            if (await TryUpdateModelAsync(reservationtoupdate, "", s => s.AA, s => s.StayRooms, s => s.GuestOrGroup))
             {
+                var stayroomstoupdate = _context.StayRooms.Where(r => r.ReservationID == Guid.Parse(id));
+                foreach (var stayroomtoupdate in stayroomstoupdate)
+                {
+                    //var stayroomtoupdate =await  _context.StayRooms.SingleOrDefaultAsync(r => r.id == stayroom.id);
+                    await TryUpdateModelAsync(stayroomtoupdate);
+                    Console.WriteLine();
+                }
+
                 try
                 {
                     await _context.SaveChangesAsync();
@@ -140,11 +150,43 @@ namespace welcome.Controllers
                 }
                 catch (DbUpdateException ex)
                 {
-                    ModelState.AddModelError("", ex.Message);
+                    ModelState.AddModelError("", "Unable to save changes. " +
+"Try again, and if the problem persists, " +
+"see your system administrator.");
                 }
             }
             return PartialView(reservationtoupdate);
         }
+
+        //        [HttpPost, ActionName("EditReservation")]
+        //        public IActionResult EditReservationPost(Guid id,Reservation    reservation)
+        //        {
+        ////            //var reservation = _context.Reservations.Include(r => r.StayRooms).ThenInclude(stayroom=>stayroom.Agent).SingleOrDefault(m => m.id == Guid.Parse(id));
+        ////            var reservationtoupdate = await _context.Reservations.Include(r => r.StayRooms).ThenInclude(stayroom => stayroom.Agent).SingleOrDefaultAsync(r => r.id == Guid.Parse(id));
+        ////            if (await TryUpdateModelAsync(reservationtoupdate, "", s => s.AA, s => s.StayRooms, s => s.GuestOrGroup))
+        ////            {
+        ////                var stayroomstoupdate = _context.StayRooms.Where(r => r.ReservationID == Guid.Parse(id));
+        ////                foreach (var stayroomtoupdate in stayroomstoupdate)
+        ////                {
+        ////                    //var stayroomtoupdate =await  _context.StayRooms.SingleOrDefaultAsync(r => r.id == stayroom.id);
+        ////                    await TryUpdateModelAsync(stayroomtoupdate);
+        ////                    Console.WriteLine();
+        ////                }
+
+        ////                try
+        ////                {
+        ////                    await _context.SaveChangesAsync();
+        ////                    return RedirectToAction("Index");
+        ////                }
+        ////                catch (DbUpdateException ex)
+        ////                {
+        ////                    ModelState.AddModelError("", "Unable to save changes. " +
+        ////"Try again, and if the problem persists, " +
+        ////"see your system administrator.");
+        ////                }
+        ////            }
+        //            return PartialView(reservation);
+        //        }
 
         public async Task<PartialViewResult> EditStayRooms(Guid id)
         {
@@ -152,11 +194,11 @@ namespace welcome.Controllers
             return PartialView(await stayrooms.ToListAsync());
         }
 
-        [HttpPost, ActionName("EditStayRooms")]
-        public IActionResult EditStayRoomsPost(IEnumerable<StayRoom> stayrooms)
+        [HttpPost]
+        public IActionResult EditStayRooms(IEnumerable<StayRoom> stayrooms)
         {
 
-            return RedirectToAction("Index");
+            return null;// RedirectToAction("Index");
         }
 
         public async Task<PartialViewResult> EditReservationContactInfo(Guid id)

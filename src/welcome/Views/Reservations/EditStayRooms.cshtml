@@ -4,6 +4,7 @@
 
 @{ 
     var reservationrooms = Model.GroupBy(r => new { r.ChargeRoomType});
+    int counter = 0;
 }
 <div id="addreservationroom" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -23,7 +24,7 @@
     </div>
 </div>
 
-<form asp-action="EditStayRooms">
+<form asp-action="EditStayRooms" asp-controller="Reservations" method="post" >
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <table style="width:100%" id="reservationrooms">
@@ -48,13 +49,8 @@
                     var item = currenttypereservationrooms.ToArray()[i];
                     <tr>
                         <td hidden="hidden">
-                            <input type="hidden" name="" value="@item.ActualDeparture" />
-                            <input type="hidden" name="" value="@item.AdultsCharge" />
-                            <input type="hidden" name="" value="@item.Agent" />
-                            <input type="hidden" name="" value="@item.Children2" />
-                            <input type="hidden" name="" value="@item.ActualDeparture" />
-                            <input type="hidden" name="" value="@item.ActualDeparture" />
-                            <input type="hidden" name="" value="@item.ActualDeparture" />
+                            <input type="hidden" name="@string.Format($"stayrooms[{@counter}].ActualDeparture")" value="@item.ActualDeparture" />
+                            <input type="hidden" name="@string.Format($"stayrooms[{@counter}].AdultsCharge")" value="@item.AdultsCharge" />
                         </td>
                         <td>
                             @if (i == 0)
@@ -62,20 +58,20 @@
                                <a href="javascript:void[0]">@currenttypereservationrooms.Count()</a> 
                             }
                         </td>
-                        <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.ChargeRoomType.Name" class="smalltext" readonly="readonly" /></td>
-                        <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.Adults" class="smalltext pax" /></td>
-                        <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.Children" class="smalltext pax" /></td>
-                        <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.Children2" class="smalltext pax" /></td>
-                        <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.Infants" class="smalltext pax" /></td>
-                        <td><input type="text" name="stayrooms[+ @i +].Adults" value="@item.ChannelReference" class="smalltext" /></td>
+                        <td>@item.ChargeRoomType.Name</td>
+                        <td><input type="text" name="@string.Format($"stayrooms[{@counter}].Adults")" value="@item.Adults" class="smalltext pax" /></td>
+                        <td><input type="text" name="@string.Format($"stayrooms[{@counter}].Children")" value="@item.Children" class="smalltext pax" /></td>
+                        <td><input type="text" name="@string.Format($"stayrooms[{@counter}].Children2")" value="@item.Children2" class="smalltext pax" /></td>
+                        <td><input type="text" name="@string.Format($"stayrooms[{@counter}].Infants")" value="@item.Infants" class="smalltext pax" /></td>
+                        <td><input type="text" name="@string.Format($"stayrooms[{@counter}].ChannelReference")" value="@item.ChannelReference" class="smalltext" /></td>
                     </tr>
+                    ++counter;
                 }
 
             }
         </tbody>
 
     </table>
-
 </form>
 
 @section Scripts {

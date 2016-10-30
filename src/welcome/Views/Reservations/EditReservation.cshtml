@@ -94,7 +94,7 @@
         <div class="row">
 
             <!--StayRooms-->
-            <div class="col-md-6">
+            <div class="col-md-6" id="reservation-stayrooms" data-stayrooms="@Model.StayRooms">
                 <div id="reservationstayrooms" data-link="@Url.Action("EditStayRooms",new { id = Model.id })"></div>
             </div>
 
@@ -137,7 +137,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit"  value="Save" class="btn btn-default" id="savereservationsbutton" /><!---->
             </div>
         </div>
     </div>

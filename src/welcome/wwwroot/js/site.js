@@ -50,9 +50,15 @@ $(document).ready(function () {
             $('#reservationstayrooms').load($('#reservationstayrooms').data('link'));
         });
     });
+    $(document).on('click', '#savereservationsbutton', function () {
+        event.preventDefault();
+        document.getElementById('stayroomsform').submit();
+        var item = $(this).find('#reservationstayrooms').closest(':#stayroomsform');
+        item.css('background-color', 'red');
+        item.submit(function (event) {
+            debugger;
+        });
+    });
 
-    //$(document).on('click', '#show-addreservationroom', function () {
-
-    //});
-
+   
 });
