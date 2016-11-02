@@ -24,7 +24,7 @@
     </div>
 </div>
 
-<form asp-action="EditStayRooms" asp-controller="Reservations" method="post" >
+<form asp-action="EditStayRooms" >
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <table style="width:100%" id="reservationrooms">
@@ -49,8 +49,10 @@
                     var item = currenttypereservationrooms.ToArray()[i];
                     <tr>
                         <td hidden="hidden">
-                            <input type="hidden" name="@string.Format($"stayrooms[{@counter}].ActualDeparture")" value="@item.ActualDeparture" />
-                            <input type="hidden" name="@string.Format($"stayrooms[{@counter}].AdultsCharge")" value="@item.AdultsCharge" />
+                            <input type="hidden" name="@string.Format($"StayRooms[{@counter}].id")" value="@item.id" />
+                            <input type="hidden" name="@string.Format($"StayRooms[{@counter}].ReservationID")" value="@item.ReservationID" />
+                            <input type="hidden" name="@string.Format($"StayRooms[{@counter}].ActualDeparture")" value="@item.ActualDeparture" />
+                            <input type="hidden" name="@string.Format($"StayRooms[{@counter}].AdultsCharge")" value="@item.AdultsCharge" />
                         </td>
                         <td>
                             @if (i == 0)
@@ -59,11 +61,11 @@
                             }
                         </td>
                         <td>@item.ChargeRoomType.Name</td>
-                        <td><input type="text" name="@string.Format($"stayrooms[{@counter}].Adults")" value="@item.Adults" class="smalltext pax" /></td>
-                        <td><input type="text" name="@string.Format($"stayrooms[{@counter}].Children")" value="@item.Children" class="smalltext pax" /></td>
-                        <td><input type="text" name="@string.Format($"stayrooms[{@counter}].Children2")" value="@item.Children2" class="smalltext pax" /></td>
-                        <td><input type="text" name="@string.Format($"stayrooms[{@counter}].Infants")" value="@item.Infants" class="smalltext pax" /></td>
-                        <td><input type="text" name="@string.Format($"stayrooms[{@counter}].ChannelReference")" value="@item.ChannelReference" class="smalltext" /></td>
+                        <td><input type="text" name="@string.Format($"StayRooms[{@counter}].Adults")" value="@item.Adults" class="smalltext pax" /></td>
+                        <td><input type="text" name="@string.Format($"StayRooms[{@counter}].Children")" value="@item.Children" class="smalltext pax" /></td>
+                        <td><input type="text" name="@string.Format($"StayRooms[{@counter}].Children2")" value="@item.Children2" class="smalltext pax" /></td>
+                        <td><input type="text" name="@string.Format($"StayRooms[{@counter}].Infants")" value="@item.Infants" class="smalltext pax" /></td>
+                        <td><input type="text" name="@string.Format($"StayRooms[{@counter}].ChannelReference")" value="@item.ChannelReference" class="smalltext" /></td>
                     </tr>
                     ++counter;
                 }

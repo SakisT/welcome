@@ -84,11 +84,14 @@ namespace welcome.Data
             modelBuilder.Entity<Deposit>().HasOne(r => r.Reservation).WithMany(r => r.Deposits).IsRequired(false).OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.SetNull);
             modelBuilder.Entity<Deposit>().HasOne(r => r.StayRoom).WithMany(r => r.Deposits).IsRequired(false).OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.SetNull);
             modelBuilder.Entity<Reservation>().HasMany(r => r.StayRooms).WithOne(r => r.Reservation).OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
-            modelBuilder.Entity<StayRoom>().HasOne(r => r.Agent).WithMany().IsRequired(false).OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.SetNull);
+            
             modelBuilder.Entity<StayRoom>().HasOne(r => r.Pricelist).WithMany().IsRequired().OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
             modelBuilder.Entity<StayRoom>().HasOne(r => r.Board).WithMany().IsRequired().OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
             modelBuilder.Entity<StayRoom>().HasOne(r => r.ChargeRoomType).WithMany().IsRequired().OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
             modelBuilder.Entity<StayRoom>().HasOne(r => r.Room).WithMany().IsRequired(false).OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
+            modelBuilder.Entity<StayRoom>().HasOne(r => r.Agent).WithMany().IsRequired(false).OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.SetNull);
+            //modelBuilder.Entity<Agent>().HasMany(r => r.StayRooms).WithOne(r => r.Agent).IsRequired(false).OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.SetNull);
+
             modelBuilder.Entity<RoomType>().HasMany(r => r.Rooms).WithOne(r => r.RoomType).OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
             modelBuilder.Entity<VaryingStay>().HasOne(r => r.ChargeRoomType).WithMany().OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
             modelBuilder.Entity<Pricelist>().HasOne(r => r.Hotel).WithMany(r => r.Pricelists).IsRequired().OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);

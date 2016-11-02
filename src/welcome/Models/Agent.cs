@@ -44,6 +44,6 @@ namespace welcome.Models
 
         public virtual ICollection<Bill> AgentBills { get; set; }
 
-
+        public virtual ICollection<StayRoom> StayRooms { get; set; }
     }
 }

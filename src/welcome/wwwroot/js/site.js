@@ -2,6 +2,13 @@
     $("#selectLanguage select").change(function () {
         $(this).parent().submit();
     });
+    InitJQueryUI();
+});
+
+function InitJQueryUI() {
+    $("#selectLanguage select").change(function () {
+        $(this).parent().submit();
+    });
 
     if (!$.datepicker.initialized) {
         $(document).mousedown($.datepicker._checkExternalClick)
@@ -42,12 +49,13 @@
     $(document).on('mouseup', '.numbertextbox', function () {
         $(this).select();
     });
-}());
+}
 
 $(document).ready(function () {
     $(document).on('click', '.reservationrow', function () {
         $('#reservation-data').load($(this).data('link'), null, function (data, status) {
             $('#reservationstayrooms').load($('#reservationstayrooms').data('link'));
+            InitJQueryUI();
         });
     });
     $(document).on('click', '#savereservationsbutton', function () {
@@ -59,6 +67,4 @@ $(document).ready(function () {
             debugger;
         });
     });
-
-   
 });
