@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using welcome.Services;
-
 using welcome.Data;
 using welcome.Models;
+using System.Globalization;
 
 namespace welcome.Controllers
 {
@@ -123,34 +123,53 @@ namespace welcome.Controllers
 
         public async Task<PartialViewResult> EditReservation(string id)
         {
+            //.Include(r => r.StayRooms).ThenInclude(stayroom => stayroom.Agent)
             var reservation = await _context.Reservations.Include(r => r.StayRooms).ThenInclude(stayroom => stayroom.Agent).AsNoTracking().SingleOrDefaultAsync(m => m.id == Guid.Parse(id));
             ViewData["HotelID"] = new SelectList(_context.Hotels, "id", "Name", reservation.HotelID);
+            ViewData["AgentCode"] = reservation.StayRooms.FirstOrDefault().Agent?.Code ?? "";
+            ViewData["AgentName"] = reservation.StayRooms.FirstOrDefault().Agent?.Name ?? "";
+            ViewData["Pricelist"] = reservation.StayRooms.FirstOrDefault().Pricelist?.Name ?? "";
+            ViewData["Arrival"] = reservation.StayRooms.FirstOrDefault().Arrival;
+            ViewData["Departure"] = reservation.StayRooms.FirstOrDefault().Departure;
             return PartialView("EditReservation", reservation);
         }
 
         [HttpPost, ActionName("EditReservation")]
-        public async Task<IActionResult> EditReservationPost(string id)
+        public async Task<IActionResult> EditReservationPost(string id, StayRoom[] SR)
         {
-            //.Include(r => r.StayRooms).ThenInclude(stayroom => stayroom.Agent).AsTracking()
+            var t = ModelState;
+            var valueProvider = await Microsoft.AspNetCore.Mvc.ModelBinding.CompositeValueProvider.CreateAsync(ControllerContext);
+            //.Include(r => r.StayRooms).ThenInclude(stayroom => stayroom.Agent)
             var reservationtoupdate = await _context.Reservations.SingleOrDefaultAsync(r => r.id == Guid.Parse(id));
-            if (await TryUpdateModelAsync(reservationtoupdate, "", r=>r.AA, r=>r.StayRooms))
+            //var StayRooms = _context.StayRooms.Where(r=>r.ReservationID==Guid.Parse( id)).ToList();
+            //reservationtoupdate.StayRooms = StayRooms;
+
+            var Arrival= valueProvider.GetValue("Arrival").Values[0];
+
+            if (await TryUpdateModelAsync(reservationtoupdate,"",s=>s.AA, s=>s.GuestOrGroup, s=>s.StayRooms))
             {
+    
+                foreach (var item in SR)
+                {
+                    item.Arrival =DateTime.Parse( Arrival, CultureInfo.CurrentCulture);
+                    _context.Entry(item).State = EntityState.Modified;
+                }
                 try
                 {
                     await _context.SaveChangesAsync();
                     return RedirectToAction("Index");
                 }
-                catch (DbUpdateException ex)
+                catch (Exception ex)
                 {
                     ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
                 }
             }
             return PartialView(reservationtoupdate);
         }
-
+       
         public async Task<PartialViewResult> EditStayRooms(Guid id)
         {
-            IQueryable<StayRoom> stayrooms = _context.StayRooms.Include(r => r.Agent).Include(r => r.ChargeRoomType).OrderBy(r => r.ChargeRoomType.DisplayOrder).Where(r => r.ReservationID == id);
+            IQueryable<StayRoom> stayrooms = _context.StayRooms.Include(r => r.ChargeRoomType).OrderBy(r => r.ChargeRoomType.DisplayOrder).Where(r => r.ReservationID == id).AsNoTracking();
             return PartialView(await stayrooms.ToListAsync());
         }
 

@@ -3,10 +3,10 @@
 @model welcome.Models.Reservation
 
 @{
-    StayRoom[] stayrooms = Model.StayRooms.ToArray();
+    StayRoom[] StayRooms = Model.StayRooms.ToArray();
 }
 
-<form asp-action="EditReservation" asp-controller="Reservations">
+<form asp-action="EditReservation">
     <div class="form-horizontal">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="id" />
@@ -38,38 +38,33 @@
             <div class="col-md-6" style="border-right:1px solid #ffd800;">
                 <!--Agent-->
                 <div class="form-group">
-                    <label asp-for="StayRooms.FirstOrDefault().Agent.Code" class="col-md-3 control-label"></label>
+                    <label class="col-md-3 control-label">Agent</label>
                     <div class="col-md-3">
-                        <input asp-for="@stayrooms[0].Agent.Code" class="form-control input-sm" />
-                        <span asp-validation-for="@stayrooms[0].Agent.Code" class="text-danger" />
+                        <input class="form-control input-sm" value="@ViewData["AgentCode"]"/>
                     </div>
                     <div class="col-md-6">
-                        <input asp-for="@stayrooms[0].Agent.Name" class="form-control  input-sm" />
-                        <span asp-validation-for="@stayrooms[0].Agent.Name" class="text-danger" />
+                        <input class="form-control input-sm" value="@ViewData["AgentName"]" />
                     </div>
                 </div>
                 <!--Pricelist-->
                 <div class="form-group">
-                    <label asp-for="StayRooms.FirstOrDefault().Pricelist" class="col-md-3 control-label"></label>
-                    <div class="col-md-5">
-                        <input asp-for="@stayrooms[0].Pricelist" class="form-control input-sm" />
-                        <span asp-validation-for="@stayrooms[0].Pricelist" class="text-danger" />
+                    <label class="col-md-3 control-label">Pricelist</label>
+                    <div class="col-md-3">
+                        <input class="form-control input-sm" value="@ViewData["Pricelist"]" />
                     </div>
                 </div>
                 <!--Arrival-->
                 <div class="form-group">
-                    <label asp-for="StayRooms.FirstOrDefault().Arrival" class="col-md-3 control-label"></label>
+                    <label  class="col-md-3 control-label">Arrival</label>
                     <div class="col-md-5">
-                        <input asp-for="@stayrooms[0].Arrival" class="form-control input-sm datepicker" type="text" />
-                        <span asp-validation-for="@stayrooms[0].Arrival" class="text-danger" />
+                        <input name="Arrival" value="@((DateTime)ViewData["Arrival"])" class="form-control input-sm datepicker" type="text" />
                     </div>
                 </div>
                 <!--Departure-->
                 <div class="form-group">
-                    <label asp-for="StayRooms.FirstOrDefault().Departure" class="col-md-3 control-label"></label>
+                    <label class="col-md-3 control-label">Departure</label>
                     <div class="col-md-5">
-                        <input asp-for="@stayrooms[0].Departure" class="form-control input-sm datepicker" type="text" />
-                        <span asp-validation-for="@stayrooms[0].Departure" class="text-danger" />
+                        <input value="@ViewData["Departure"]" class="form-control input-sm datepicker" type="text" />
                     </div>
                 </div>
 

@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace welcome
 {
@@ -32,7 +33,10 @@ namespace welcome
 
                 // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
                 builder.AddApplicationInsightsSettings(developerMode: true);
+
+ 
             }
+
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();

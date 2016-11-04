@@ -89,7 +89,10 @@ namespace welcome.Data
             modelBuilder.Entity<StayRoom>().HasOne(r => r.Board).WithMany().IsRequired().OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
             modelBuilder.Entity<StayRoom>().HasOne(r => r.ChargeRoomType).WithMany().IsRequired().OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
             modelBuilder.Entity<StayRoom>().HasOne(r => r.Room).WithMany().IsRequired(false).OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
-            modelBuilder.Entity<StayRoom>().HasOne(r => r.Agent).WithMany().IsRequired(false).OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.SetNull);
+
+            //modelBuilder.Entity<StayRoom>().HasOne(r => r.Agent).WithMany().IsRequired(false).OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.SetNull);
+            //modelBuilder.Entity<Agent>().HasMany<StayRoom>().WithOne(r => r.Agent).IsRequired(false).OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.SetNull);
+
             //modelBuilder.Entity<Agent>().HasMany(r => r.StayRooms).WithOne(r => r.Agent).IsRequired(false).OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.SetNull);
 
             modelBuilder.Entity<RoomType>().HasMany(r => r.Rooms).WithOne(r => r.RoomType).OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
