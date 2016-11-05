@@ -51,11 +51,14 @@ function InitJQueryUI() {
     });
 }
 
-$(document).ready(function () {
+$(document).on('ready',function (e) {
     $(document).on('click', '.reservationrow', function () {
         $('#reservation-data').load($(this).data('link'), null, function (data, status) {
-            $('#reservationstayrooms').load($('#reservationstayrooms').data('link'));
-            InitJQueryUI();
+            $('#reservationstayrooms').load($('#reservationstayrooms').data('link'), null, function (data, status) {
+                $('#reservations-editreservation-contact').load($('#reservations-editreservation-contact').data('link'), null, function (data, status) {
+                    InitJQueryUI();
+                });
+            });
         });
     });
     $(document).on('click', '#savereservationsbutton', function () {
@@ -67,4 +70,8 @@ $(document).ready(function () {
             debugger;
         });
     });
+    $(document).on('click', '#Reservations-EditReservaton-Save', function (e) {
+        $('form#singlereservationform').submit();
+    });
+    
 });

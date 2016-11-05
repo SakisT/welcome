@@ -85,7 +85,7 @@ namespace welcome.Data
             modelBuilder.Entity<Deposit>().HasOne(r => r.StayRoom).WithMany(r => r.Deposits).IsRequired(false).OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.SetNull);
             modelBuilder.Entity<Reservation>().HasMany(r => r.StayRooms).WithOne(r => r.Reservation).OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
             
-            modelBuilder.Entity<StayRoom>().HasOne(r => r.Pricelist).WithMany().IsRequired().OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
+            modelBuilder.Entity<StayRoom>().HasOne(r => r.Pricelist).WithMany().IsRequired(true).OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
             modelBuilder.Entity<StayRoom>().HasOne(r => r.Board).WithMany().IsRequired().OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
             modelBuilder.Entity<StayRoom>().HasOne(r => r.ChargeRoomType).WithMany().IsRequired().OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
             modelBuilder.Entity<StayRoom>().HasOne(r => r.Room).WithMany().IsRequired(false).OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);

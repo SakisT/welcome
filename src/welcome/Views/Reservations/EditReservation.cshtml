@@ -6,7 +6,7 @@
     StayRoom[] StayRooms = Model.StayRooms.ToArray();
 }
 
-<form asp-action="EditReservation">
+<form asp-action="EditReservation" id="singlereservationform">
     <div class="form-horizontal">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="id" />
@@ -38,6 +38,7 @@
             <div class="col-md-6" style="border-right:1px solid #ffd800;">
                 <!--Agent-->
                 <div class="form-group">
+                    <input name="AgentID" type="hidden" value="@((Guid)ViewData["AgentID"])" id="Reservations-EditReservation-AgentID" />
                     <label class="col-md-3 control-label">Agent</label>
                     <div class="col-md-3">
                         <input class="form-control input-sm" value="@ViewData["AgentCode"]"/>
@@ -48,9 +49,10 @@
                 </div>
                 <!--Pricelist-->
                 <div class="form-group">
+                    <input name="PricelistID" type="hidden" value="@((Guid)ViewData["PricelistID"])" id="Reservations-EditReservation-PricelistID"/>
                     <label class="col-md-3 control-label">Pricelist</label>
                     <div class="col-md-3">
-                        <input class="form-control input-sm" value="@ViewData["Pricelist"]" />
+                        <input class="form-control input-sm" value="@ViewData["PricelistName"]" />
                     </div>
                 </div>
                 <!--Arrival-->
@@ -64,22 +66,16 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">Departure</label>
                     <div class="col-md-5">
-                        <input value="@ViewData["Departure"]" class="form-control input-sm datepicker" type="text" />
+                        <input name="Departure" value="@((DateTime)ViewData["Departure"])" class="form-control input-sm datepicker" type="text" />
                     </div>
                 </div>
+
 
             </div>
 
             <!--Contact Info-->
-            <div class="Col-md-6">
-                <!--Contact-->
-                @*<div class="form-group">
-                        <label asp-for="@stayrooms.FirstOrDefault().StayPersons.FirstOrDefault().Customer.Address_AddressLine1" class="col-md-3 control-label"></label>
-                        <div class="col-md-3">
-                            <input asp-for="@stayrooms[0].StayPersons.ToArray()[0].Customer.Address_AddressLine1" class="form-control" />
-                            <span asp-validation-for="@stayrooms[0].StayPersons.ToArray()[0].Customer.Address_AddressLine1" class="text-danger" />
-                        </div>
-                    </div>*@
+            <div class="col-md-6">
+                <div id="reservations-editreservation-contact" data-link="@Url.Action("GetReservationContactInfo",new { id=Model.id})"></div>
             </div>
 
         </div>
@@ -131,7 +127,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" /><!---->
+                <!--<input type="submit" value="Save" class="btn btn-default" />-->
+                <div class="btn btn-info" id="Reservations-EditReservaton-Save">Save</div>
             </div>
         </div>
     </div>

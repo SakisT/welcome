@@ -1,0 +1,66 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model welcome.Models.Customer
+
+    <div class="form-horizontal" id="reservation-data-contact">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" name="CustomerID" value="@((Guid)ViewData["CustomerID"])" />
+        <input type="hidden" asp-for="id" />
+        <input type="hidden" asp-for="Address_AddressLine2" />
+        <input type="hidden" asp-for="Contact_WebSite" />
+        <input type="hidden" asp-for="FathersName" />
+        <input type="hidden" asp-for="Folio" />
+        <input type="hidden" asp-for="HotelID" />
+        <input type="hidden" asp-for="InvoiceDetailId" />
+        <input type="hidden" asp-for="IsBlackListed" />
+        <input type="hidden" asp-for="Job" />
+        <input type="hidden" asp-for="NationalityID" />
+        <input type="hidden" asp-for="Passport" />
+        <input type="hidden" asp-for="Person_BirthDate" />
+        <input type="hidden" asp-for="Person_FirstName" />
+        <input type="hidden" asp-for="Person_LastName" />
+        <input type="hidden" asp-for="Remarks" />
+        <input type="hidden" asp-for="Sex" />
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">@Localizer["Contact Info"]</div>
+            <div class="panel-body">
+                <p>@Localizer["Address"]</p>
+                <!--Address-->
+                <input type="text" asp-for="Address_AddressLine1" class="form-control input-sm" placeholder="@Localizer["Street & No"]" title="@Localizer["Street & No"]" />
+                <div class="row">
+                    <div class="col-md-8">
+                        <input type="text" asp-for="Address_City" class="form-control input-sm" placeholder="@Localizer["City"]" title="@Localizer["City"]" />
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" asp-for="Address_PostCode" class="form-control input-sm" placeholder="@Localizer["Post Code"]" title="@Localizer["Post Code"]" />
+                    </div>
+                </div>
+                <input type="text" asp-for="Address_Country" class="form-control input-sm" placeholder="@Localizer["Country"]" title="@Localizer["Country"]" />
+                <hr />
+                <p>@Localizer["Communication"]</p>
+                <input type="text" asp-for="Contact_email" class="form-control input-sm" placeholder="email" title="email" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="text" asp-for="Contact_Phone1" class="form-control input-sm" placeholder="@Localizer["Phone"]" title="@Localizer["Phone"]" />
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" asp-for="Contact_Phone2" class="form-control input-sm" placeholder="@Localizer["Phone"]" title="@Localizer["Phone"]" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="text" asp-for="Contact_Mobile" class="form-control input-sm" placeholder="Mobile" title="Mobile" />
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" asp-for="Contact_Fax" class="form-control input-sm" placeholder="Fax" title="Fax" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
