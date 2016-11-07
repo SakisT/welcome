@@ -8,7 +8,7 @@ using welcome.Data;
 namespace welcome.Migrations
 {
     [DbContext(typeof(WelcomeContext))]
-    [Migration("20161107150137_InitialCreate")]
+    [Migration("20161107175554_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
