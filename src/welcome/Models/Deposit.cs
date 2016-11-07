@@ -10,7 +10,7 @@ namespace welcome.Models
     public class Deposit
     {
         [Key, Required]
-        public Guid id { get; set; }
+        public Guid DepositID { get; set; }
         public DateTime? HotelDate { get; set; }
         public decimal Euro { get; set; }
         [StringLength(25), DataType(DataType.CreditCard)]

@@ -8,7 +8,7 @@ namespace welcome.Models
     public class Agent
     {
         [Key, Required]
-        public Guid id { get; set; }
+        public Guid AgentID { get; set; }
         private AgentType _Type = AgentType.Agent;
         public AgentType Type { get { return _Type; } set { _Type = value; } }
         public enum AgentType

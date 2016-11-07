@@ -10,7 +10,7 @@ namespace welcome.Models
     public class Department
     {
         [Key, Required]
-        public Guid id { get; set; }
+        public Guid DepartmentID { get; set; }
 
         public int DisplayOrder { get; set; }
 

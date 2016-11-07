@@ -53,7 +53,7 @@ namespace welcome.Controllers
                 return NotFound();
             }
 
-            var roomType = await _context.RoomTypes.SingleOrDefaultAsync(m => m.id == id);
+            var roomType = await _context.RoomTypes.SingleOrDefaultAsync(m => m.RoomTypeID == id);
             if (roomType == null)
             {
                 return NotFound();
@@ -79,7 +79,7 @@ namespace welcome.Controllers
         {
             if (ModelState.IsValid)
             {
-                roomType.id = Guid.NewGuid();
+                roomType.RoomTypeID = Guid.NewGuid();
                 _context.Add(roomType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index",new { id=roomType.HotelID});
@@ -96,12 +96,12 @@ namespace welcome.Controllers
                 return NotFound();
             }
 
-            var roomType = await _context.RoomTypes.SingleOrDefaultAsync(m => m.id == id);
+            var roomType = await _context.RoomTypes.SingleOrDefaultAsync(m => m.RoomTypeID == id);
             if (roomType == null)
             {
                 return NotFound();
             }
-            ViewData["HotelID"] = new SelectList(_context.Hotels, "id", "Name", roomType.HotelID);
+            ViewData["HotelID"] = new SelectList(_context.Hotels, "HotelID", "Name", roomType.HotelID);
             return View(roomType);
         }
 
@@ -113,7 +113,7 @@ namespace welcome.Controllers
         public async Task<IActionResult>
             EditPost(Guid id)
         {
-            var roomtype =await _context.RoomTypes.SingleOrDefaultAsync(m => m.id == id);
+            var roomtype =await _context.RoomTypes.SingleOrDefaultAsync(m => m.RoomTypeID == id);
             if( await TryUpdateModelAsync(roomtype,"",
                 s=>s.Abbreviation,
                 s=>s.Color, 
@@ -146,7 +146,7 @@ namespace welcome.Controllers
                 return NotFound();
             }
 
-            var roomType = await _context.RoomTypes.SingleOrDefaultAsync(m => m.id == id);
+            var roomType = await _context.RoomTypes.SingleOrDefaultAsync(m => m.RoomTypeID == id);
             if (roomType == null)
             {
                 return NotFound();
@@ -161,7 +161,7 @@ namespace welcome.Controllers
         public async Task<IActionResult>
             DeleteConfirmed(Guid id)
         {
-            var roomType = await _context.RoomTypes.SingleOrDefaultAsync(m => m.id == id);
+            var roomType = await _context.RoomTypes.SingleOrDefaultAsync(m => m.RoomTypeID == id);
             _context.RoomTypes.Remove(roomType);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -169,7 +169,7 @@ namespace welcome.Controllers
 
         private bool RoomTypeExists(Guid id)
         {
-            return _context.RoomTypes.Any(e => e.id == id);
+            return _context.RoomTypes.Any(e => e.RoomTypeID == id);
         }
     }
 }

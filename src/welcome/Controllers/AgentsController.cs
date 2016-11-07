@@ -54,7 +54,7 @@ namespace welcome.Controllers
                 return NotFound();
             }
 
-            var agent = await _context.Agents.SingleOrDefaultAsync(m => m.id == id);
+            var agent = await _context.Agents.SingleOrDefaultAsync(m => m.AgentID == id);
             if (agent == null)
             {
                 return NotFound();
@@ -78,7 +78,7 @@ namespace welcome.Controllers
         {
             if (ModelState.IsValid)
             {
-                agent.id = Guid.NewGuid();
+                agent.AgentID = Guid.NewGuid();
                 _context.Add(agent);
 
                 AgentVardata agentvardata = new AgentVardata { Agent = agent, CreateOn = DateTime.Now };
@@ -93,7 +93,7 @@ namespace welcome.Controllers
                 try
                 {
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("Edit", new { id = agent.id });
+                    return RedirectToAction("Edit", new { id = agent.AgentID });
                 }
                 catch (DbUpdateException ex)
                 {
@@ -113,7 +113,7 @@ namespace welcome.Controllers
                 return NotFound();
             }
 
-            var agent = await _context.Agents.Include(r => r.Vardata).AsNoTracking().Include(r=>r.Vardata.InvoiceDetail).AsNoTracking().SingleOrDefaultAsync(m => m.id == id);
+            var agent = await _context.Agents.Include(r => r.Vardata).AsNoTracking().Include(r=>r.Vardata.InvoiceDetail).AsNoTracking().SingleOrDefaultAsync(m => m.AgentID == id);
             if (agent == null)
             {
                 return NotFound();
@@ -130,7 +130,7 @@ namespace welcome.Controllers
         public async Task<IActionResult> EditPost(Guid id)
         {
 
-            var agenttoupdate = await _context.Agents.Include(r => r.Vardata).Include(r=>r.Vardata.InvoiceDetail).SingleOrDefaultAsync(m => m.id == id);
+            var agenttoupdate = await _context.Agents.Include(r => r.Vardata).Include(r=>r.Vardata.InvoiceDetail).SingleOrDefaultAsync(m => m.AgentID == id);
             if (await TryUpdateModelAsync(agenttoupdate, "",
                 s => s.Code,
                 s => s.ChannelID,
@@ -159,7 +159,7 @@ namespace welcome.Controllers
                         s => s.PreDefinedInvoiceRemarks,
                         s => s.Remarks))
                     {
-                        var invoicedetail = await _context.InvoiceDetails.SingleOrDefaultAsync(m => m.id == agentvardata.InvoiceDetailID.GetValueOrDefault(Guid.Empty));
+                        var invoicedetail = await _context.InvoiceDetails.SingleOrDefaultAsync(m => m.InvoiceDetailID == agentvardata.InvoiceDetailID.GetValueOrDefault(Guid.Empty));
                         if (invoicedetail != null)
                         {
                             if(await TryUpdateModelAsync(invoicedetail, "", 
@@ -209,7 +209,7 @@ namespace welcome.Controllers
                 return NotFound();
             }
 
-            var agent = await _context.Agents.SingleOrDefaultAsync(m => m.id == id);
+            var agent = await _context.Agents.SingleOrDefaultAsync(m => m.AgentID == id);
             if (agent == null)
             {
                 return NotFound();
@@ -224,7 +224,7 @@ namespace welcome.Controllers
         public async Task<IActionResult>
             DeleteConfirmed(Guid id)
         {
-            var agent = await _context.Agents.SingleOrDefaultAsync(m => m.id == id);
+            var agent = await _context.Agents.SingleOrDefaultAsync(m => m.AgentID == id);
             _context.Agents.Remove(agent);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -232,7 +232,7 @@ namespace welcome.Controllers
 
         private bool AgentExists(Guid id)
         {
-            return _context.Agents.Any(e => e.id == id);
+            return _context.Agents.Any(e => e.AgentID == id);
         }
     }
 }

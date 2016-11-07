@@ -9,7 +9,7 @@ namespace welcome.Models
 {
     public class BoardPart
     {
-        public Guid id { get; set; }
+        public Guid BoardPartID { get; set; }
 
         [Range(minimum: 0, maximum: 1)]
         public double ParticipationRate { get; set; }

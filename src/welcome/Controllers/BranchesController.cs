@@ -40,7 +40,7 @@ namespace welcome.Controllers
             }
             if (!User.IsInRole("Administrator"))
             {
-                branches = branches.Where(r => _userinfo.BranchIDs.Any(s => s == r.id));
+                branches = branches.Where(r => _userinfo.BranchIDs.Any(s => s == r.BranchID));
             }
             else
             {
@@ -61,7 +61,7 @@ namespace welcome.Controllers
                 return NotFound();
             }
 
-            var branch = await _context.Branches.SingleOrDefaultAsync(m => m.id == id);
+            var branch = await _context.Branches.SingleOrDefaultAsync(m => m.BranchID == id);
             if (branch == null)
             {
                 return NotFound();
@@ -77,7 +77,7 @@ namespace welcome.Controllers
             {
                 return NotFound();
             }
-            Hotel hotel = _context.Hotels.SingleOrDefault(r => r.id == id);
+            Hotel hotel = _context.Hotels.SingleOrDefault(r => r.HotelID == id);
             Branch newbranch = new Branch { HotelID = id, Name = hotel.Name };
             return View(newbranch);
         }
@@ -94,7 +94,7 @@ namespace welcome.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    branch.id = Guid.NewGuid();
+                    branch.BranchID = Guid.NewGuid();
                     _context.Add(branch);
 
                     BranchVardata branchvardata = new BranchVardata { Branch = branch };
@@ -105,7 +105,7 @@ namespace welcome.Controllers
                     _context.Add(branchvardatareservation);
 
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("Edit", new { id = branch.id });
+                    return RedirectToAction("Edit", new { id = branch.BranchID });
                 }
             }
             catch (DbUpdateException)
@@ -114,7 +114,7 @@ namespace welcome.Controllers
             "Try again, and if the problem persists " +
             "see your system administrator.");
             }
-            ViewData["HotelID"] = new SelectList(_context.Hotels, "id", "Name", branch.HotelID);
+            ViewData["HotelID"] = new SelectList(_context.Hotels, "HotelID", "Name", branch.HotelID);
             return View(branch);
         }
 
@@ -126,16 +126,16 @@ namespace welcome.Controllers
                 return NotFound();
             }
 
-            var branch = await _context.Branches.Include(r => r.Vardata).AsNoTracking().Include(r => r.VardataReservations).AsNoTracking().SingleOrDefaultAsync(m => m.id == id);
+            var branch = await _context.Branches.Include(r => r.Vardata).AsNoTracking().Include(r => r.VardataReservations).AsNoTracking().SingleOrDefaultAsync(m => m.BranchID == id);
             if (branch == null)
             {
                 return NotFound();
             }
-            Hotel hotel = _context.Hotels.Include(r => r.HotelGroup).SingleOrDefault(r => r.id == branch.HotelID);
-            HotelGroup hotelgroup = await _context.HotelGroups.Include(r => r.Hotels).SingleOrDefaultAsync(s => s.id == hotel.HotelGroupID);
+            Hotel hotel = _context.Hotels.Include(r => r.HotelGroup).SingleOrDefault(r => r.HotelID == branch.HotelID);
+            HotelGroup hotelgroup = await _context.HotelGroups.Include(r => r.Hotels).SingleOrDefaultAsync(s => s.HotelGroupID == hotel.HotelGroupID);
 
-            ViewData["HotelID"] = new SelectList(hotelgroup.Hotels, "id", "Name", branch.HotelID);
-            ViewData["UsualNationalityID"] = new SelectList(_context.Nationalities.OrderBy(m=>m.GreekName).AsEnumerable(), "id", "GreekName", branch.HotelID);
+            ViewData["HotelID"] = new SelectList(hotelgroup.Hotels, "HotelID", "Name", branch.HotelID);
+            ViewData["UsualNationalityID"] = new SelectList(_context.Nationalities.OrderBy(m=>m.GreekName).AsEnumerable(), "NationalityID", "GreekName", branch.HotelID);
             return View(branch);
         }
 
@@ -150,14 +150,14 @@ namespace welcome.Controllers
             {
                 return NotFound();
             }
-            var branchtoupdate = await _context.Branches.Include(r => r.Vardata).Include(r => r.VardataReservations).SingleOrDefaultAsync(s => s.id == id);
+            var branchtoupdate = await _context.Branches.Include(r => r.Vardata).Include(r => r.VardataReservations).SingleOrDefaultAsync(s => s.BranchID == id);
             if (await TryUpdateModelAsync(branchtoupdate, "",
                 s => s.Name, s => s.HotelID, s => s.Vardata, s => s.VardataReservations))
             {
-                var branchvardata = await _context.BranchVardatas.SingleOrDefaultAsync(m => m.BranchVardataId == id);
+                var branchvardata = await _context.BranchVardatas.SingleOrDefaultAsync(m => m.BranchVardataID == id);
                 if (await TryUpdateModelAsync(branchvardata))
                 {
-                    var branchvardatareservation = await _context.BranchVardataReservations.SingleOrDefaultAsync(m => m.BranchVardataReservationId == id);
+                    var branchvardatareservation = await _context.BranchVardataReservations.SingleOrDefaultAsync(m => m.BranchVardataReservationID == id);
                     if (await TryUpdateModelAsync(branchvardatareservation))
                     {
                         try
@@ -186,7 +186,7 @@ namespace welcome.Controllers
                 return NotFound();
             }
 
-            var branch = await _context.Branches.SingleOrDefaultAsync(m => m.id == id);
+            var branch = await _context.Branches.SingleOrDefaultAsync(m => m.BranchID == id);
             if (branch == null)
             {
                 return NotFound();
@@ -201,7 +201,7 @@ namespace welcome.Controllers
         public async Task<IActionResult>
             DeleteConfirmed(Guid id)
         {
-            var branch = await _context.Branches.SingleOrDefaultAsync(m => m.id == id);
+            var branch = await _context.Branches.SingleOrDefaultAsync(m => m.BranchID == id);
             _context.Branches.Remove(branch);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", new { id = branch.HotelID });
@@ -209,7 +209,7 @@ namespace welcome.Controllers
 
         private bool BranchExists(Guid id)
         {
-            return _context.Branches.Any(e => e.id == id);
+            return _context.Branches.Any(e => e.BranchID == id);
         }
     }
 }

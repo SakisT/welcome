@@ -10,7 +10,7 @@ namespace welcome.Models
     public class StayRoom
     {
         [Key, Required]
-        public Guid id { get; set; }
+        public Guid StayRoomID { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime Arrival { get; set; }
 

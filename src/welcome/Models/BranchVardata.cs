@@ -10,7 +10,7 @@ namespace welcome.Models
     public class BranchVardata
     {
         [ForeignKey("Branch")]
-        public Guid BranchVardataId { get; set; }
+        public Guid BranchVardataID { get; set; }
 
         [StringLength(11)]
         public string SMSSignature { get; set; }

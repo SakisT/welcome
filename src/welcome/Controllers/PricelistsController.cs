@@ -55,7 +55,7 @@ namespace welcome.Controllers
                 return NotFound();
             }
 
-            var pricelist = await _context.Pricelists.SingleOrDefaultAsync(m => m.id == id);
+            var pricelist = await _context.Pricelists.SingleOrDefaultAsync(m => m.PricelistID == id);
             if (pricelist == null)
             {
                 return NotFound();
@@ -80,7 +80,7 @@ namespace welcome.Controllers
         {
             if (ModelState.IsValid)
             {
-                pricelist.id = Guid.NewGuid();
+                pricelist.PricelistID = Guid.NewGuid();
                 _context.Add(pricelist);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index",new { id=pricelist.HotelID});
@@ -96,7 +96,7 @@ namespace welcome.Controllers
                 return NotFound();
             }
 
-            var pricelist = await _context.Pricelists.SingleOrDefaultAsync(m => m.id == id);
+            var pricelist = await _context.Pricelists.SingleOrDefaultAsync(m => m.PricelistID == id);
             if (pricelist == null)
             {
                 return NotFound();
@@ -112,7 +112,7 @@ namespace welcome.Controllers
         public async Task<IActionResult> EditPost(Guid id)
         {
 
-            var pricelisttoupdate = await _context.Pricelists.SingleOrDefaultAsync(m => m.id == id);
+            var pricelisttoupdate = await _context.Pricelists.SingleOrDefaultAsync(m => m.PricelistID == id);
             if(await TryUpdateModelAsync(pricelisttoupdate,"", s=>s.Code, s => s.Name))
             {
                 try
@@ -137,7 +137,7 @@ namespace welcome.Controllers
                 return NotFound();
             }
 
-            var pricelist = await _context.Pricelists.SingleOrDefaultAsync(m => m.id == id);
+            var pricelist = await _context.Pricelists.SingleOrDefaultAsync(m => m.PricelistID == id);
             if (pricelist == null)
             {
                 return NotFound();
@@ -152,7 +152,7 @@ namespace welcome.Controllers
         public async Task<IActionResult>
             DeleteConfirmed(Guid id)
         {
-            var pricelist = await _context.Pricelists.SingleOrDefaultAsync(m => m.id == id);
+            var pricelist = await _context.Pricelists.SingleOrDefaultAsync(m => m.PricelistID == id);
             _context.Pricelists.Remove(pricelist);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", new { id=pricelist.HotelID});
@@ -160,7 +160,7 @@ namespace welcome.Controllers
 
         private bool PricelistExists(Guid id)
         {
-            return _context.Pricelists.Any(e => e.id == id);
+            return _context.Pricelists.Any(e => e.PricelistID == id);
         }
     }
 }

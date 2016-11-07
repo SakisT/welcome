@@ -12,7 +12,7 @@ namespace welcome.Models
     {
 
         [Key, Required]
-        public Guid id { get; set; }
+        public Guid InvoiceDetailID { get; set; }
         [StringLength(120)]
         public string InvoiceStructure_InvoiceName { get; set; }
 

@@ -10,7 +10,7 @@ namespace welcome.Models
     public class BranchVardataReservation
     {
         [ForeignKey("Branch")]
-        public Guid BranchVardataReservationId { get; set; }
+        public Guid BranchVardataReservationID { get; set; }
 
         public int UsualStay { get; set; }
 

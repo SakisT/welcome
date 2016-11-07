@@ -9,7 +9,7 @@ namespace welcome.Models
     public class HotelGroup
     {
         [Key, Required]
-        public Guid id { get; set; }
+        public Guid HotelGroupID { get; set; }
 
         [StringLength(80), Required]
         public string Name { get; set; }

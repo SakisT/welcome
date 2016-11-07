@@ -49,7 +49,7 @@
                     var item = currenttypereservationrooms.ToArray()[i];
                     <tr>
                         <td hidden="hidden">
-                            <input type="hidden" name="@string.Format($"SR[{@counter}].id")" value="@item.id" />
+                            <input type="hidden" name="@string.Format($"SR[{@counter}].StayRoomID")" value="@item.StayRoomID" />
                             <input type="hidden" name="@string.Format($"SR[{@counter}].ReservationID")" value="@item.ReservationID" />
                             <input type="hidden" name="@string.Format($"SR[{@counter}].ActualDeparture")" value="@item.ActualDeparture" />
                             <input type="hidden" name="@string.Format($"SR[{@counter}].AdultsCharge")" value="@item.AdultsCharge" />

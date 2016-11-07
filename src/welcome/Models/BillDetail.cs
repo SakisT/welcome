@@ -7,7 +7,7 @@ namespace welcome.Models
     public class BillDetail
     {
         [Key,Required]
-        public Guid ID { get; set; }
+        public Guid BillDetailID { get; set; }
         public Guid BillID { get; set; }
         [ForeignKey("BillID")]
         public virtual Bill Bill { get; set; }

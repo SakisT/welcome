@@ -7,7 +7,7 @@ namespace welcome.Models
     public class Supplement
     {
         [Key, Required]
-        public Guid id { get; set; }
+        public Guid SupplementID { get; set; }
         [StringLength(40)]
         public string InvoiceDescription { get; set; }
         public decimal Euro { get; set; }

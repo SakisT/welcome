@@ -10,7 +10,7 @@ namespace welcome.Models
     public class Reservation
     {
         [Key, Required]
-        public Guid id { get; set; }
+        public Guid ReservationID { get; set; }
         public int AA { get; set; }
         [Required, StringLength(50), Display(Name ="Guest")]
         public string GuestOrGroup { get; set; }

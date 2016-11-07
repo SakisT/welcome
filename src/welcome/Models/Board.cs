@@ -9,7 +9,7 @@ namespace welcome.Models
 {
     public class Board
     {
-        public Guid id { get; set; }
+        public Guid BoardID { get; set; }
 
         [Required, StringLength(25)]
         public string Name { get; set; }

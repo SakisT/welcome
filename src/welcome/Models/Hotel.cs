@@ -10,7 +10,7 @@ namespace welcome.Models
     public class Hotel
     {
         [Key, Required]
-        public Guid id { get; set; }
+        public Guid HotelID { get; set; }
 
         [StringLength(80), Required]
         public string Name { get; set; }

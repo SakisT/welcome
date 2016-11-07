@@ -10,7 +10,7 @@ namespace welcome.Models
     public class Bill
     {
         [Key, Required]
-        public Guid id { get; set; }
+        public Guid BillID { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime HotelDate { get; set; }
         public DateTime PreInvoiceHotelDate { get; set; }

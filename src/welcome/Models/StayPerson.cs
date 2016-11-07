@@ -10,7 +10,7 @@ namespace welcome.Models
     public class StayPerson
     {
         [Key, Required]
-        public Guid id { get; set; }
+        public Guid StayPersonID { get; set; }
 
         private Symbol _PaxSymbol = Symbol.X;
         public Symbol PaxSymbol { get { return _PaxSymbol; } set { _PaxSymbol = value; } }

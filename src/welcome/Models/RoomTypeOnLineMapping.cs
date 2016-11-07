@@ -10,7 +10,7 @@ namespace welcome.Models
     public class RoomTypeOnLineMapping
     {
         [Key, Required]
-        public Guid id { get; set; }
+        public Guid RoomTypeOnLineMappingID { get; set; }
 
         [Required, StringLength(10)]
         public string OnLineID { get; set; }

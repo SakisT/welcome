@@ -32,10 +32,10 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.id">Delete</a> |
-                    <a asp-action="Index" asp-controller="Rooms" asp-route-id="@item.id">Rooms</a> 
+                    <a asp-action="Edit" asp-route-id="@item.BranchID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.BranchID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.BranchID">Delete</a> |
+                    <a asp-action="Index" asp-controller="Rooms" asp-route-id="@item.BranchID">Rooms</a> 
                 </td>
             </tr>
         }

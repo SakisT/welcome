@@ -54,7 +54,7 @@ namespace welcome.Controllers
                 return NotFound();
             }
 
-            var department = await _context.Departments.SingleOrDefaultAsync(m => m.id == id);
+            var department = await _context.Departments.SingleOrDefaultAsync(m => m.DepartmentID == id);
             if (department == null)
             {
                 return NotFound();
@@ -66,7 +66,7 @@ namespace welcome.Controllers
         // GET: Departments/Create
         public async Task< IActionResult> Create(Guid id)
         {
-            Hotel hotel = await _context.Hotels.SingleOrDefaultAsync(r => r.id == id);
+            Hotel hotel = await _context.Hotels.SingleOrDefaultAsync(r => r.HotelID == id);
             var lastdepartment =_context.Departments.OrderByDescending(r => r.DisplayOrder).Where(r=>r.HotelID==id).FirstOrDefault();
             Department department = new Department { HotelID=id, DisplayOrder=lastdepartment?.DisplayOrder??1 };
             return View(department);
@@ -81,7 +81,7 @@ namespace welcome.Controllers
         {
             if (ModelState.IsValid)
             {
-                department.id = Guid.NewGuid();
+                department.DepartmentID = Guid.NewGuid();
                 _context.Add(department);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index",new { id=department.HotelID});
@@ -97,7 +97,7 @@ namespace welcome.Controllers
                 return NotFound();
             }
 
-            var department = await _context.Departments.SingleOrDefaultAsync(m => m.id == id);
+            var department = await _context.Departments.SingleOrDefaultAsync(m => m.DepartmentID == id);
             if (department == null)
             {
                 return NotFound();
@@ -113,7 +113,7 @@ namespace welcome.Controllers
         public async Task<IActionResult> EditPost(Guid id)
         {
 
-            var departmenttoupdate = await _context.Departments.SingleOrDefaultAsync(m => m.id == id);
+            var departmenttoupdate = await _context.Departments.SingleOrDefaultAsync(m => m.DepartmentID == id);
             if (departmenttoupdate == null)
             {
                 return NotFound();
@@ -134,7 +134,7 @@ namespace welcome.Controllers
                 return NotFound();
             }
 
-            var department = await _context.Departments.SingleOrDefaultAsync(m => m.id == id);
+            var department = await _context.Departments.SingleOrDefaultAsync(m => m.DepartmentID == id);
             if (department == null)
             {
                 return NotFound();
@@ -148,7 +148,7 @@ namespace welcome.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var department = await _context.Departments.SingleOrDefaultAsync(m => m.id == id);
+            var department = await _context.Departments.SingleOrDefaultAsync(m => m.DepartmentID == id);
             _context.Departments.Remove(department);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -156,7 +156,7 @@ namespace welcome.Controllers
 
         private bool DepartmentExists(Guid id)
         {
-            return _context.Departments.Any(e => e.id == id);
+            return _context.Departments.Any(e => e.DepartmentID == id);
         }
     }
 }

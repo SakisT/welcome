@@ -15,7 +15,8 @@ namespace welcome.Models
         {
             this.Color = DEFAULT_WHITE_COLOR;
         }
-        public Guid id { get; set; }
+        [Key,Required]
+        public Guid RoomTypeID { get; set; }
 
         [StringLength(20), Required]
         public string Name { get; set; }

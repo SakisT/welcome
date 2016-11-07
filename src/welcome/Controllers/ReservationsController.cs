@@ -60,10 +60,10 @@ namespace welcome.Controllers
             var reservation = await _context.Reservations.Include(r => r.StayRooms)
                 .ThenInclude(stayroom => stayroom.StayPersons)
                 .ThenInclude(stayperson => stayperson.Customer)
-                    .SingleOrDefaultAsync(r => r.id == id);
+                    .SingleOrDefaultAsync(r => r.ReservationID == id);
             var customer = reservation.StayRooms.FirstOrDefault().StayPersons.FirstOrDefault().Customer;
-            ViewData["CustomerID"] = customer.id;
-            var model = await _context.Customers.AsNoTracking().SingleOrDefaultAsync(s => s.id == customer.id);
+            ViewData["CustomerID"] = customer.CustomerID;
+            var model = await _context.Customers.AsNoTracking().SingleOrDefaultAsync(s => s.CustomerID == customer.CustomerID);
             return PartialView("_ContactInfo", model);
         }
 
@@ -74,7 +74,7 @@ namespace welcome.Controllers
                 return NotFound();
             }
 
-            var reservation = await _context.Reservations.SingleOrDefaultAsync(m => m.id == id);
+            var reservation = await _context.Reservations.SingleOrDefaultAsync(m => m.ReservationID == id);
             if (reservation == null)
             {
                 return NotFound();
@@ -85,7 +85,7 @@ namespace welcome.Controllers
 
         public IActionResult Create()
         {
-            ViewData["HotelID"] = new SelectList(_context.Hotels, "id", "Name");
+            ViewData["HotelID"] = new SelectList(_context.Hotels, "HotelID", "Name");
             return View();
         }
 
@@ -98,12 +98,12 @@ namespace welcome.Controllers
         {
             if (ModelState.IsValid)
             {
-                reservation.id = Guid.NewGuid();
+                reservation.ReservationID = Guid.NewGuid();
                 _context.Add(reservation);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["HotelID"] = new SelectList(_context.Hotels, "id", "Name", reservation.HotelID);
+            ViewData["HotelID"] = new SelectList(_context.Hotels, "HotelID", "Name", reservation.HotelID);
             return View(reservation);
         }
 
@@ -114,7 +114,7 @@ namespace welcome.Controllers
                 return NotFound();
             }
 
-            var reservation = await _context.Reservations.SingleOrDefaultAsync(m => m.id == id);
+            var reservation = await _context.Reservations.SingleOrDefaultAsync(m => m.ReservationID == id);
             if (reservation == null)
             {
                 return NotFound();
@@ -127,7 +127,7 @@ namespace welcome.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var reservation = await _context.Reservations.SingleOrDefaultAsync(m => m.id == id);
+            var reservation = await _context.Reservations.SingleOrDefaultAsync(m => m.ReservationID == id);
             _context.Reservations.Remove(reservation);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -136,12 +136,12 @@ namespace welcome.Controllers
         public async Task<PartialViewResult> EditReservation(string id)
         {
             //.Include(r => r.StayRooms).ThenInclude(stayroom => stayroom.Agent)
-            var reservation = await _context.Reservations.Include(r => r.StayRooms).ThenInclude(stayroom => stayroom.Agent).Include(r => r.StayRooms).ThenInclude(stayroom => stayroom.Pricelist).AsNoTracking().SingleOrDefaultAsync(m => m.id == Guid.Parse(id));
-            ViewData["HotelID"] = new SelectList(_context.Hotels, "id", "Name", reservation.HotelID);
-            ViewData["AgentID"] = reservation.StayRooms.FirstOrDefault().Agent?.id ?? Guid.Empty;
+            var reservation = await _context.Reservations.Include(r => r.StayRooms).ThenInclude(stayroom => stayroom.Agent).Include(r => r.StayRooms).ThenInclude(stayroom => stayroom.Pricelist).AsNoTracking().SingleOrDefaultAsync(m => m.ReservationID == Guid.Parse(id));
+            ViewData["HotelID"] = new SelectList(_context.Hotels, "HotelID", "Name", reservation.HotelID);
+            ViewData["AgentID"] = reservation.StayRooms.FirstOrDefault().Agent?.AgentID ?? Guid.Empty;
             ViewData["AgentCode"] = reservation.StayRooms.FirstOrDefault().Agent?.Code ?? "";
             ViewData["AgentName"] = reservation.StayRooms.FirstOrDefault().Agent?.Name ?? "";
-            ViewData["PricelistID"] = reservation.StayRooms.FirstOrDefault().Pricelist?.id ?? Guid.Empty;
+            ViewData["PricelistID"] = reservation.StayRooms.FirstOrDefault().Pricelist?.PricelistID ?? Guid.Empty;
             ViewData["PricelistName"] = reservation.StayRooms.FirstOrDefault().Pricelist?.Name ?? "";
             ViewData["Arrival"] = reservation.StayRooms.FirstOrDefault().Arrival;
             ViewData["Departure"] = reservation.StayRooms.FirstOrDefault().Departure;
@@ -149,11 +149,11 @@ namespace welcome.Controllers
         }
 
         [HttpPost, ActionName("EditReservation")]
-        public async Task<IActionResult> EditReservationPost(string id, StayRoom[] SR, string  CustomerID, Customer Customer)
+        public async Task<IActionResult> EditReservationPost(string id, StayRoom[] SR, Customer Customer)
         {
             var valueProvider = await Microsoft.AspNetCore.Mvc.ModelBinding.CompositeValueProvider.CreateAsync(ControllerContext);
 
-            var reservationtoupdate = await _context.Reservations.SingleOrDefaultAsync(r => r.id == Guid.Parse(id));
+            var reservationtoupdate = await _context.Reservations.SingleOrDefaultAsync(r => r.ReservationID == Guid.Parse(id));
 
             var Arrival = valueProvider.GetValue("Arrival").Values[0];
             var Departure = valueProvider.GetValue("Departure").Values[0];
@@ -167,9 +167,8 @@ namespace welcome.Controllers
                 item.Departure = DateTime.Parse(Departure, CultureInfo.CurrentCulture);
                 _context.Entry(item).State = EntityState.Modified;
             }
-            Customer.id = Guid.Parse(CustomerID);
             _context.Entry(Customer).State = EntityState.Modified;
-            if (await TryUpdateModelAsync(reservationtoupdate, "", s => s.AA, s => s.GuestOrGroup, s => s.StayRooms))
+            if (await TryUpdateModelAsync(reservationtoupdate, "", s => s.AA, s => s.GuestOrGroup))
             {
                 try
                 {
@@ -178,27 +177,27 @@ namespace welcome.Controllers
                 }
                 catch (DbUpdateConcurrencyException ex)
                 {
-                    //foreach (var entry in ex.Entries)
-                    //{
-                    //    if (entry.Entity is Customer)
-                    //    {
-                    //        var databaseEntity = _context.Customers.AsNoTracking().Single(p => p.id == ((Customer)entry.Entity).id);
-                    //        var databaseEntry = _context.Entry(databaseEntity);
+                    foreach (var entry in ex.Entries)
+                    {
+                        if (entry.Entity is StayRoom)
+                        {
+                            var databaseEntity = _context.StayRooms.AsNoTracking().Single(p => p.StayRoomID == ((StayRoom)entry.Entity).StayRoomID);
+                            var databaseEntry = _context.Entry(databaseEntity);
 
-                    //        foreach (var property in entry.Metadata.GetProperties())
-                    //        {
-                    //            var proposedValue = entry.Property(property.Name).CurrentValue;
-                    //            var originalValue = entry.Property(property.Name).OriginalValue;
-                    //            var databaseValue = databaseEntry.Property(property.Name).CurrentValue;
+                            foreach (var property in entry.Metadata.GetProperties())
+                            {
+                                var proposedValue = entry.Property(property.Name).CurrentValue;
+                                var originalValue = entry.Property(property.Name).OriginalValue;
+                                var databaseValue = databaseEntry.Property(property.Name).CurrentValue;
 
-                    //            entry.Property(property.Name).OriginalValue = databaseEntry.Property(property.Name).CurrentValue;
-                    //        }
-                    //    }
-                    //    else
-                    //    {
-                    //        throw new NotSupportedException("Don't know how to handle concurrency conflicts for " + entry.Metadata.Name);
-                    //    }
-                    //}
+                                entry.Property(property.Name).OriginalValue = databaseEntry.Property(property.Name).CurrentValue;
+                            }
+                        }
+                        else
+                        {
+                            throw new NotSupportedException("Don't know how to handle concurrency conflicts for " + entry.Metadata.Name);
+                        }
+                    }
                     ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
                 }
             }
@@ -222,13 +221,13 @@ namespace welcome.Controllers
         {
             StayRoom stayroom = await _context.StayRooms.SingleOrDefaultAsync(r => r.ReservationID == id);
             Customer tempcustomer = stayroom.StayPersons.SingleOrDefault(r => r.Customer.HasAddress).Customer;
-            Customer customer = await _context.Customers.SingleOrDefaultAsync(r => r.id == tempcustomer.id);
+            Customer customer = await _context.Customers.SingleOrDefaultAsync(r => r.CustomerID == tempcustomer.CustomerID);
             return PartialView(customer);
         }
 
         private bool ReservationExists(Guid id)
         {
-            return _context.Reservations.Any(e => e.id == id);
+            return _context.Reservations.Any(e => e.ReservationID == id);
         }
     }
 }

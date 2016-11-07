@@ -10,7 +10,7 @@ namespace welcome.Models
     public class Pricelist
     {
         [Key, Required]
-        public Guid id { get; set; }
+        public Guid PricelistID { get; set; }
         [Required, StringLength(10)]
         public string Code { get; set; }
 

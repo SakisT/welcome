@@ -10,7 +10,7 @@ namespace welcome.Models
     public class HotelVardataInvoice
     {
         [ForeignKey("Hotel")]
-        public Guid HotelVardataInvoiceId { get; set; }
+        public Guid HotelVardataInvoiceID { get; set; }
         public virtual Hotel Hotel { get; set; }
 
         private int _InvoiceCopies = 1;

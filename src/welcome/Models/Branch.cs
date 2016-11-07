@@ -10,7 +10,7 @@ namespace welcome.Models
     public class Branch
     {
         [Key, Required]
-        public Guid id { get; set; }
+        public Guid BranchID { get; set; }
 
         [StringLength(80), Required]
         public string Name { get; set; }

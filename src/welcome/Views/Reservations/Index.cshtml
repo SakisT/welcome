@@ -24,7 +24,7 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr class="reservationrow" data-link="@Url.Action("EditReservation", new { id = item.id })">
+                            <tr class="reservationrow" data-link="@Url.Action("EditReservation", new { id = item.ReservationID })">
                                 <td>@item.AA</td>
                                 <td class="guest-cell">@item.GuestOrGroup</td>
                                 <td class="text-right">@string.Format($"{item.StayRooms.FirstOrDefault().Arrival:d/M/yy}")</td>

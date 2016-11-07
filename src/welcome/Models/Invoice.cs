@@ -10,7 +10,7 @@ namespace welcome.Models
     public class Invoice
     {
         [Key, Required]
-        public Guid id { get; set; }
+        public Guid InvoiceID { get; set; }
         public InvoiceView ArrangementsView { get; set; }
 
         public InvoiceView ExtrasView { get; set; }

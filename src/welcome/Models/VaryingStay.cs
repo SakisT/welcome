@@ -10,7 +10,7 @@ namespace welcome.Models
     public class VaryingStay
     {
         [Key, Required]
-        public Guid id { get; set; }
+        public Guid VaryingStayID { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime HotelDate { get; set; }

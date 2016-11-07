@@ -9,7 +9,7 @@ namespace welcome.Models
     public class Nationality
     {
         [Key, Required]
-        public int id { get; set; }
+        public int NationalityID { get; set; }
 
         [StringLength(3)]
         public string Abbrevation { get; set; }

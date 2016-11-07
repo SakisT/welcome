@@ -9,7 +9,7 @@ namespace welcome.Models
     public class Preference
     {
         [Key, Required]
-        public Guid id { get; set; }
+        public Guid PreferenceID { get; set; }
 
         public Guid HotelId { get; set; }
         public string Description { get; set; }

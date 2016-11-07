@@ -53,7 +53,7 @@ namespace welcome.Controllers
                 return NotFound();
             }
 
-            var room = await _context.Rooms.SingleOrDefaultAsync(m => m.id == id);
+            var room = await _context.Rooms.SingleOrDefaultAsync(m => m.RoomID == id);
             if (room == null)
             {
                 return NotFound();
@@ -65,10 +65,10 @@ namespace welcome.Controllers
         // GET: Rooms/Create
         public async Task<IActionResult> Create(Guid id)
         {
-            Branch branch = await _context.Branches.SingleOrDefaultAsync(m => m.id == id);
-            Hotel hotel = await _context.Hotels.SingleOrDefaultAsync(m => m.id == branch.HotelID);
-            var roomtypes = _context.RoomTypes.Where(r => r.HotelID == hotel.id);
-            ViewData["RoomTypeID"] = new SelectList(roomtypes, "id", "Abbreviation");
+            Branch branch = await _context.Branches.SingleOrDefaultAsync(m => m.BranchID == id);
+            Hotel hotel = await _context.Hotels.SingleOrDefaultAsync(m => m.HotelID == branch.HotelID);
+            var roomtypes = _context.RoomTypes.Where(r => r.HotelID == hotel.HotelID);
+            ViewData["RoomTypeID"] = new SelectList(roomtypes, "RoomTypeID", "Abbreviation");
             var maxdisplayorder = _context.Rooms.Where(r => r.BranchID == id).Max(r => r.DisplayOrder);
             Room room = new Room { BranchID = id, DisplayOrder=maxdisplayorder+1 };
             return View(room);
@@ -83,15 +83,15 @@ namespace welcome.Controllers
         {
             if (ModelState.IsValid)
             {
-                room.id = Guid.NewGuid();
+                room.RoomID = Guid.NewGuid();
                 _context.Add(room);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index",new { id=room.BranchID});
             }
-            Branch branch = await _context.Branches.SingleOrDefaultAsync(m => m.id == room.BranchID);
-            Hotel hotel = await _context.Hotels.SingleOrDefaultAsync(m => m.id == branch.HotelID);
-            var roomtypes = _context.RoomTypes.OrderBy(r=>r.DisplayOrder).ThenBy(r=>r.Abbreviation).Where(r => r.HotelID == hotel.id);
-            ViewData["RoomTypeID"] = new SelectList(roomtypes, "id", "Abbreviation");
+            Branch branch = await _context.Branches.SingleOrDefaultAsync(m => m.BranchID == room.BranchID);
+            Hotel hotel = await _context.Hotels.SingleOrDefaultAsync(m => m.HotelID == branch.HotelID);
+            var roomtypes = _context.RoomTypes.OrderBy(r=>r.DisplayOrder).ThenBy(r=>r.Abbreviation).Where(r => r.HotelID == hotel.HotelID);
+            ViewData["RoomTypeID"] = new SelectList(roomtypes, "RoomTypeID", "Abbreviation");
             return View(room);
         }
 
@@ -103,15 +103,15 @@ namespace welcome.Controllers
                 return NotFound();
             }
 
-            var room = await _context.Rooms.SingleOrDefaultAsync(m => m.id == id);
+            var room = await _context.Rooms.SingleOrDefaultAsync(m => m.RoomID == id);
             if (room == null)
             {
                 return NotFound();
             }
-            Branch branch = await _context.Branches.SingleOrDefaultAsync(m => m.id == room.BranchID);
-            Hotel hotel = await _context.Hotels.SingleOrDefaultAsync(m => m.id == branch.HotelID);
-            var roomtypes = _context.RoomTypes.OrderBy(r => r.DisplayOrder).ThenBy(r => r.Abbreviation).Where(r => r.HotelID == hotel.id);
-            ViewData["RoomTypeID"] = new SelectList(roomtypes, "id", "Abbreviation");
+            Branch branch = await _context.Branches.SingleOrDefaultAsync(m => m.BranchID == room.BranchID);
+            Hotel hotel = await _context.Hotels.SingleOrDefaultAsync(m => m.HotelID == branch.HotelID);
+            var roomtypes = _context.RoomTypes.OrderBy(r => r.DisplayOrder).ThenBy(r => r.Abbreviation).Where(r => r.HotelID == hotel.HotelID);
+            ViewData["RoomTypeID"] = new SelectList(roomtypes, "RoomTypeID", "Abbreviation");
             return View(room);
         }
 
@@ -122,7 +122,7 @@ namespace welcome.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPost(Guid id)
         {
-            var roomtoupdate = await _context.Rooms.SingleOrDefaultAsync(r => r.id == id);
+            var roomtoupdate = await _context.Rooms.SingleOrDefaultAsync(r => r.RoomID == id);
             if (await TryUpdateModelAsync(roomtoupdate, "", s => s.Number, s => s.RoomTypeID, s=>s.DisplayOrder))
             {
                 try
@@ -137,7 +137,7 @@ namespace welcome.Controllers
                             "see your system administrator.");
                 }
             }
-            ViewData["RoomTypeID"] = new SelectList(_context.RoomTypes, "id", "Abbreviation", roomtoupdate.RoomTypeID);
+            ViewData["RoomTypeID"] = new SelectList(_context.RoomTypes, "RoomTypeID", "Abbreviation", roomtoupdate.RoomTypeID);
             return View(roomtoupdate);
         }
 
@@ -150,7 +150,7 @@ namespace welcome.Controllers
                 return NotFound();
             }
 
-            var room = await _context.Rooms.SingleOrDefaultAsync(m => m.id == id);
+            var room = await _context.Rooms.SingleOrDefaultAsync(m => m.RoomID == id);
             if (room == null)
             {
                 return NotFound();
@@ -165,7 +165,7 @@ namespace welcome.Controllers
         public async Task<IActionResult>
             DeleteConfirmed(Guid id)
         {
-            var room = await _context.Rooms.SingleOrDefaultAsync(m => m.id == id);
+            var room = await _context.Rooms.SingleOrDefaultAsync(m => m.RoomID == id);
             _context.Rooms.Remove(room);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -173,7 +173,7 @@ namespace welcome.Controllers
 
         private bool RoomExists(Guid id)
         {
-            return _context.Rooms.Any(e => e.id == id);
+            return _context.Rooms.Any(e => e.RoomID == id);
         }
     }
 }

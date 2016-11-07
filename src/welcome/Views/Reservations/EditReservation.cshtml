@@ -9,7 +9,7 @@
 <form asp-action="EditReservation" id="singlereservationform">
     <div class="form-horizontal">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="id" />
+        <input type="hidden" asp-for="ReservationID" />
         <input type="hidden" asp-for="HotelID" />
 
         <!-- AA & Guest-->
@@ -75,7 +75,7 @@
 
             <!--Contact Info-->
             <div class="col-md-6">
-                <div id="reservations-editreservation-contact" data-link="@Url.Action("GetReservationContactInfo",new { id=Model.id})"></div>
+                <div id="reservations-editreservation-contact" data-link="@Url.Action("GetReservationContactInfo",new { id=Model.ReservationID})"></div>
             </div>
 
         </div>
@@ -85,7 +85,7 @@
 
             <!--StayRooms-->
             <div class="col-md-6" id="reservation-stayrooms" data-stayrooms="@Model.StayRooms">
-                <div id="reservationstayrooms" data-link="@Url.Action("EditStayRooms",new { id = Model.id })"></div>
+                <div id="reservationstayrooms" data-link="@Url.Action("EditStayRooms",new { id = Model.ReservationID })"></div>
             </div>
 
             <!--Deposits-->

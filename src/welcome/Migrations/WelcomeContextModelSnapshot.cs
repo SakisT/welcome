@@ -18,7 +18,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.Agent", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("AgentID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ChannelID")
@@ -40,7 +40,7 @@ namespace welcome.Migrations
 
                     b.Property<int>("Type");
 
-                    b.HasKey("id");
+                    b.HasKey("AgentID");
 
                     b.HasIndex("HotelID");
 
@@ -105,7 +105,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.Bill", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("BillID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<double?>("AgentCommission");
@@ -154,7 +154,7 @@ namespace welcome.Migrations
 
                     b.Property<double>("VatPercentage");
 
-                    b.HasKey("id");
+                    b.HasKey("BillID");
 
                     b.HasIndex("AgentID");
 
@@ -183,7 +183,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.BillDetail", b =>
                 {
-                    b.Property<Guid>("ID")
+                    b.Property<Guid>("BillDetailID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("BillID");
@@ -192,7 +192,7 @@ namespace welcome.Migrations
 
                     b.Property<double>("Percentage");
 
-                    b.HasKey("ID");
+                    b.HasKey("BillDetailID");
 
                     b.HasIndex("BillID");
 
@@ -203,7 +203,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.Board", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("BoardID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Abbrevation")
@@ -218,7 +218,7 @@ namespace welcome.Migrations
                         .IsRequired()
                         .HasAnnotation("MaxLength", 25);
 
-                    b.HasKey("id");
+                    b.HasKey("BoardID");
 
                     b.HasIndex("HotelID");
 
@@ -227,7 +227,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.BoardPart", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("BoardPartID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("BoardID");
@@ -236,7 +236,7 @@ namespace welcome.Migrations
 
                     b.Property<double>("ParticipationRate");
 
-                    b.HasKey("id");
+                    b.HasKey("BoardPartID");
 
                     b.HasIndex("BoardID");
 
@@ -247,7 +247,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.Branch", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("BranchID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("HotelID");
@@ -256,7 +256,7 @@ namespace welcome.Migrations
                         .IsRequired()
                         .HasAnnotation("MaxLength", 80);
 
-                    b.HasKey("id");
+                    b.HasKey("BranchID");
 
                     b.HasIndex("HotelID");
 
@@ -265,7 +265,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.BranchVardata", b =>
                 {
-                    b.Property<Guid>("BranchVardataId");
+                    b.Property<Guid>("BranchVardataID");
 
                     b.Property<string>("AFM")
                         .HasAnnotation("MaxLength", 30);
@@ -322,9 +322,9 @@ namespace welcome.Migrations
                     b.Property<string>("SMSSignature")
                         .HasAnnotation("MaxLength", 11);
 
-                    b.HasKey("BranchVardataId");
+                    b.HasKey("BranchVardataID");
 
-                    b.HasIndex("BranchVardataId")
+                    b.HasIndex("BranchVardataID")
                         .IsUnique();
 
                     b.ToTable("BranchVardatas");
@@ -332,7 +332,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.BranchVardataReservation", b =>
                 {
-                    b.Property<Guid>("BranchVardataReservationId");
+                    b.Property<Guid>("BranchVardataReservationID");
 
                     b.Property<bool>("AcceptPastDatesForDeposit");
 
@@ -350,9 +350,9 @@ namespace welcome.Migrations
                     b.Property<string>("emailOnNonShowOrCancellation")
                         .HasAnnotation("MaxLength", 40);
 
-                    b.HasKey("BranchVardataReservationId");
+                    b.HasKey("BranchVardataReservationID");
 
-                    b.HasIndex("BranchVardataReservationId")
+                    b.HasIndex("BranchVardataReservationID")
                         .IsUnique();
 
                     b.HasIndex("UsualNationalityID");
@@ -362,7 +362,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.Customer", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("CustomerID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Address_AddressLine1")
@@ -429,7 +429,7 @@ namespace welcome.Migrations
 
                     b.Property<int>("Sex");
 
-                    b.HasKey("id");
+                    b.HasKey("CustomerID");
 
                     b.HasIndex("HotelID");
 
@@ -442,7 +442,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.Department", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("DepartmentID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("DisplayOrder");
@@ -459,7 +459,7 @@ namespace welcome.Migrations
 
                     b.Property<decimal>("VatPercentage");
 
-                    b.HasKey("id");
+                    b.HasKey("DepartmentID");
 
                     b.HasIndex("HotelID");
 
@@ -468,7 +468,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.Deposit", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("DepositID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("CCV")
@@ -502,7 +502,7 @@ namespace welcome.Migrations
 
                     b.Property<Guid>("UserId");
 
-                    b.HasKey("id");
+                    b.HasKey("DepositID");
 
                     b.HasIndex("CreditCardOrBankID");
 
@@ -515,7 +515,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.Hotel", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("HotelID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Dealer")
@@ -533,7 +533,7 @@ namespace welcome.Migrations
                         .IsRequired()
                         .HasAnnotation("MaxLength", 80);
 
-                    b.HasKey("id");
+                    b.HasKey("HotelID");
 
                     b.HasIndex("HotelGroupID");
 
@@ -542,21 +542,21 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.HotelGroup", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("HotelGroupID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasAnnotation("MaxLength", 80);
 
-                    b.HasKey("id");
+                    b.HasKey("HotelGroupID");
 
                     b.ToTable("HotelGroups");
                 });
 
             modelBuilder.Entity("welcome.Models.HotelVardataInvoice", b =>
                 {
-                    b.Property<Guid>("HotelVardataInvoiceId");
+                    b.Property<Guid>("HotelVardataInvoiceID");
 
                     b.Property<string>("ArrangementDescription")
                         .HasAnnotation("MaxLength", 50);
@@ -578,9 +578,9 @@ namespace welcome.Migrations
                     b.Property<string>("SendInvoiceToHotelMailAsCC")
                         .HasAnnotation("MaxLength", 40);
 
-                    b.HasKey("HotelVardataInvoiceId");
+                    b.HasKey("HotelVardataInvoiceID");
 
-                    b.HasIndex("HotelVardataInvoiceId")
+                    b.HasIndex("HotelVardataInvoiceID")
                         .IsUnique();
 
                     b.ToTable("HotelVardataInvoices");
@@ -619,7 +619,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.Invoice", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("InvoiceID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("ArrangementsView");
@@ -628,7 +628,7 @@ namespace welcome.Migrations
 
                     b.Property<Guid>("InvoiceDetailID");
 
-                    b.HasKey("id");
+                    b.HasKey("InvoiceID");
 
                     b.HasIndex("InvoiceDetailID");
 
@@ -637,7 +637,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.InvoiceDetail", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("InvoiceDetailID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid?>("HotelID");
@@ -669,7 +669,7 @@ namespace welcome.Migrations
                     b.Property<string>("InvoiceStructure_VATNumber")
                         .HasAnnotation("MaxLength", 20);
 
-                    b.HasKey("id");
+                    b.HasKey("InvoiceDetailID");
 
                     b.HasIndex("HotelID");
 
@@ -678,7 +678,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.Nationality", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("NationalityID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Abbrevation")
@@ -690,28 +690,28 @@ namespace welcome.Migrations
                     b.Property<string>("GreekName")
                         .HasAnnotation("MaxLength", 50);
 
-                    b.HasKey("id");
+                    b.HasKey("NationalityID");
 
                     b.ToTable("Nationalities");
                 });
 
             modelBuilder.Entity("welcome.Models.Preference", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("PreferenceID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
 
                     b.Property<Guid>("HotelId");
 
-                    b.HasKey("id");
+                    b.HasKey("PreferenceID");
 
                     b.ToTable("Preferences");
                 });
 
             modelBuilder.Entity("welcome.Models.Pricelist", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("PricelistID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Code")
@@ -724,7 +724,7 @@ namespace welcome.Migrations
                         .IsRequired()
                         .HasAnnotation("MaxLength", 50);
 
-                    b.HasKey("id");
+                    b.HasKey("PricelistID");
 
                     b.HasIndex("HotelID");
 
@@ -733,7 +733,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.Reservation", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("ReservationID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AA");
@@ -753,7 +753,7 @@ namespace welcome.Migrations
 
                     b.Property<string>("Remarks");
 
-                    b.HasKey("id");
+                    b.HasKey("ReservationID");
 
                     b.HasIndex("HotelID");
 
@@ -777,7 +777,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.Room", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("RoomID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("BranchID");
@@ -790,7 +790,7 @@ namespace welcome.Migrations
 
                     b.Property<Guid>("RoomTypeID");
 
-                    b.HasKey("id");
+                    b.HasKey("RoomID");
 
                     b.HasIndex("BranchID");
 
@@ -801,7 +801,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.RoomType", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("RoomTypeID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Abbreviation")
@@ -827,7 +827,7 @@ namespace welcome.Migrations
 
                     b.Property<int>("SuggestedPax");
 
-                    b.HasKey("id");
+                    b.HasKey("RoomTypeID");
 
                     b.HasIndex("HotelID");
 
@@ -836,7 +836,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.RoomTypeOnLineMapping", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("RoomTypeOnLineMappingID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("OnLineID")
@@ -845,7 +845,7 @@ namespace welcome.Migrations
 
                     b.Property<Guid>("RoomTypeID");
 
-                    b.HasKey("id");
+                    b.HasKey("RoomTypeOnLineMappingID");
 
                     b.HasIndex("RoomTypeID");
 
@@ -854,7 +854,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.StayPerson", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("StayPersonID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime?>("ActualDeparture");
@@ -871,7 +871,7 @@ namespace welcome.Migrations
 
                     b.Property<Guid>("StayRoomID");
 
-                    b.HasKey("id");
+                    b.HasKey("StayPersonID");
 
                     b.HasIndex("CustomerID");
 
@@ -882,7 +882,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.StayRoom", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("StayRoomID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime?>("ActualDeparture");
@@ -950,7 +950,7 @@ namespace welcome.Migrations
 
                     b.Property<int>("Status");
 
-                    b.HasKey("id");
+                    b.HasKey("StayRoomID");
 
                     b.HasIndex("AgentID");
 
@@ -969,7 +969,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.Supplement", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("SupplementID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid?>("BoardID");
@@ -985,7 +985,7 @@ namespace welcome.Migrations
 
                     b.Property<Guid>("VaryingStayID");
 
-                    b.HasKey("id");
+                    b.HasKey("SupplementID");
 
                     b.HasIndex("BoardID");
 
@@ -998,7 +998,7 @@ namespace welcome.Migrations
 
             modelBuilder.Entity("welcome.Models.VaryingStay", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("VaryingStayID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("BoardID");
@@ -1015,7 +1015,7 @@ namespace welcome.Migrations
 
                     b.Property<Guid>("StayRoomID");
 
-                    b.HasKey("id");
+                    b.HasKey("VaryingStayID");
 
                     b.HasIndex("BoardID");
 
@@ -1144,7 +1144,7 @@ namespace welcome.Migrations
                 {
                     b.HasOne("welcome.Models.Branch", "Branch")
                         .WithOne("Vardata")
-                        .HasForeignKey("welcome.Models.BranchVardata", "BranchVardataId")
+                        .HasForeignKey("welcome.Models.BranchVardata", "BranchVardataID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -1152,7 +1152,7 @@ namespace welcome.Migrations
                 {
                     b.HasOne("welcome.Models.Branch", "Branch")
                         .WithOne("VardataReservations")
-                        .HasForeignKey("welcome.Models.BranchVardataReservation", "BranchVardataReservationId")
+                        .HasForeignKey("welcome.Models.BranchVardataReservation", "BranchVardataReservationID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("welcome.Models.Nationality", "UsualNationality")
@@ -1214,7 +1214,7 @@ namespace welcome.Migrations
                 {
                     b.HasOne("welcome.Models.Hotel", "Hotel")
                         .WithOne("VardataInvoice")
-                        .HasForeignKey("welcome.Models.HotelVardataInvoice", "HotelVardataInvoiceId")
+                        .HasForeignKey("welcome.Models.HotelVardataInvoice", "HotelVardataInvoiceID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -10,7 +10,7 @@ namespace welcome.Models
     public class Customer
     {
         [Key, Required]
-        public Guid id { get; set; }
+        public Guid CustomerID { get; set; }
 
 
         public int Folio { get; set; }
