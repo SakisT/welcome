@@ -136,7 +136,14 @@ namespace welcome.Controllers
         public async Task<PartialViewResult> EditReservation(string id)
         {
             //.Include(r => r.StayRooms).ThenInclude(stayroom => stayroom.Agent)
-            var reservation = await _context.Reservations.Include(r => r.StayRooms).ThenInclude(stayroom => stayroom.Agent).Include(r => r.StayRooms).ThenInclude(stayroom => stayroom.Pricelist).AsNoTracking().SingleOrDefaultAsync(m => m.ReservationID == Guid.Parse(id));
+            var reservation = await _context.Reservations
+                .Include(r => r.Deposits)
+                    .ThenInclude(deposit => deposit.CreditCardOrBank)
+                .Include(r => r.StayRooms)
+                    .ThenInclude(stayroom => stayroom.Agent)
+                .Include(r => r.StayRooms)
+                    .ThenInclude(stayroom => stayroom.Pricelist)
+                .AsNoTracking().SingleOrDefaultAsync(m => m.ReservationID == Guid.Parse(id));
             ViewData["HotelID"] = new SelectList(_context.Hotels, "HotelID", "Name", reservation.HotelID);
             ViewData["AgentID"] = reservation.StayRooms.FirstOrDefault().Agent?.AgentID ?? Guid.Empty;
             ViewData["AgentCode"] = reservation.StayRooms.FirstOrDefault().Agent?.Code ?? "";
@@ -145,6 +152,7 @@ namespace welcome.Controllers
             ViewData["PricelistName"] = reservation.StayRooms.FirstOrDefault().Pricelist?.Name ?? "";
             ViewData["Arrival"] = reservation.StayRooms.FirstOrDefault().Arrival;
             ViewData["Departure"] = reservation.StayRooms.FirstOrDefault().Departure;
+            ViewData["Deposits"] = reservation.Deposits.ToList();
             return PartialView("EditReservation", reservation);
         }
 
@@ -202,6 +210,30 @@ namespace welcome.Controllers
                 }
             }
             return PartialView(reservationtoupdate);
+        }
+
+        public async Task<PartialViewResult> _CreateNewDeposit(Guid id)
+        {
+            Reservation reservation = await _context.Reservations.Include(r => r.StayRooms).AsNoTracking().SingleOrDefaultAsync(r => r.ReservationID == id);
+
+
+            Deposit deposit = new Deposit
+            {
+                Reservation = reservation,
+                HotelDate = DateTime.Today,
+                StayRoomID = reservation.StayRooms.FirstOrDefault().StayRoomID
+            };
+
+            var CreditCards = await _context.Agents.Where(r => r.HotelID == reservation.HotelID && r.Type == Agent.AgentType.CreditCard).ToListAsync();
+
+            ViewBag.CreditCardOrBankID = new SelectList(CreditCards, "AgentID", "Name");
+            return PartialView("_CreateNewDeposit", deposit);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> SaveNewDepositData(Guid id, string Euro)
+        {
+            return Json(new { result = "Success" });
         }
 
         public async Task<PartialViewResult> EditStayRooms(Guid id)

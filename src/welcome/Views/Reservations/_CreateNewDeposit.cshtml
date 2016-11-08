@@ -1,0 +1,118 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model welcome.Models.Deposit
+
+<form asp-action="_CreateNewDeposit">
+    <div class="form-horizontal">
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="CCV" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="CCV" class="form-control" />
+                <span asp-validation-for="CCV" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="CardHolder" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="CardHolder" class="form-control" />
+                <span asp-validation-for="CardHolder" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="CardNumber" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="CardNumber" class="form-control" />
+                <span asp-validation-for="CardNumber" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="CreditCardOrBankID" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="CreditCardOrBankID" class ="form-control" asp-items="ViewBag.CreditCardOrBankID"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="DepositTimeStamp" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DepositTimeStamp" class="form-control" />
+                <span asp-validation-for="DepositTimeStamp" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Euro" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Euro" class="form-control" />
+                <span asp-validation-for="Euro" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Expiration_Month" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Expiration_Month" class="form-control" />
+                <span asp-validation-for="Expiration_Month" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Expiration_Year" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Expiration_Year" class="form-control" />
+                <span asp-validation-for="Expiration_Year" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="HotelDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="HotelDate" class="form-control" />
+                <span asp-validation-for="HotelDate" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IsPreAuthorization" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="IsPreAuthorization" class="form-control" />
+                <span asp-validation-for="IsPreAuthorization" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Remarks" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Remarks" class="form-control" />
+                <span asp-validation-for="Remarks" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ReservationID" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="ReservationID" class ="form-control" asp-items="ViewBag.ReservationID"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="StayRoomID" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="StayRoomID" class ="form-control" asp-items="ViewBag.StayRoomID"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="UserId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="UserId" class="form-control" />
+                <span asp-validation-for="UserId" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

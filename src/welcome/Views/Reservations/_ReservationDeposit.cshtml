@@ -1,0 +1,24 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model welcome.Models.Deposit
+
+@{ 
+    string DepositType=(Model.CreditCardOrBank==null)?"Cash":(Model.CreditCardOrBank.Type==Agent.AgentType.CreditCard)?"Credit Card":"Bank Deposit";
+
+}
+<tr>
+    <td>
+        <input asp-for="Euro" class="form-control numbertextbox">
+    </td>
+    <td>
+        <input asp-for="HotelDate" class="form-control datepicker">
+    </td>
+    <td>
+        @DepositType
+    </td>
+</tr>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

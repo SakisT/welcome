@@ -5,11 +5,10 @@
 @{
     StayRoom[] StayRooms = Model.StayRooms.ToArray();
 }
-
 <form asp-action="EditReservation" id="singlereservationform">
     <div class="form-horizontal">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="ReservationID" />
+        <input type="hidden" id="EditReservation-ReservationID" asp-for="ReservationID" />
         <input type="hidden" asp-for="HotelID" />
 
         <!-- AA & Guest-->
@@ -41,7 +40,7 @@
                     <input name="AgentID" type="hidden" value="@((Guid)ViewData["AgentID"])" id="Reservations-EditReservation-AgentID" />
                     <label class="col-md-3 control-label">Agent</label>
                     <div class="col-md-3">
-                        <input class="form-control input-sm" value="@ViewData["AgentCode"]"/>
+                        <input class="form-control input-sm" value="@ViewData["AgentCode"]" />
                     </div>
                     <div class="col-md-6">
                         <input class="form-control input-sm" value="@ViewData["AgentName"]" />
@@ -49,7 +48,7 @@
                 </div>
                 <!--Pricelist-->
                 <div class="form-group">
-                    <input name="PricelistID" type="hidden" value="@((Guid)ViewData["PricelistID"])" id="Reservations-EditReservation-PricelistID"/>
+                    <input name="PricelistID" type="hidden" value="@((Guid)ViewData["PricelistID"])" id="Reservations-EditReservation-PricelistID" />
                     <label class="col-md-3 control-label">Pricelist</label>
                     <div class="col-md-3">
                         <input class="form-control input-sm" value="@ViewData["PricelistName"]" />
@@ -57,7 +56,7 @@
                 </div>
                 <!--Arrival-->
                 <div class="form-group">
-                    <label  class="col-md-3 control-label">Arrival</label>
+                    <label class="col-md-3 control-label">Arrival</label>
                     <div class="col-md-5">
                         <input name="Arrival" value="@((DateTime)ViewData["Arrival"])" class="form-control input-sm datepicker" type="text" />
                     </div>
@@ -110,7 +109,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel-footer"></div>
+                    <div class="panel-footer">
+                        <div id="depositslist" data-reservationid="@Model.ReservationID">
+                            @{ Html.RenderPartial("_ReservatioDepositsList", (List<welcome.Models.Deposit>)ViewData["Deposits"]);}
+                            
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

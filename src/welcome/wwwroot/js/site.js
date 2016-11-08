@@ -51,7 +51,7 @@ function InitJQueryUI() {
     });
 }
 
-$(document).on('ready',function (e) {
+$(document).on('ready', function (e) {
     $(document).on('click', '.reservationrow', function () {
         $('#reservation-data').load($(this).data('link'), null, function (data, status) {
             $('#reservationstayrooms').load($('#reservationstayrooms').data('link'), null, function (data, status) {
@@ -73,5 +73,24 @@ $(document).on('ready',function (e) {
     $(document).on('click', '#Reservations-EditReservaton-Save', function (e) {
         $('form#singlereservationform').submit();
     });
-    
+    $(document).on('click', '#showaddnewdeposit', function () {
+        var ReservationID = $('#EditReservation-ReservationID').val();
+        $('#newdpositcontainer').load('Reservations/_CreateNewDeposit?id=' + ReservationID);
+        //debugger;
+    });
+    $(document).on('click', '#savenewdeposit', function () {
+        var link = $(this).data('link');
+        var id = $('#EditReservation-ReservationID').val();
+        $.ajax({
+            url: link,
+            method: 'POST',
+            data: { id: id, Euro: 45 },
+            success: function (data, status) {
+                $('#createnewdeposit').modal('toggle');
+            },
+            error: function (data, status) {
+                debugger;
+            }
+        });
+    });
 });
