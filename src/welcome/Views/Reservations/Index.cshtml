@@ -27,7 +27,7 @@
                             <tr class="reservationrow" data-link="@Url.Action("EditReservation", new { id = item.ReservationID })">
                                 <td>@item.AA</td>
                                 <td class="guest-cell">@item.GuestOrGroup</td>
-                                <td class="text-right">@string.Format($"{item.StayRooms.FirstOrDefault().Arrival:d/M/yy}")</td>
+                                <td class="text-right">@string.Format($"{item.StayRooms.FirstOrDefault().Arrival:d}")</td>
                                 <td class="agent-cell">@item.StayRooms.FirstOrDefault().Agent?.Name</td>
                                 <td class="text-center">@item.StayRooms.Count()</td>
                             </tr>

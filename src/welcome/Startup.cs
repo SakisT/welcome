@@ -34,7 +34,7 @@ namespace welcome
                 // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
                 builder.AddApplicationInsightsSettings(developerMode: true);
 
- 
+
             }
 
 
@@ -142,6 +142,10 @@ namespace welcome
                 //  // My custom request culture logic
                 //  return new ProviderCultureResult("en");
                 //}));
+            });
+            services.Configure<IISOptions>(options =>
+            {
+                options.AutomaticAuthentication = false;
             });
         }
 

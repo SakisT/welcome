@@ -15,10 +15,10 @@ namespace welcome.Models
         [StringLength(80), Required]
         public string Name { get; set; }
 
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:d/M/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         public DateTime HotelDate { get; set; }
 
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:d/M/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         public DateTime ExpirationDate { get; set; }
 
         [StringLength(100)]

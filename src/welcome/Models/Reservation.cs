@@ -16,7 +16,7 @@ namespace welcome.Models
         public string GuestOrGroup { get; set; }
 
         public decimal? AskPrePay { get; set; }
-        [DataType(DataType.Date),DisplayFormat(DataFormatString ="{0:d/M/yyyy}", ApplyFormatInEditMode =true)]
+        [DataType(DataType.Date)]
         public DateTime? AskPrePayDate { get; set; }
         [StringLength(100)]
         public string AskPrePayRemarks { get; set; }

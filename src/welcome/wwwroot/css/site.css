@@ -52,7 +52,7 @@
 
 #reservations-list {
     position:absolute;
-    top:70px;
+    top:30px;
     bottom:20px;
     overflow-y: scroll;
 }
@@ -136,3 +136,10 @@
         text-align: right;
         width: 25px;
     }
+
+/*Reservations Form*/
+#reservarionform{
+    position:relative;
+    top:10px;
+    min-height:600px;
+}

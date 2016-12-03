@@ -11,13 +11,13 @@ namespace welcome.Models
     {
         [Key, Required]
         public Guid StayRoomID { get; set; }
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date),DisplayFormat(DataFormatString ="{0:d/M/yyyy}",ApplyFormatInEditMode =true)]
         public DateTime Arrival { get; set; }
 
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:d/M/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Departure { get; set; }
 
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:d/M/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? ActualDeparture { get; set; }
 
         public DateTime? ArrivalTimeStamp { get; set; }

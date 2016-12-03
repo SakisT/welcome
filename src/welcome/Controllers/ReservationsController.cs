@@ -10,6 +10,8 @@ using welcome.Services;
 using welcome.Data;
 using welcome.Models;
 using System.Globalization;
+using System.Security.Principal;
+using System.Threading;
 
 namespace welcome.Controllers
 {
@@ -135,7 +137,6 @@ namespace welcome.Controllers
 
         public async Task<PartialViewResult> EditReservation(string id)
         {
-            //.Include(r => r.StayRooms).ThenInclude(stayroom => stayroom.Agent)
             var reservation = await _context.Reservations
                 .Include(r => r.Deposits)
                     .ThenInclude(deposit => deposit.CreditCardOrBank)
@@ -150,7 +151,7 @@ namespace welcome.Controllers
             ViewData["AgentName"] = reservation.StayRooms.FirstOrDefault().Agent?.Name ?? "";
             ViewData["PricelistID"] = reservation.StayRooms.FirstOrDefault().Pricelist?.PricelistID ?? Guid.Empty;
             ViewData["PricelistName"] = reservation.StayRooms.FirstOrDefault().Pricelist?.Name ?? "";
-            ViewData["Arrival"] = reservation.StayRooms.FirstOrDefault().Arrival;
+            ViewData["Arrival"] =reservation.StayRooms.FirstOrDefault().Arrival;
             ViewData["Departure"] = reservation.StayRooms.FirstOrDefault().Departure;
             ViewData["Deposits"] = reservation.Deposits.ToList();
             return PartialView("EditReservation", reservation);
@@ -221,18 +222,32 @@ namespace welcome.Controllers
             {
                 Reservation = reservation,
                 HotelDate = DateTime.Today,
-                StayRoomID = reservation.StayRooms.FirstOrDefault().StayRoomID
+                StayRoomID = reservation.StayRooms.FirstOrDefault().StayRoomID,
+                Expiration_Month = DateTime.Today.Month,
+                Expiration_Year = DateTime.Today.Year,
+                DepositTimeStamp = DateTime.Now
             };
 
             var CreditCards = await _context.Agents.Where(r => r.HotelID == reservation.HotelID && r.Type == Agent.AgentType.CreditCard).ToListAsync();
 
+            //var ValidMonths = Enumerable.Range(1, 12).Select(r => new SelectListItem { Value = r.ToString(), Text = r.ToString(), Selected = (r == DateTime.Today.Month) }).AsEnumerable();
+            //var ValidYears = Enumerable.Range(2010, 40).Select(r => new SelectListItem { Value = r.ToString(), Text = r.ToString(), Selected = (r == DateTime.Today.Year) }).AsEnumerable();
+
+            //ViewBag.Expiration_Month = new SelectList(ValidMonths, "Value", "Text","4");
+            //ViewBag.Expiration_Year = new SelectList(ValidYears, "Value", "Text");
+
+
+            ViewBag.Expiration_Month = new SelectList(Enumerable.Range(1, 12));
+            ViewBag.Expiration_Year = new SelectList(Enumerable.Range(2010, 40));
+
             ViewBag.CreditCardOrBankID = new SelectList(CreditCards, "AgentID", "Name");
-            return PartialView("_CreateNewDeposit", deposit);
+            return PartialView(deposit);
         }
 
         [HttpPost]
-        public async Task<JsonResult> SaveNewDepositData(Guid id, string Euro)
+        public async Task<JsonResult> SaveNewDepositData(Deposit deposit)
         {
+            //deposit.CardNumber
             return Json(new { result = "Success" });
         }
 
