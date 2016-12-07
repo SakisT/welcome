@@ -213,14 +213,21 @@ namespace welcome.Controllers
             return PartialView(reservationtoupdate);
         }
 
-        public async Task<PartialViewResult> _CreateNewDeposit(Guid id)
+        [HttpPost]
+        public  ActionResult _CreateNewDeposit(Deposit deposit)
         {
-            Reservation reservation = await _context.Reservations.Include(r => r.StayRooms).AsNoTracking().SingleOrDefaultAsync(r => r.ReservationID == id);
+
+            return null;
+        }
+
+        public async Task<PartialViewResult> _CreateNewDeposit(string id)
+        {
+            Reservation reservation = await _context.Reservations.Include(r => r.StayRooms).AsNoTracking().SingleOrDefaultAsync(r => r.ReservationID == Guid.Parse( id));
 
 
             Deposit deposit = new Deposit
             {
-                Reservation = reservation,
+                ReservationID = reservation.ReservationID,
                 HotelDate = DateTime.Today,
                 StayRoomID = reservation.StayRooms.FirstOrDefault().StayRoomID,
                 Expiration_Month = DateTime.Today.Month,
@@ -230,13 +237,6 @@ namespace welcome.Controllers
 
             var CreditCards = await _context.Agents.Where(r => r.HotelID == reservation.HotelID && r.Type == Agent.AgentType.CreditCard).ToListAsync();
 
-            //var ValidMonths = Enumerable.Range(1, 12).Select(r => new SelectListItem { Value = r.ToString(), Text = r.ToString(), Selected = (r == DateTime.Today.Month) }).AsEnumerable();
-            //var ValidYears = Enumerable.Range(2010, 40).Select(r => new SelectListItem { Value = r.ToString(), Text = r.ToString(), Selected = (r == DateTime.Today.Year) }).AsEnumerable();
-
-            //ViewBag.Expiration_Month = new SelectList(ValidMonths, "Value", "Text","4");
-            //ViewBag.Expiration_Year = new SelectList(ValidYears, "Value", "Text");
-
-
             ViewBag.Expiration_Month = new SelectList(Enumerable.Range(1, 12));
             ViewBag.Expiration_Year = new SelectList(Enumerable.Range(2010, 40));
 
@@ -245,10 +245,10 @@ namespace welcome.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> SaveNewDepositData(Deposit deposit)
+        public JsonResult SaveNewDepositData(string deposit)
         {
             //deposit.CardNumber
-            return Json(new { result = "Success" });
+            return Json(new { result = "Success" },new Newtonsoft.Json.JsonSerializerSettings { });
         }
 
         public async Task<PartialViewResult> EditStayRooms(Guid id)

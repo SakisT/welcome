@@ -5,9 +5,9 @@
     $('#arrivaldate').datepicker("option", "changeMonth", true);
     $('#departuredate').datepicker("option", "changeYear", true);
     $('#departuredate').datepicker("option", "changeMonth", true);
+
 });
 $(document).on('ready', function (e) {
-    
     $(document).on('change', '#selectLanguage select', function () {
         $(this).parent().submit();
     });
@@ -46,38 +46,6 @@ $(document).on('ready', function (e) {
     $(document).on('click', '#Reservations-EditReservaton-Save', function (e) {
         $('form#singlereservationform').submit();
     });
-    $(document).on('click', '#showaddnewdeposit', function () {
-        var ReservationID = $('#EditReservation-ReservationID').val();
-        $('#newdpositcontainer').load('Reservations/_CreateNewDeposit?id=' + ReservationID);
-        //debugger;
-    });
-    $(document).on('click', '#savenewdeposit', function () {
-        var link = $(this).data('link');
-        var json = {};
-        $.each($("#containerdiv .panel-body :input").serializeArray(), function (i, field) {
-            json[field.name] = field.value || '';
-        });
-
-        var data = { paramJson: JSON.stringify(json) };
-
-        var options = {
-
-            contentType: "application/json",
-            url: link,
-            data: JSON.stringify(data),
-            type: "post",
-            datatype: "html",
-            success: function (result, xhr, status) {
-                console.log(result);
-            },
-            error: function (xhr, status, error) {
-                debugger;
-            }
-        };
-
-        $.ajax(options);
-
-    });
     $(document).on('keyup', '.numbertextbox', function () {
         var text = $(this).val();
         var lang = $("#selectLanguage option:selected").val();
@@ -108,9 +76,17 @@ $(document).on('ready', function (e) {
     $(document).on('mouseup', '.numbertextbox', function () {
         $(this).select();
     });
-
 });
 
+function InitializeNewDeposit(reservationid, depositid) {
+
+    var url = $('#deposit-dialog').data('url')+"?id=" + reservationid;
+
+    $('#deposit-dialog').dialog("open");
+
+    $('#deposit-dialog').load(url);
+
+};
 
 function OnDepositMethodChanged(radio) {
     $('#containerdiv .depositmethod').each(function () {

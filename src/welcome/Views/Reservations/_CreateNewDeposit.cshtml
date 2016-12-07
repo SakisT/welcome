@@ -2,127 +2,92 @@
 @inject IViewLocalizer Localizer
 @model welcome.Models.Deposit
 
-<form asp-action="_CreateNewDeposit" id="Reservation-Deposit-PartialView">
+<form asp-action="_CreateNewDeposit" asp-controller="Reservations" name="deposit" method="post" id="createoreditdeposit">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="DepositTimeStamp" />
-    <input type="hidden" asp-for="HotelDate" />
 
-    <div class="form-group" id="containerdiv">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <label class="control-label col-xs-4">Payment type </label>
-                <label class="radio-inline"><input type="radio" name="paymethod" checked="checked" onchange="OnDepositMethodChanged('#cashcontainer')" />Cash</label>
-                <label class="radio-inline"><input type="radio" name="paymethod"  id="ccradio" onchange="OnDepositMethodChanged('#creditcardcontainer')" />Credit Card</label>
-                <label class="radio-inline"><input type="radio" name="paymethod"  id="bankradio" onchange="OnDepositMethodChanged('#bankcontainer')" />Bank</label>
-            </div>
-            <div class="panel-body">
+    @if (Model != null)
+    {
+        <input type="hidden" asp-for="DepositTimeStamp" />
+        <input type="hidden" asp-for="HotelDate" />
+        <input type="hidden" asp-for="ReservationID" />
 
-                <!--Deposit by Cash-->
-                <div class="collapse in depositmethod" id="cashcontainer">
-                    Cash Depoit Data
+        <div class="form-group">
+            <div class="panel panel-primary">
+
+                <div class="panel-heading">
+                    <label class="control-label col-xs-4">Payment type </label>
+                    <label class="radio-inline"><input type="radio" name="paymethod" checked="checked" onchange="OnDepositMethodChanged('#cashcontainer')" />Cash</label>
+                    <label class="radio-inline"><input type="radio" name="paymethod" id="ccradio" onchange="OnDepositMethodChanged('#creditcardcontainer')" />Credit Card</label>
+                    <label class="radio-inline"><input type="radio" name="paymethod" id="bankradio" onchange="OnDepositMethodChanged('#bankcontainer')" />Bank</label>
                 </div>
-                <!--Deposit by Bank-->
-                <div class="collapse depositmethod" id="bankcontainer">
-                    Bank Deposit
+                <div class="panel-body">
+
+                    <!--Deposit by Cash-->
+                    <div class="collapse in depositmethod" id="cashcontainer">
+                        Cash Depoit Data
+                    </div>
+                    <!--Deposit by Bank-->
+                    <div class="collapse depositmethod" id="bankcontainer">
+                        Bank Deposit
+                    </div>
+                    <!-- Deposit by credit card-->
+                    <div class="collapse depositmethod" id="creditcardcontainer">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">@Localizer["Credit Card"]</label>
+                            <div class="col-md-8">
+                                <select asp-for="CreditCardOrBankID" class="form-control" asp-items=ViewBag.CreditCardOrBankID></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">@Localizer["Number"]</label>
+                            <div class="col-xs-6">
+                                <input asp-for="CardNumber" class="form-control" />
+                                <span asp-validation-for="CardNumber" class="text-danger" />
+                            </div>
+                            <label class="col-xs-2 control-label">@Localizer["CVV"]</label>
+                            <div class="col-xs-2">
+                                <input asp-for="CCV" class="form-control" />
+                                <span asp-validation-for="CCV" class="text-danger" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">@Localizer["Holder"]</label>
+                            <div class="col-xs-10">
+                                <input asp-for="CardHolder" class="form-control" />
+                                <span asp-validation-for="CardHolder" class="text-danger" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">@Localizer["Expires"]</label>
+                            <div class="col-xs-5">
+                                <select asp-for="Expiration_Month" class="form-control" style="float:left;width:60px;" asp-items=(SelectList)ViewBag.Expiration_Month></select>
+                                <span asp-validation-for="Expiration_Month" class="text-danger" />
+                                <label class="control-label" style="float:left;"> &nbsp; / &nbsp;</label>
+                                <select asp-for="Expiration_Year" class="form-control" style="float:left;width:80px;" asp-items=ViewBag.Expiration_Year></select>
+                                <span asp-validation-for="Expiration_Year" class="text-danger" />
+                                <input type="checkbox" name="IsPreAuthorization" value=@Model.IsPreAuthorization class="form-control" style="float:left;width:100px" />
+                                <span asp-validation-for="IsPreAuthorization" class="text-danger" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Euro" class="col-xs-2 control-label"></label>
+                        <div class="col-xs-3">
+                            <input asp-for="Euro" class="form-control numbertextbox" />
+                            <span asp-validation-for="Euro" class="text-danger" />
+                        </div>
+                    </div>
                 </div>
-                <!-- Deposit by credit card-->
-                <div class="collapse depositmethod" id="creditcardcontainer">
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">@Localizer["Credit Card"]</label>
-                        <div class="col-md-8">
-                            <select asp-for="CreditCardOrBankID" class="form-control" asp-items=ViewBag.CreditCardOrBankID></select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label">@Localizer["Number"]</label>
-                        <div class="col-xs-6">
-                            <input asp-for="CardNumber" class="form-control" />
-                            <span asp-validation-for="CardNumber" class="text-danger" />
-                        </div>
-                        <label class="col-xs-2 control-label">@Localizer["CVV"]</label>
-                        <div class="col-xs-2">
-                            <input asp-for="CCV" class="form-control" />
-                            <span asp-validation-for="CCV" class="text-danger" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label">@Localizer["Holder"]</label>
-                        <div class="col-xs-10">
-                            <input asp-for="CardHolder" class="form-control" />
-                            <span asp-validation-for="CardHolder" class="text-danger" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label">@Localizer["Expires"]</label>
-                        <div class="col-xs-5">
-                            <select asp-for="Expiration_Month" class="form-control" style="float:left;width:60px;" asp-items=(SelectList)ViewBag.Expiration_Month></select>
-                            <span asp-validation-for="Expiration_Month" class="text-danger" />
-                            <label class="control-label" style="float:left;"> &nbsp; / &nbsp;</label>
-                            <select asp-for="Expiration_Year" class="form-control" style="float:left;width:80px;" asp-items=ViewBag.Expiration_Year></select>
-                            <span asp-validation-for="Expiration_Year" class="text-danger" />
-                            <input type="checkbox" name="IsPreAuthorization" value=@Model.IsPreAuthorization class="form-control" style="float:left;width:100px" />
-                            <span asp-validation-for="IsPreAuthorization" class="text-danger" />
-                        </div>
-                    </div>
-                </div>
+
             </div>
-            <div class="panel-footer">
-                <div class="form-group">
-                    <label asp-for="Euro" class="col-xs-2 control-label"></label>
-                    <div class="col-xs-3">
-                        <input asp-for="Euro" class="form-control numbertextbox" />
-                        <span asp-validation-for="Euro" class="text-danger" />
-                    </div>
-                </div>
-            </div>
+
         </div>
-
-
-
-    </div>
+    }
 
 
 </form>
-@*
 
-    <div class="form-group">
-        <label asp-for="IsPreAuthorization" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="IsPreAuthorization" class="form-control" />
-            <span asp-validation-for="IsPreAuthorization" class="text-danger" />
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="Remarks" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Remarks" class="form-control" />
-            <span asp-validation-for="Remarks" class="text-danger" />
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="ReservationID" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <select asp-for="ReservationID" class="form-control" asp-items="ViewBag.ReservationID"></select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="StayRoomID" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <select asp-for="StayRoomID" class="form-control" asp-items="ViewBag.StayRoomID"></select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="UserId" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="UserId" class="form-control" />
-            <span asp-validation-for="UserId" class="text-danger" />
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
-        </div>
-    </div>*@
 
 
 

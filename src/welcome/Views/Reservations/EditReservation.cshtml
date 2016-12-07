@@ -5,6 +5,35 @@
 @{
     StayRoom[] StayRooms = Model.StayRooms.ToArray();
 }
+<script>
+    $(function () {
+        $('#deposit-dialog').dialog({
+            autoOpen: false,
+            height: 500,
+            width: 600,
+            modal: true,
+            buttons: [
+   {
+       text: "Save",
+       click: function () {
+           $(this).dialog("close");
+           $('#createoreditdeposit').submit();
+       }
+   },
+   {
+       text: "Cancel",
+       click: function () {
+           $(this).dialog("close");
+       }
+   }
+            ]
+        });
+    });
+
+</script>
+<div id="deposit-dialog" title="Deposit" data-url="@Url.Action("_CreateNewDeposit")">
+
+</div>
 <!-- Git Test -->
 <form asp-action="EditReservation" id="singlereservationform">
     <div class="form-horizontal">
@@ -77,7 +106,7 @@
 
             <!--Contact Info-->
             <div class="col-md-6">
-                <div id="reservations-editreservation-contact" data-link="@Url.Action("GetReservationContactInfo",new { id=Model.ReservationID})"></div>
+                <div id="reservations-editreservation-contact" data-link="@Url.Action("GetReservationContactInfo", new { id = Model.ReservationID })"></div>
             </div>
 
         </div>
@@ -87,7 +116,7 @@
 
             <!--StayRooms-->
             <div class="col-md-6" id="reservation-stayrooms" data-stayrooms="@Model.StayRooms">
-                <div id="reservationstayrooms" data-link="@Url.Action("EditStayRooms",new { id = Model.ReservationID })"></div>
+                <div id="reservationstayrooms" data-link="@Url.Action("EditStayRooms", new { id = Model.ReservationID })"></div>
             </div>
 
             <!--Deposits-->
@@ -112,11 +141,9 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="panel-footer">
-                        <div id="depositslist" data-reservationid="@Model.ReservationID">
-                            @{ Html.RenderPartial("_ReservatioDepositsList", (List<welcome.Models.Deposit>)ViewData["Deposits"]);}
-                            
-                        </div>
+                        <button type="button" class="btn btn-default" onclick="InitializeNewDeposit('@Model.ReservationID')"><span class="glyphicon glyphicon-plus-sign"></span> Deposit</button>
                     </div>
                 </div>
             </div>
@@ -140,6 +167,8 @@
         </div>
     </div>
 </form>
+
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
