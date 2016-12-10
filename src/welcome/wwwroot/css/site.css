@@ -75,6 +75,7 @@
     cursor: default;
     border:thick;
 }
+
 #reservations-list table tbody tr:nth-child(even){
     background-color:antiquewhite;
 }

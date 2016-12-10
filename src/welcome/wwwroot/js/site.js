@@ -59,8 +59,8 @@ $(document).on('ready', function (e) {
         $(this).val(text);
     });
     $(document).on('keydown', '.numbertextbox', function (e) {
-        // Allow: backspace, delete, tab, escape, enter and .
-        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+        // Allow: minus, backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [109, 46, 8, 9, 27, 13, 110, 190]) !== -1 ||
             // Allow: Ctrl+A, Command+A
             (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
             // Allow: home, end, left, right, down, up
@@ -80,7 +80,9 @@ $(document).on('ready', function (e) {
 
 function InitializeNewDeposit(reservationid, depositid) {
 
-    var url = $('#deposit-dialog').data('url')+"?id=" + reservationid;
+    var url = $('#deposit-dialog').data('url') + "?id=" + reservationid;
+
+    if (depositid !== undefined) { url = url + '&depositid=' + depositid; }
 
     $('#deposit-dialog').dialog("open");
 
@@ -89,6 +91,33 @@ function InitializeNewDeposit(reservationid, depositid) {
 };
 
 function OnDepositMethodChanged(radio) {
+    switch (radio) {
+        case "cash":
+            $('#creditcardorbankdata').hide(100);
+            $("#creditcardorbankid").empty();
+            //$('#deposit-dialog').height('350px');
+            break;
+        case "creditcard":
+            $('#creditcardorbankdata').show(500);
+            $('#creditcarddata').show(100);
+            $.getJSON($('#createnewdepositdata').data('getcreditcardslink'), null, function (result) {
+                $("#creditcardorbankid").empty();
+                $.each(result, function (i, agent) {
+                    $("#creditcardorbankid").append("<option value='" + agent.agentid + "'>" + agent.name + "</option>");
+                });
+            });
+            break;
+        default://bank
+            $('#creditcardorbankdata').show(500);
+            $('#creditcarddata').hide(100);
+            $.getJSON($('#createnewdepositdata').data('getbankslink'), null, function (result) {
+                $("#creditcardorbankid").empty();
+                $.each(result, function (i, agent) {
+                    $("#creditcardorbankid").append("<option value='" + agent.agentid + "'>" + agent.name + "</option>");
+                });
+            });
+            break;
+    }
     $('#containerdiv .depositmethod').each(function () {
         $(this).hide();
     });

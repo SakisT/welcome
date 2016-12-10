@@ -14,6 +14,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Newtonsoft.Json.Serialization;
 
 namespace welcome
 {
@@ -54,14 +55,15 @@ namespace welcome
                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                // Add support for localizing strings in data annotations (e.g. validation messages) via the
                // IStringLocalizer abstractions.
-               .AddDataAnnotationsLocalization();
+               .AddDataAnnotationsLocalization()
+               .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("BranchUser", policy => policy.RequireClaim("BranchID"));
                 options.AddPolicy("HotelUser", policy => policy.RequireClaim("HotelID"));
                 options.AddPolicy("HotelGroupUser", policy => policy.RequireClaim("HotelGroupID"));
-                options.AddPolicy("Admin", policy => policy.RequireClaim("Administrator"));
+                options.AddPolicy("Admin", policy => policy.RequireClaim("Admin"));
             });
 
             services.AddDistributedMemoryCache();

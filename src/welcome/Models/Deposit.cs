@@ -11,7 +11,8 @@ namespace welcome.Models
     {
         [Key, Required]
         public Guid DepositID { get; set; }
-        public DateTime? HotelDate { get; set; }
+        [DataType(DataType.Date),DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
+        public DateTime HotelDate { get; set; }
         public decimal Euro { get; set; }
         [StringLength(25), DataType(DataType.CreditCard)]
         public string CardNumber { get; set; }
@@ -19,7 +20,7 @@ namespace welcome.Models
         public string CardHolder { get; set; }
         [StringLength(10)]
         public string CCV { get; set; }
-        public bool? IsPreAuthorization { get; set; }
+        public bool IsPreAuthorization { get; set; }
         [Range(minimum: 1, maximum: 12)]
         public int Expiration_Month { get; set; }
         [Range(minimum: 1900, maximum: 2100)]

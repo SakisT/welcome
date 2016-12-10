@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using welcome.Services;
-
 using welcome.Data;
 using welcome.Models;
 
@@ -44,6 +43,21 @@ namespace welcome.Controllers
             var welcomeContext = _context.Agents.Include(a => a.Hotel).Where(r => r.HotelID == ID);
             ViewBag.HotelID = ID;
             return View(await welcomeContext.ToListAsync());
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> AgentsJsonByType(string type)
+        {
+            var AgentType = (Agent.AgentType)Enum.Parse(typeof(Agent.AgentType), type);
+            Guid defaulthotelid = _userinfo.HotelIDs.FirstOrDefault();
+                if(User.IsInRole("Admin")){ defaulthotelid = _context.Hotels.FirstOrDefault().HotelID; }
+            var hotelid = _userinfo.GetActiveHotels().DefaultIfEmpty().FirstOrDefault();
+            var hotelagents =await _context.Agents.Where(r => r.HotelID == hotelid && 
+                        r.Type== AgentType).ToListAsync();
+            //if type==Agent.AgentType.CreditCard
+
+            var returnvalue =Json( from p in hotelagents select new { agentid=p.AgentID, name=p.Name});
+            return returnvalue;
         }
 
         // GET: Agents/Details/5
@@ -106,14 +120,14 @@ namespace welcome.Controllers
         }
 
         // GET: Agents/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public IActionResult Edit(Guid? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var agent = await _context.Agents.Include(r => r.Vardata).AsNoTracking().Include(r=>r.Vardata.InvoiceDetail).AsNoTracking().SingleOrDefaultAsync(m => m.AgentID == id);
+            var agent = _context.Agents.Include(r => r.Vardata).AsNoTracking().Include(r=>r.Vardata.InvoiceDetail).AsNoTracking().SingleOrDefault(m => m.AgentID == id);
             if (agent == null)
             {
                 return NotFound();
@@ -201,8 +215,7 @@ namespace welcome.Controllers
         }
 
         // GET: Agents/Delete/5
-        public async Task<IActionResult>
-            Delete(Guid? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -221,8 +234,7 @@ namespace welcome.Controllers
         // POST: Agents/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult>
-            DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var agent = await _context.Agents.SingleOrDefaultAsync(m => m.AgentID == id);
             _context.Agents.Remove(agent);

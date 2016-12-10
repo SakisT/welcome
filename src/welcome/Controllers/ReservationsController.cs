@@ -151,7 +151,7 @@ namespace welcome.Controllers
             ViewData["AgentName"] = reservation.StayRooms.FirstOrDefault().Agent?.Name ?? "";
             ViewData["PricelistID"] = reservation.StayRooms.FirstOrDefault().Pricelist?.PricelistID ?? Guid.Empty;
             ViewData["PricelistName"] = reservation.StayRooms.FirstOrDefault().Pricelist?.Name ?? "";
-            ViewData["Arrival"] =reservation.StayRooms.FirstOrDefault().Arrival;
+            ViewData["Arrival"] = reservation.StayRooms.FirstOrDefault().Arrival;
             ViewData["Departure"] = reservation.StayRooms.FirstOrDefault().Departure;
             ViewData["Deposits"] = reservation.Deposits.ToList();
             return PartialView("EditReservation", reservation);
@@ -214,33 +214,70 @@ namespace welcome.Controllers
         }
 
         [HttpPost]
-        public  ActionResult _CreateNewDeposit(Deposit deposit)
+        public async Task<ActionResult> _CreateNewDeposit([FromForm] Guid id, Deposit deposit)
         {
+            //var valueProvider = await Microsoft.AspNetCore.Mvc.ModelBinding.CompositeValueProvider.CreateAsync(ControllerContext);
 
-            return null;
+            if (ModelState.IsValid)
+            {
+                if (deposit.DepositID == Guid.Empty)
+                {
+                    _context.Deposits.Add(deposit);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    _context.Entry(deposit).State = EntityState.Modified;
+
+                    await _context.SaveChangesAsync();
+                }
+            }
+            return RedirectToAction("Index");
         }
 
-        public async Task<PartialViewResult> _CreateNewDeposit(string id)
+        public async Task<ActionResult> DeleteDeposit(Guid id)
         {
-            Reservation reservation = await _context.Reservations.Include(r => r.StayRooms).AsNoTracking().SingleOrDefaultAsync(r => r.ReservationID == Guid.Parse( id));
+            var deposit =await _context.Deposits.SingleOrDefaultAsync(s => s.DepositID == id);
+            _context.Deposits.Remove(deposit);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
 
+        public async Task<PartialViewResult> _CreateNewDeposit(string id, string depositid = "")
+        {
+            Reservation reservation = await _context.Reservations.Include(r => r.StayRooms).AsNoTracking().SingleOrDefaultAsync(r => r.ReservationID == Guid.Parse(id));
 
-            Deposit deposit = new Deposit
+            if (depositid == "") { depositid = Guid.Empty.ToString(); }
+
+            Deposit deposit = await _context.Deposits.SingleOrDefaultAsync(r => r.DepositID == Guid.Parse(depositid));
+
+            if (deposit == null)
             {
-                ReservationID = reservation.ReservationID,
-                HotelDate = DateTime.Today,
-                StayRoomID = reservation.StayRooms.FirstOrDefault().StayRoomID,
-                Expiration_Month = DateTime.Today.Month,
-                Expiration_Year = DateTime.Today.Year,
-                DepositTimeStamp = DateTime.Now
-            };
+                deposit = new Deposit
+                {
+                    ReservationID = reservation.ReservationID,
+                    HotelDate = DateTime.Today,
+                    StayRoomID = reservation.StayRooms.FirstOrDefault().StayRoomID,
+                    Expiration_Month = DateTime.Today.Month,
+                    Expiration_Year = DateTime.Today.Year,
+                    IsPreAuthorization = true,
+                    DepositTimeStamp = DateTime.Now
+                };
+            }
 
-            var CreditCards = await _context.Agents.Where(r => r.HotelID == reservation.HotelID && r.Type == Agent.AgentType.CreditCard).ToListAsync();
+            List<Agent> CreditCards = new List<Agent>();
+
+            if(deposit.CreditCardOrBankID!=null && deposit.CreditCardOrBankID != Guid.Empty)
+            {
+                var currentagnt =await _context.Agents.SingleOrDefaultAsync(r => r.AgentID == deposit.CreditCardOrBankID.Value);
+                CreditCards= await _context.Agents.Where(r => r.HotelID == reservation.HotelID && r.Type == currentagnt.Type).ToListAsync();
+            }
+            
 
             ViewBag.Expiration_Month = new SelectList(Enumerable.Range(1, 12));
             ViewBag.Expiration_Year = new SelectList(Enumerable.Range(2010, 40));
 
-            ViewBag.CreditCardOrBankID = new SelectList(CreditCards, "AgentID", "Name");
+            ViewBag.CreditCardOrBankID = new SelectList(CreditCards, "AgentID", "Name", deposit.CreditCardOrBankID);
             return PartialView(deposit);
         }
 
@@ -248,7 +285,7 @@ namespace welcome.Controllers
         public JsonResult SaveNewDepositData(string deposit)
         {
             //deposit.CardNumber
-            return Json(new { result = "Success" },new Newtonsoft.Json.JsonSerializerSettings { });
+            return Json(new { result = "Success" }, new Newtonsoft.Json.JsonSerializerSettings { });
         }
 
         public async Task<PartialViewResult> EditStayRooms(Guid id)

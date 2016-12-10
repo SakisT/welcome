@@ -34,7 +34,7 @@ namespace welcome.Controllers
             {
                 Hotel activehotel = _context.Hotels.SingleOrDefault(s => s.HotelID == _userinfo.GetActiveHotels().FirstOrDefault());
                 IQueryable<Hotel> userhotels = _context.Hotels.Include(h => h.HotelGroup).Where(s => s.HotelGroupID == activehotel.HotelGroupID);
-                if (!User.IsInRole("Administrator"))
+                if (!User.IsInRole("Admin"))
                 {
                     userhotels = userhotels.Where(r => _userinfo.HotelIDs.Any(s => s == r.HotelID));
                 }
@@ -48,7 +48,7 @@ namespace welcome.Controllers
             else
             {
                 ViewBag.ActiveHotelGroupID = id;
-                if (User.IsInRole("Administrator"))
+                if (User.IsInRole("Admin"))
                 {
                     _userinfo.HotelIDs = new Guid[] { id.Value }.ToList();
                     _userinfo.SetActiveHotels(new Guid[] { id.Value });

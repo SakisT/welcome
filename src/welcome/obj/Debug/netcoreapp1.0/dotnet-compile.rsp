@@ -250,9 +250,17 @@ C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Data\DbInitializer.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Data\WelcomeContext.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Data\Migrations\00000000000000_CreateIdentitySchema.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Data\Migrations\00000000000000_CreateIdentitySchema.Designer.cs
+C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Data\Migrations\20161209150443_Initial.cs
+C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Data\Migrations\20161209150443_Initial.Designer.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Data\Migrations\ApplicationDbContextModelSnapshot.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Migrations\20161107175554_InitialCreate.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Migrations\20161107175554_InitialCreate.Designer.cs
+C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Migrations\20161209150231_test.cs
+C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Migrations\20161209150231_test.Designer.cs
+C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Migrations\20161210085749_IsPreAuthAsBool.cs
+C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Migrations\20161210085749_IsPreAuthAsBool.Designer.cs
+C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Migrations\20161210100514_HotelDateNotNull.cs
+C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Migrations\20161210100514_HotelDateNotNull.Designer.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Migrations\WelcomeContextModelSnapshot.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Models\Agent.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Models\AgentVardata.cs

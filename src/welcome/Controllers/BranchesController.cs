@@ -38,7 +38,7 @@ namespace welcome.Controllers
 
                 ViewBag.ActiveHotelID = id;
             }
-            if (!User.IsInRole("Administrator"))
+            if (!User.IsInRole("Admin"))
             {
                 branches = branches.Where(r => _userinfo.BranchIDs.Any(s => s == r.BranchID));
             }

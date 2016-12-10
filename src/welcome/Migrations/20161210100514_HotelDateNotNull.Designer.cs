@@ -8,9 +8,10 @@ using welcome.Data;
 namespace welcome.Migrations
 {
     [DbContext(typeof(WelcomeContext))]
-    partial class WelcomeContextModelSnapshot : ModelSnapshot
+    [Migration("20161210100514_HotelDateNotNull")]
+    partial class HotelDateNotNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")

@@ -8,9 +8,10 @@ using welcome.Data;
 namespace welcome.Migrations
 {
     [DbContext(typeof(WelcomeContext))]
-    partial class WelcomeContextModelSnapshot : ModelSnapshot
+    [Migration("20161209150231_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -490,9 +491,9 @@ namespace welcome.Migrations
 
                     b.Property<int>("Expiration_Year");
 
-                    b.Property<DateTime>("HotelDate");
+                    b.Property<DateTime?>("HotelDate");
 
-                    b.Property<bool>("IsPreAuthorization");
+                    b.Property<bool?>("IsPreAuthorization");
 
                     b.Property<string>("Remarks");
 
