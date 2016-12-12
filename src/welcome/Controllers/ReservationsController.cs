@@ -235,12 +235,13 @@ namespace welcome.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<ActionResult> DeleteDeposit(Guid id)
+        [HttpPost]
+        public async Task<JsonResult> DeleteDeposit(Guid id)
         {
             var deposit =await _context.Deposits.SingleOrDefaultAsync(s => s.DepositID == id);
             _context.Deposits.Remove(deposit);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return Json(new { rowtodelete = string.Format($"#depositid-{id.ToString()}") });
         }
 
         public async Task<PartialViewResult> _CreateNewDeposit(string id, string depositid = "")

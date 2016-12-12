@@ -90,6 +90,35 @@ function InitializeNewDeposit(reservationid, depositid) {
 
 };
 
+function deletedeposit(depositid) {
+    var depositrowid = '#depositid-' + depositid;
+    var deletemessage = $(depositrowid).data('confirmmessage');
+    $('#deletedepositconfirmation').html(deletemessage);
+    $('#deletedepositconfirmation').data('depoittodelete', depositid);
+    $('#modaldeletedepositconfirmation').modal();
+}
+function deletedepositconfirmed() {
+    var depositidtodelete = $('#deletedepositconfirmation').data('depoittodelete');
+    var link = $('#deletedepositconfirmation').data('deletedepositlink');
+    $.ajax({
+        url: link,
+        method :'POST',
+        dataType :'json',
+        data: { id: depositidtodelete },
+        success: function (data, status) {
+            $(data.rowtodelete).remove();
+            debugger;
+        },
+        error: function (data, status) {
+            debugger;
+        },
+        complete: function (jqXHR, textStatus) {
+            $('#deletedepositconfirmation').data('depoittodelete', '');
+        }
+    });
+
+}
+
 function OnDepositMethodChanged(radio) {
     switch (radio) {
         case "cash":
