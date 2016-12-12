@@ -6,6 +6,14 @@
     var reservationrooms = Model.GroupBy(r => new { r.ChargeRoomType});
     int counter = 0;
 }
+
+<script>
+    function showAddReservationRoom() {
+        $('#addreservationroom').modal();
+    };
+</script>
+
+
 <div id="addreservationroom" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -27,14 +35,14 @@
 <form asp-action="EditStayRooms" >
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <table style="width:100%" id="reservationrooms">
+    <table style="width:100%" id="reservationrooms" class="table-condensed">
         <thead >
             <tr style="height:55px;border:1px solid none;">
-                <td><a href="#addreservationroom" data-toggle="modal"><span class="glyphicon glyphicon-play-circle"></span> </a></td>
-                <th class="smalltextheader">@Localizer["Type"]</th>
+                <td><a href="javascript:void[0]" onclick="showAddReservationRoom()"><span class="glyphicon glyphicon-plus-sign"></span> </a></td>
+                <th class="smalltextheader selector" title="@Localizer["RoomType"]">@Localizer["Type"]</th>
                 <th class="smalltextheader">@Localizer["adults"]</th>
                 <th class="smalltextheader">@Localizer["Child"]</th>
-                <th class="smalltextheader">@Localizer["child"]</th>
+                <th class="smalltextheader">@Localizer["child_lower"]</th>
                 <th class="smalltextheader">@Localizer["infants"]</th>
                 <th class="smalltextheader">@Localizer["Ref."]</th>
                
@@ -79,6 +87,8 @@
     </table>
 </form>
 
+
 @section Scripts {
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

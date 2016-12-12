@@ -120,4 +120,25 @@
   <data name="Add_new_reservation_room" xml:space="preserve">
     <value>Προσθήκη δωματίου</value>
   </data>
+  <data name="adults" xml:space="preserve">
+    <value>ενήλικες</value>
+  </data>
+  <data name="Child" xml:space="preserve">
+    <value>παιδιά</value>
+  </data>
+  <data name="child_lower" xml:space="preserve">
+    <value>παιδια</value>
+  </data>
+  <data name="infants" xml:space="preserve">
+    <value>μωρά</value>
+  </data>
+  <data name="Ref" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RoomType" xml:space="preserve">
+    <value>Τύπος δωματίου</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Τύπος</value>
+  </data>
 </root>

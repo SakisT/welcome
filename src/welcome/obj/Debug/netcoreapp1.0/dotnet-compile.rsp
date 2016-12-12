@@ -231,6 +231,7 @@
 --reference:C:\Users\sakis\.nuget\packages\System.Xml.ReaderWriter\4.0.11\ref\netstandard1.3\System.Xml.ReaderWriter.dll
 --reference:C:\Users\sakis\.nuget\packages\System.Xml.XDocument\4.0.11\ref\netstandard1.3\System.Xml.XDocument.dll
 --resource:"C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\obj\Debug\netcoreapp1.0\welcomedotnet-compile.deps.json",welcome.deps.json
+--resource:"C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\obj\Debug\netcoreapp1.0\welcome.Resources.Views.Reservations.EditStayRooms.resources",welcome.Resources.Views.Reservations.EditStayRooms.resources
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Program.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Startup.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Controllers\AccountController.cs
@@ -308,6 +309,7 @@ C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Models\ManageViewModels\
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Models\ManageViewModels\RemoveLoginViewModel.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Models\ManageViewModels\SetPasswordViewModel.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Models\ManageViewModels\VerifyPhoneNumberViewModel.cs
+C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Resources\Views\Reservations\EditStayRooms.Designer.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Resources\Views\Reservations\EditStayRooms.el.Designer.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Services\IEmailSender.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Services\ISmsSender.cs

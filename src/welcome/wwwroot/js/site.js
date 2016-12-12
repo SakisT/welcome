@@ -5,8 +5,8 @@
     $('#arrivaldate').datepicker("option", "changeMonth", true);
     $('#departuredate').datepicker("option", "changeYear", true);
     $('#departuredate').datepicker("option", "changeMonth", true);
-
 });
+
 $(document).on('ready', function (e) {
     $(document).on('change', '#selectLanguage select', function () {
         $(this).parent().submit();
@@ -97,6 +97,7 @@ function deletedeposit(depositid) {
     $('#deletedepositconfirmation').data('depoittodelete', depositid);
     $('#modaldeletedepositconfirmation').modal();
 }
+
 function deletedepositconfirmed() {
     var depositidtodelete = $('#deletedepositconfirmation').data('depoittodelete');
     var link = $('#deletedepositconfirmation').data('deletedepositlink');
