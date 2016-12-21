@@ -1,0 +1,44 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model IEnumerable<welcome.ViewModels.ReservationView>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <th>AA</th>
+                        <th>Guest</th>
+                        <th>Agent</th>
+                        <th>Rooms</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var item in Model)
+                    {
+                        <tr class="reservationrow" data-link="@Url.Action("Edit","HotelReservations",new {id=item.Reservation.ReservationID })">
+                            <td>@item.Reservation.AA</td>
+                            <td>@item.ReservationRooms.FirstOrDefault().StayPersons.FirstOrDefault().Customer.Person_FullName</td>
+                            <td>@item.Agent?.Name</td>
+                            <td>@item.ReservationRooms.Count() </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <form asp-action="Edit">
+                <div id="reservationviewcontainer"></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@*<form asp-action="Edit"></form>*@

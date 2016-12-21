@@ -240,6 +240,7 @@ C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Controllers\BranchesCont
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Controllers\DepartmentsController.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Controllers\HomeController.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Controllers\HotelGroupsController.cs
+C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Controllers\HotelReservationsController.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Controllers\HotelsController.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Controllers\ManageController.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Controllers\PricelistsController.cs
@@ -315,3 +316,4 @@ C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Services\IEmailSender.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Services\ISmsSender.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Services\MessageServices.cs
 C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\Services\UserAccessInfo.cs
+C:\Users\sakis\Source\Repos\welcome\welcome\src\welcome\ViewModels\ReservationView.cs

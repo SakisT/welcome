@@ -1,10 +1,5 @@
 ﻿$(function () {
-    $('#arrivaldate').datepicker();
-    $('#departuredate').datepicker();
-    $('#arrivaldate').datepicker("option", "changeYear", true);
-    $('#arrivaldate').datepicker("option", "changeMonth", true);
-    $('#departuredate').datepicker("option", "changeYear", true);
-    $('#departuredate').datepicker("option", "changeMonth", true);
+    
 });
 
 $(document).on('ready', function (e) {
@@ -76,6 +71,17 @@ $(document).on('ready', function (e) {
     $(document).on('mouseup', '.numbertextbox', function () {
         $(this).select();
     });
+    $('.reservationrow').on('click', function () {
+        var link = $(this).data('link');
+        $('#reservationviewcontainer').load(link, null, function () {
+
+            $('.datepicker').datepicker();
+            $('.datepicker').datepicker("option", "changeYear", true);
+            $('.datepicker').datepicker("option", "changeMonth", true);
+        });
+
+    });
+
 });
 
 function InitializeNewDeposit(reservationid, depositid) {
@@ -103,8 +109,8 @@ function deletedepositconfirmed() {
     var link = $('#deletedepositconfirmation').data('deletedepositlink');
     $.ajax({
         url: link,
-        method :'POST',
-        dataType :'json',
+        method: 'POST',
+        dataType: 'json',
         data: { id: depositidtodelete },
         success: function (data, status) {
             $(data.rowtodelete).remove();

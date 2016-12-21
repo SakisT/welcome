@@ -1,0 +1,57 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model welcome.Models.Reservation
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Reservation</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AA)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AA)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AskPrePay)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AskPrePay)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AskPrePayDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AskPrePayDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AskPrePayRemarks)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AskPrePayRemarks)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GuestOrGroup)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GuestOrGroup)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ReservationID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

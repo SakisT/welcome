@@ -143,6 +143,8 @@ namespace welcome.Controllers
                 .Include(r => r.StayRooms)
                     .ThenInclude(stayroom => stayroom.Agent)
                 .Include(r => r.StayRooms)
+                    .ThenInclude(stayroom => stayroom.ChargeRoomType)
+                .Include(r => r.StayRooms)
                     .ThenInclude(stayroom => stayroom.Pricelist)
                 .AsNoTracking().SingleOrDefaultAsync(m => m.ReservationID == Guid.Parse(id));
             ViewData["HotelID"] = new SelectList(_context.Hotels, "HotelID", "Name", reservation.HotelID);
@@ -238,7 +240,7 @@ namespace welcome.Controllers
         [HttpPost]
         public async Task<JsonResult> DeleteDeposit(Guid id)
         {
-            var deposit =await _context.Deposits.SingleOrDefaultAsync(s => s.DepositID == id);
+            var deposit = await _context.Deposits.SingleOrDefaultAsync(s => s.DepositID == id);
             _context.Deposits.Remove(deposit);
             await _context.SaveChangesAsync();
             return Json(new { rowtodelete = string.Format($"#depositid-{id.ToString()}") });
@@ -268,12 +270,12 @@ namespace welcome.Controllers
 
             List<Agent> CreditCards = new List<Agent>();
 
-            if(deposit.CreditCardOrBankID!=null && deposit.CreditCardOrBankID != Guid.Empty)
+            if (deposit.CreditCardOrBankID != null && deposit.CreditCardOrBankID != Guid.Empty)
             {
-                var currentagnt =await _context.Agents.SingleOrDefaultAsync(r => r.AgentID == deposit.CreditCardOrBankID.Value);
-                CreditCards= await _context.Agents.Where(r => r.HotelID == reservation.HotelID && r.Type == currentagnt.Type).ToListAsync();
+                var currentagnt = await _context.Agents.SingleOrDefaultAsync(r => r.AgentID == deposit.CreditCardOrBankID.Value);
+                CreditCards = await _context.Agents.Where(r => r.HotelID == reservation.HotelID && r.Type == currentagnt.Type).ToListAsync();
             }
-            
+
 
             ViewBag.Expiration_Month = new SelectList(Enumerable.Range(1, 12));
             ViewBag.Expiration_Year = new SelectList(Enumerable.Range(2010, 40));

@@ -1,0 +1,61 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model welcome.Models.Reservation
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Reservation</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AA)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AA)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AskPrePay)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AskPrePay)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AskPrePayDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AskPrePayDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AskPrePayRemarks)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AskPrePayRemarks)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GuestOrGroup)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GuestOrGroup)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </form>
+</div>
