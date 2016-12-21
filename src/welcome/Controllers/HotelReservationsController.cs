@@ -117,9 +117,6 @@ namespace welcome.Controllers
             });
         }
 
-        // POST: HotelReservations/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ReservationView reservationview)
@@ -129,6 +126,9 @@ namespace welcome.Controllers
             {
                 try
                 {
+                    reservationview.ReservationRooms.ToList().ForEach(r => r.Arrival = reservationview.Arrival);
+                    reservationview.ReservationRooms.ToList().ForEach(r => r.Departure = reservationview.Departure);
+                    reservationview.ReservationRooms.ToList().ForEach(r => _context.Update(r));
                     _context.Update(reservationview.Reservation);
                     await _context.SaveChangesAsync();
                 }

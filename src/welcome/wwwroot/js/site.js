@@ -1,8 +1,4 @@
-﻿$(function () {
-    
-});
-
-$(document).on('ready', function (e) {
+﻿$(document).on('ready', function (e) {
     $(document).on('change', '#selectLanguage select', function () {
         $(this).parent().submit();
     });
@@ -28,18 +24,6 @@ $(document).on('ready', function (e) {
                 });
             });
         });
-    });
-    $(document).on('click', '#savereservationsbutton', function () {
-        event.preventDefault();
-        document.getElementById('stayroomsform').submit();
-        var item = $(this).find('#reservationstayrooms').closest(':#stayroomsform');
-        item.css('background-color', 'red');
-        item.submit(function (event) {
-            debugger;
-        });
-    });
-    $(document).on('click', '#Reservations-EditReservaton-Save', function (e) {
-        $('form#singlereservationform').submit();
     });
     $(document).on('keyup', '.numbertextbox', function () {
         var text = $(this).val();
@@ -74,14 +58,52 @@ $(document).on('ready', function (e) {
     $('.reservationrow').on('click', function () {
         var link = $(this).data('link');
         $('#reservationviewcontainer').load(link, null, function () {
-
-            $('.datepicker').datepicker();
-            $('.datepicker').datepicker("option", "changeYear", true);
-            $('.datepicker').datepicker("option", "changeMonth", true);
+            switch ($('#selectLanguage select').val()) {
+                case "en-US":
+                    $('.datepicker').datepicker($.datepicker.regional[""]);
+                    $('.datepicker').datepicker("option", "dateFormat", "m/d/yy");
+                    $('.datepicker').datepicker("option", "changeMonth", true);
+                    $('.datepicker').datepicker("option", "changeYear", true);
+                    break;
+                case "el-GR":
+                    $('.datepicker').datepicker($.datepicker.regional["el"]);
+                    $('.datepicker').datepicker("option", "dateFormat", "d/m/yy");
+                    $('.datepicker').datepicker("option", "changeMonth", true);
+                    $('.datepicker').datepicker("option", "changeYear", true);
+                    break;
+            }
+            $(document).on('keyup', '.numbertextbox', function () {
+                var text = $(this).val();
+                var lang = $("#selectLanguage option:selected").val();
+                if (lang === 'el-GR') {
+                    text = text.toString().replace('.', ',');
+                }
+                else {
+                    text = text.toString().replace(',', '.');
+                }
+                //text = text.toString().replace(/,/g, '.');
+                $(this).val(text);
+            });
+            $(document).on('keydown', '.numbertextbox', function (e) {
+                // Allow: minus, backspace, delete, tab, escape, enter and .
+                if ($.inArray(e.keyCode, [109, 46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                    // Allow: Ctrl+A, Command+A
+                    (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                    // Allow: home, end, left, right, down, up
+                    (e.keyCode >= 35 && e.keyCode <= 40)) {
+                    // let it happen, don't do anything
+                    return;
+                }
+                // Ensure that it is a number and stop the keypress
+                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || (e.keyCode > 105 && e.keyCode !== 188))) {
+                    e.preventDefault();
+                }
+            });
+            $(document).on('mouseup', '.numbertextbox', function () {
+                $(this).select();
+            });
         });
-
     });
-
 });
 
 function InitializeNewDeposit(reservationid, depositid) {
