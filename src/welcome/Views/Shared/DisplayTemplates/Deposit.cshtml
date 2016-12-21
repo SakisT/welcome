@@ -1,0 +1,24 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model welcome.Models.Deposit
+
+@{ 
+    string depositype = "Cash";
+    if (Model.CreditCardOrBank != null)
+    {
+
+        switch (Model.CreditCardOrBank.Type) {
+            case Agent.AgentType.Bank:
+                depositype = Model.CreditCardOrBank.Name;
+                break;
+            case Agent.AgentType.CreditCard:
+                depositype = Model.CreditCardOrBank.Name;
+                if (Model.IsPreAuthorization) { depositype += "Pre"; }
+                break;
+        }
+    }
+}
+<td>@Model.Euro.ToString("c",new System.Globalization.CultureInfo("el-GR"))</td>
+<td>@depositype</td>
+<td>@Model.HotelDate.ToString("d")</td>
+<td><a asp-action="Edit" asp-route-id="@Model.DepositID">Edit</a></td>
