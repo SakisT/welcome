@@ -102,6 +102,15 @@
             $(document).on('mouseup', '.numbertextbox', function () {
                 $(this).select();
             });
+
+            $('th[data-tooltip="baloon"]').each(function () {
+                $(this).tooltip({ track: true });
+            });
+
+            $('.reservationroomrow').click(function (event) {
+                var reservationroomid = event.currentTarget.id.toString();
+
+            });
         });
     });
 });

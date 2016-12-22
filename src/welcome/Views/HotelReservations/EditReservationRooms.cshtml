@@ -1,0 +1,78 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model IEnumerable< welcome.Models.StayRoom>
+
+
+@{ 
+    var groupedbyroomtypereservationrooms = Model.GroupBy(r => r.ChargeRoomTypeID).ToArray();
+    var ReservationRoomPersonsCounter = 0;
+}
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <a class="btn" data-toggle="collapse" href="#demo">Rooms </a>
+        <a href="javascript:void[0]" style="float:right"><span class="ui-icon ui-icon-plus"></span> </a>
+    </div>
+    <div class="panel panel-body collapse in" id="demo">
+        <table id="reservationroomstable">
+            <thead>
+                <tr>
+                    <td></td>
+                    <th title="Rooms of this type">Rooms</th>
+                    <th title="Guest's Name'">Guest</th>
+                    <th title="Adults">A</th>
+                    <th title="Children">C</th>
+                    <th title="Children2">c</th>
+                    <th title="Infants">i</th>
+                    <th title="Room Number">RN</th>
+                    <th title="Remarks">Notes</th>
+                </tr>
+            </thead>
+            @for(int ReservationRoomsCounter = 0; ReservationRoomsCounter < Model.Count();ReservationRoomsCounter++)
+            {
+                
+                var stayroom = Model.ToArray()[ReservationRoomsCounter];
+                <tr>
+                    <td>
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].ActualDeparture")" value="@stayroom.ActualDeparture" />
+                        
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].AdultsCharge")" value="@stayroom.AdultsCharge" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].AgentCommissionPercentage")" value="@stayroom.AgentCommissionPercentage" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].AgentID")" value="@stayroom.AgentID" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].Arrival")" value="@stayroom.Arrival" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].ArrivalTimeStamp")" value="@stayroom.ArrivalTimeStamp" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].ArrivalUserId")" value="@stayroom.ArrivalUserId" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].BoardID")" value="@stayroom.BoardID" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].ChannelReference")" value="@stayroom.ChannelReference" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].ChargeRoomTypeID")" value="@stayroom.ChargeRoomTypeID" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].Children2Charge")" value="@stayroom.Children2Charge" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].ChildrenCharge")" value="@stayroom.ChildrenCharge" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].Color")" value="@stayroom.Color" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].Departure")" value="@stayroom.Departure" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].DepartureTimeStamp")" value="@stayroom.DepartureTimeStamp" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].DepartureUserId")" value="@stayroom.DepartureUserId" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].InfantsCharge")" value="@stayroom.InfantsCharge" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].IsAgentCharge")" value="@stayroom.IsAgentCharge" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].IsFree")" value="@stayroom.IsFree" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].IsLocked")" value="@stayroom.IsLocked" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].Pax")" value="@stayroom.Pax" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].PricelistID")" value="@stayroom.PricelistID" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].Reference")" value="@stayroom.Reference" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].Remarks")" value="@stayroom.Remarks" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].ReservationID")" value="@stayroom.ReservationID" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].RoomID")" value="@stayroom.RoomID" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].RoomPrice")" value="@stayroom.RoomPrice" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].Status")" value="@stayroom.Status" />
+                        <input type="hidden" name="@("StayRooms[" + ReservationRoomsCounter + "].StayRoomID")" value="@stayroom.StayRoomID" />
+                    </td>
+                    <td></td>
+                    <td>@stayroom.StayPersons.FirstOrDefault().Customer.Person_FullName</td>
+                    <td><input type="text" name="@("StayRooms[" + ReservationRoomsCounter + "].Adults")" value="@stayroom.Adults" class="numbertextbox form-control col-md-1" /></td>
+                    <td><input type="text" name="@("StayRooms[" + ReservationRoomsCounter + "].Children")" value="@stayroom.Children" class="numbertextbox form-control col-md-1" /></td>
+                    <td><input type="text" name="@("StayRooms[" + ReservationRoomsCounter + "].Children2")" value="@stayroom.Children2" class="numbertextbox form-control col-md-1" /></td>
+                    <td><input type="text" name="@("StayRooms[" + ReservationRoomsCounter + "].Infants")" value="@stayroom.Infants" class="numbertextbox form-control col-md-1" /></td>
+                </tr>
+            }
+        </table>
+    </div>
+
+</div>

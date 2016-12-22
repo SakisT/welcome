@@ -9,7 +9,9 @@ namespace welcome.ViewModels
     public class ReservationView
     {
         public Reservation Reservation { get; set; }
-        public StayRoom[] ReservationRooms { get; set; }
+        public StayRoom[] StayRooms { get; set; }
+
+        public StayPerson[] StayPersons { get; set; }
         public Deposit[] Deposits { get; set; }
         public Pricelist Pricelist { get; set; }
         public Agent Agent { get; set; }

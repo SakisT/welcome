@@ -10,8 +10,8 @@
 
 <div class="form-horizontal">
     <div class="row">
-        <div class="col-md-6">
-            <table class="table table-bordered table-condensed">
+        <div class="col-md-4">
+            <table class="table table-bordered table-condensed" id="reservations-list">
                 <thead>
                     <tr>
                         <th>AA</th>
@@ -25,15 +25,15 @@
                     {
                         <tr class="reservationrow" data-link="@Url.Action("Edit","HotelReservations",new {id=item.Reservation.ReservationID })">
                             <td>@item.Reservation.AA</td>
-                            <td>@item.ReservationRooms.FirstOrDefault().StayPersons.FirstOrDefault().Customer.Person_FullName</td>
+                            <td>@item.StayRooms.FirstOrDefault().StayPersons.FirstOrDefault().Customer.Person_FullName</td>
                             <td>@item.Agent?.Name</td>
-                            <td>@item.ReservationRooms.Count() </td>
+                            <td>@item.StayRooms.Count() </td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-8">
             <form asp-action="Edit">
                 <div id="reservationviewcontainer"></div>
             </form>

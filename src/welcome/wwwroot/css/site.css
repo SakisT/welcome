@@ -50,13 +50,6 @@
     min-height: 700px;
 }
 
-#reservations-list {
-    position:absolute;
-    top:30px;
-    bottom:20px;
-    overflow-y: scroll;
-}
-
 @media screen and (min-height:620px) {
     #reservations-list {
         height: 550px;
@@ -68,49 +61,6 @@
         height: 650px;
     }
 }
-
-#reservations-list table {
-    width:100%;
-    font-size: 0.9em;
-    cursor: default;
-    border:thick;
-}
-
-#reservations-list table tbody tr:nth-child(even){
-    background-color:antiquewhite;
-}
-
-#reservations-list table tbody tr:hover {
-        background-color: lightsteelblue;
-    }
-
-#reservations-list table tbody tr td {
-        border:none;
-        padding: 2px 2px 2px 2px;
-        
-    }
-
-#reservations-list table tbody tr td.guest-cell {
-            display:block;
-            width: 100px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-    
-#reservations-list table tbody tr td.agent-cell {
-            display: block;
-            width: 100px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-#reservations-list table tfoot {
-        background-color: antiquewhite;
-        font-size: 1em;
-        font-weight: 700;
-    }
 
 #reservation-data {
     padding-top: 10px;
@@ -133,14 +83,68 @@
     width: 60px;
 }
 
-.smalltext.pax {
+    .smalltext.pax {
         text-align: right;
         width: 25px;
     }
 
-/*Reservations Form*/
-#reservarionform{
-    position:relative;
-    top:10px;
-    min-height:600px;
+#reservations-list  {
+    width: 100%;
+    font-size: 0.9em;
+    cursor: default;
+    border: thick;
+}
+
+#reservations-list  tbody tr:nth-child(even) {
+        background-color: antiquewhite;
+    }
+
+#reservations-list  tbody tr:hover {
+        background-color: lightsteelblue;
+    }
+
+#reservations-list  tbody tr td {
+        border: none;
+        padding: 2px 2px 2px 2px;
+    }
+
+/*.agent-cell {
+            display: block;
+            width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }*/
+
+/*#reservations-list  tfoot {
+        background-color: antiquewhite;
+        font-size: 1em;
+        font-weight: 700;
+    }*/
+
+#reservationroomstable {
+    empty-cells: show;
+    border-collapse: collapse;
+}
+
+#reservationroomstable td {
+        padding-right: 15px;
+    }
+
+#reservationroomstable td.border {
+            border: 0.1px solid lightsteelblue;
+            padding: 2px 5px 2px;
+        }
+
+#reservationroomstable td.border input {
+                border: none;
+                text-align: right;
+            }
+
+#guestcell {
+    display: block;
+    width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

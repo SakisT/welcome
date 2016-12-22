@@ -18,7 +18,7 @@
         }
     }
 }
-<td>@Model.Euro.ToString("c",new System.Globalization.CultureInfo("el-GR"))</td>
+<td>@Model.Euro.ToString("f")</td>
 <td>@depositype</td>
 <td>@Model.HotelDate.ToString("d")</td>
 <td><a asp-action="Edit" asp-route-id="@Model.DepositID">Edit</a></td>

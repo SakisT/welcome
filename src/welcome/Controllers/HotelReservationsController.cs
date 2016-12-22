@@ -42,7 +42,7 @@ namespace welcome.Controllers
                           let deposits = p.Deposits.ToArray()
                           let reservationrooms = p.StayRooms.ToArray()
                           let pricelist = p.StayRooms.FirstOrDefault().Pricelist
-                          select new ViewModels.ReservationView { Reservation = reservation, Agent = agent, Deposits = deposits, ReservationRooms = reservationrooms, Pricelist = pricelist });
+                          select new ViewModels.ReservationView { Reservation = reservation, Agent = agent, Deposits = deposits, StayRooms = reservationrooms, Pricelist = pricelist });
             return View(result);
         }
 
@@ -88,6 +88,14 @@ namespace welcome.Controllers
             return View(reservation);
         }
 
+        public ActionResult EditReservationRooms(Guid id)
+        {
+            var StayRooms = _context.StayRooms.Include(r => r.Agent)
+                .Include(r => r.Pricelist)
+                .Include(r => r.ChargeRoomType)
+                .Include(r => r.Room).Where(r => r.ReservationID == id);
+            return PartialView(StayRooms);
+        }
         // GET: HotelReservations/Edit/5
         public IActionResult Edit(Guid? id)
         {
@@ -97,12 +105,16 @@ namespace welcome.Controllers
             }
             var reservation = _context.Reservations.Include(r => r.StayRooms).ThenInclude(stayroom => stayroom.Agent)
                          .Include(r => r.StayRooms).ThenInclude(stayroom => stayroom.Pricelist)
+                         .Include(r=>r.StayRooms).ThenInclude(stayroom=>stayroom.ChargeRoomType)
+                         .Include(r => r.StayRooms).ThenInclude(stayroom => stayroom.Room)
                          .Include(r => r.StayRooms).ThenInclude(stayroom => stayroom.StayPersons).ThenInclude(stayperson => stayperson.Customer)
                          .Include(r => r.Deposits).SingleOrDefault(r => r.ReservationID == id.Value);
-            var reservationRooms = reservation.StayRooms.ToArray();
+            var reservationRooms = reservation.StayRooms.OrderBy(r=>r.ChargeRoomType.DisplayOrder).ToArray();
             var pricelist = reservationRooms.FirstOrDefault().Pricelist;
             var agent = reservationRooms.FirstOrDefault().Agent;
             var deposits = reservation.Deposits.ToArray();
+            List<StayPerson> ReservationRoomsPersons = new List<StayPerson>();
+            reservationRooms.ToList().ForEach(r => ReservationRoomsPersons.AddRange(r.StayPersons.ToArray()));
             DateTime Arrival = reservationRooms.FirstOrDefault().Arrival;
             DateTime Departure = reservationRooms.FirstOrDefault().Departure;
             return PartialView(new ReservationView
@@ -111,7 +123,8 @@ namespace welcome.Controllers
                 Agent = agent,
                 Deposits = deposits,
                 Pricelist = pricelist,
-                ReservationRooms = reservationRooms,
+                StayRooms = reservationRooms,
+                StayPersons=ReservationRoomsPersons.ToArray(),
                 Arrival = Arrival,
                 Departure = Departure
             });
@@ -126,13 +139,13 @@ namespace welcome.Controllers
             {
                 try
                 {
-                    reservationview.ReservationRooms.ToList().ForEach(r => r.Arrival = reservationview.Arrival);
-                    reservationview.ReservationRooms.ToList().ForEach(r => r.Departure = reservationview.Departure);
-                    reservationview.ReservationRooms.ToList().ForEach(r => _context.Update(r));
+                    reservationview.StayRooms.ToList().ForEach(r => r.Arrival = reservationview.Arrival);
+                    reservationview.StayRooms.ToList().ForEach(r => r.Departure = reservationview.Departure);
+                    reservationview.StayRooms.ToList().ForEach(r => _context.Update(r));
                     _context.Update(reservationview.Reservation);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception ex)
                 {
                     if (!ReservationExists(reservationview.Reservation.ReservationID))
                     {
