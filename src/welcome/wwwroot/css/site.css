@@ -108,22 +108,8 @@
         padding: 2px 2px 2px 2px;
     }
 
-/*.agent-cell {
-            display: block;
-            width: 100px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }*/
-
-/*#reservations-list  tfoot {
-        background-color: antiquewhite;
-        font-size: 1em;
-        font-weight: 700;
-    }*/
-
 #reservationroomstable {
-    empty-cells: show;
+    empty-cells: hide;
     border-collapse: collapse;
 }
 
@@ -147,4 +133,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.one-digit-input{
+    width:35px;
+    text-align:center;
 }
